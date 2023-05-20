@@ -8,15 +8,15 @@ import java.time.LocalDate;
 
 @Configuration
 public class AccountConfig {
-    @Bean
-    CommandLineRunner commandLineRunnerAccount(AccountRepository accountRepository) {
-        return args -> {
-            Account u1 = new Account("Harun", "Cehajic", "sifra1", LocalDate.of(2000,7, 20));
-            Account u2 = new Account("Rijad", "Burovic", "sifra2", LocalDate.of(2000,5, 25));
-            accountRepository.save(u1);
-            accountRepository.save(u2);
-        };
-    }
+//    @Bean
+//    CommandLineRunner commandLineRunnerAccount(AccountRepository accountRepository) {
+//        return args -> {
+//            Account u1 = new Account("Harun", "Cehajic", "sifra1", LocalDate.of(2000,7, 20));
+//            Account u2 = new Account("Rijad", "Burovic", "sifra2", LocalDate.of(2000,5, 25));
+//            accountRepository.save(u1);
+//            accountRepository.save(u2);
+//        };
+//    }
 }
 
 
