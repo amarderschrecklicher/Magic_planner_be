@@ -1,7 +1,10 @@
 package ba.unsa.etf.cehajic.hcehajic2.appback.task;
 
+import ba.unsa.etf.cehajic.hcehajic2.appback.SubTask.SubTask;
+
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table
@@ -23,8 +26,7 @@ public class Task {
     private LocalDate dateOfCreation;
     private LocalDate dateOfCompletion;
     private Long accountId;
-
-    public Task() {}
+    public Task() {    }
 
     public Task(String taskName, String description, LocalDate dateOfCreation, Long accountId) {
         this.taskName = taskName;
