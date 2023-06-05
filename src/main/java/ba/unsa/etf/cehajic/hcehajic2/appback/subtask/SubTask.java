@@ -1,7 +1,6 @@
-package ba.unsa.etf.cehajic.hcehajic2.appback.SubTask;
+package ba.unsa.etf.cehajic.hcehajic2.appback.subtask;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 
 @Entity
 @Table

@@ -1,5 +1,6 @@
 package ba.unsa.etf.cehajic.hcehajic2.appback.account;
 
+import ba.unsa.etf.cehajic.hcehajic2.appback.usersettings.UserSettings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,5 +32,31 @@ public class AccountService {
         }
         if (obj == null) System.out.println("User doesn't exist!");
         return obj;
+    }
+
+    public Account AddNewAccount(Account account) {
+        accountRepository.save(account);
+        return account;
+    }
+
+    public Account UpdateName(Long id, String name) {
+        Account existingAcc = accountRepository.getById(id);
+        if (existingAcc == null) return null;
+        existingAcc.setName(name);
+        return existingAcc;
+    }
+
+    public Account UpdateSurname(Long id, String surname) {
+        Account existingAcc = accountRepository.getById(id);
+        if (existingAcc == null) return null;
+        existingAcc.setSurname(surname);
+        return existingAcc;
+    }
+
+    public Account UpdatePassword(Long id, String password) {
+        Account existingAcc = accountRepository.getById(id);
+        if (existingAcc == null) return null;
+        existingAcc.setPassword(password);
+        return existingAcc;
     }
 }

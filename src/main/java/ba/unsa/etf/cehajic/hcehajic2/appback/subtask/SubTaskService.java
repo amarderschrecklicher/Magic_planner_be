@@ -1,8 +1,9 @@
-package ba.unsa.etf.cehajic.hcehajic2.appback.SubTask;
+package ba.unsa.etf.cehajic.hcehajic2.appback.subtask;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -21,8 +22,13 @@ public class SubTaskService {
 
     public List<SubTask> GetSubsForTask(Long id) {
         List<SubTask> subs = GetAllSubTasks();
-        subs.stream().filter(sub -> sub.getId().equals(id));
-        return subs;
+        List<SubTask> matching = new ArrayList<>();
+
+        for (int i = 0; i < subs.size(); i++)
+            if (subs.get(i).getTaskId().equals(id)) {
+                matching.add(subs.get(i));}
+
+        return matching;
     }
 
     public SubTask AddNewSubTask(SubTask subTask) {

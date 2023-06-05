@@ -1,10 +1,7 @@
 package ba.unsa.etf.cehajic.hcehajic2.appback.task;
 
-import ba.unsa.etf.cehajic.hcehajic2.appback.SubTask.SubTask;
-
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity
 @Table
@@ -23,17 +20,25 @@ public class Task {
     private Long id;
     private String taskName;
     private String description;
-    private LocalDate dateOfCreation;
-    private LocalDate dateOfCompletion;
+    private LocalDate dueDate;
+
+    private String dueTime;
     private Long accountId;
+
+    private boolean priority;
     public Task() {    }
 
-    public Task(String taskName, String description, LocalDate dateOfCreation, Long accountId) {
+    public Task(String taskName, String description, LocalDate dateOfCreation, String dueTime, Long accountId) {
+        this(taskName, description, dateOfCreation, dueTime, accountId, false);
+    }
+
+    public Task(String taskName, String description, LocalDate dateOfCreation, String dueTime, Long accountId, boolean priority) {
         this.taskName = taskName;
         this.description = description;
-        this.dateOfCreation = dateOfCreation;
-        this.dateOfCompletion = null;
+        this.dueDate = dateOfCreation;
+        this.dueTime = dueTime;
         this.accountId = accountId;
+        this.priority = priority;
     }
 
     public Long getId() {
@@ -60,20 +65,28 @@ public class Task {
         this.description = description;
     }
 
-    public LocalDate getDateOfCreation() {
-        return dateOfCreation;
+    public LocalDate getDueDate() {
+        return dueDate;
     }
 
-    public void setDateOfCreation(LocalDate dateOfCreation) {
-        this.dateOfCreation = dateOfCreation;
+    public void setDueDate(LocalDate dueDate) {
+        this.dueDate = dueDate;
     }
 
-    public LocalDate getDateOfCompletion() {
-        return dateOfCompletion;
+    public boolean isPriority() {
+        return priority;
     }
 
-    public void setDateOfCompletion(LocalDate dateOfCompletion) {
-        this.dateOfCompletion = dateOfCompletion;
+    public void setPriority(boolean priority) {
+        this.priority = priority;
+    }
+
+    public String getDueTime() {
+        return dueTime;
+    }
+
+    public void setDueTime(String dueTime) {
+        this.dueTime = dueTime;
     }
 
     public Long getAccountId() {
@@ -90,9 +103,10 @@ public class Task {
                 "id=" + id +
                 ", taskName='" + taskName + '\'' +
                 ", description='" + description + '\'' +
-                ", dateOfCreation=" + dateOfCreation +
-                ", dateOfCompletion=" + dateOfCompletion +
-                ", userId=" + accountId +
+                ", dueDate=" + dueDate +
+                ", dueTime=" + dueTime +
+                ", accountId=" + accountId +
+                ", priority=" + priority +
                 '}';
     }
 }

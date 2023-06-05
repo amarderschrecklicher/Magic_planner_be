@@ -1,4 +1,4 @@
-package ba.unsa.etf.cehajic.hcehajic2.appback.SubTask;
+package ba.unsa.etf.cehajic.hcehajic2.appback.subtask;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +19,7 @@ class SubTaskController {
     }
 
     @GetMapping
-    public List<SubTask> getAllTasks() {
+    public List<SubTask> getAllSubTasks() {
         return subTaskService.GetAllSubTasks();
     }
 
