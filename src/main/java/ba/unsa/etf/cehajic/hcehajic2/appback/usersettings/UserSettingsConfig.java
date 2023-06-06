@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @Configuration
 public class UserSettingsConfig {
     @Bean
-    CommandLineRunner commandLineRunnerTask(UserSettingsRepository repository) {
+    CommandLineRunner commandLineRunnerUserSeetings(UserSettingsRepository repository) {
         return args -> {
             UserSettings t1 = new UserSettings(Long.valueOf(1));
             UserSettings t2 = new UserSettings(Long.valueOf(1));
