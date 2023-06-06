@@ -44,7 +44,7 @@ public class UserSettings {
     }
 
     public UserSettings(Long id) {
-        this.accountId = accountId;
+        this.accountId = id;
         this.font = "Arial";
         this.fontSize = 12;
         this.colorOfPriorityTask = "#000000";

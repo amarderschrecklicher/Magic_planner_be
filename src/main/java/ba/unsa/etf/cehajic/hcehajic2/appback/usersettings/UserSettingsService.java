@@ -33,15 +33,13 @@ public class UserSettingsService {
 
     public UserSettings GetUserSettingsForAccount(Long id) {
         List<UserSettings> settings = GetAllUserSettings();
-        List<UserSettings> matching = new ArrayList<>();
+        UserSettings matching = null;
 
         for (int i = 0; i < settings.size(); i++)
-            if (settings.get(i).getAccountId().equals(id)) {
-                matching.add(settings.get(i));}
+            if (settings.get(i).getAccountId() == id)
+                matching = settings.get(i);
 
-        if (matching == null) return null;
-
-        return matching.get(0);
+        return matching;
     }
 
     public UserSettings UpdateFont(Long id, String font) {

@@ -26,7 +26,7 @@ public class UserSettingsController {
 
     @GetMapping(path="mobile/{id}")
     public String GetPhoneCode(@PathVariable Long id) {
-        return GetPhoneCode(id);
+        return userSettingsService.GetPhoneCode(id);
     }
 
     @PostMapping
