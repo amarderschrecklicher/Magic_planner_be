@@ -7,13 +7,13 @@ import java.util.Random;
 public class UserSettings {
     @Id
     @SequenceGenerator(
-            name = "user-settings_sequence",
-            sequenceName = "user-settings_sequence",
+            name = "user_settings_sequence",
+            sequenceName = "user_settings_sequence",
             allocationSize = 1
     )
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
-            generator = "user-settings_sequence"
+            generator = "user_settings_sequence"
     )
     private Long id;
     private Long accountId;
