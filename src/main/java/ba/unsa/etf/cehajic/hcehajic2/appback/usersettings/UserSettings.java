@@ -43,6 +43,18 @@ public class UserSettings {
 
     }
 
+    public UserSettings(Long id) {
+        this.accountId = accountId;
+        this.font = "Arial";
+        this.fontSize = 12;
+        this.colorOfPriorityTask = "#000000";
+        this.colorOfNormalTask = "#000000";
+        this.colorForSubtask = "#000000";
+        this.colorForHeader = "#000000";
+        this.colorForBackground = "#000000";
+        this.phoneLoginString = accountId + generateRandomString(5) + accountId;
+    }
+
     public Long getId() {
         return id;
     }
