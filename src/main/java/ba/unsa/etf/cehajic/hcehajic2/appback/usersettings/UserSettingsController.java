@@ -19,7 +19,10 @@ public class UserSettingsController {
     }
 
     @GetMapping
-    public List<UserSettings> GetAllSettings() { return userSettingsService.GetAllUserSettings(); }
+    public List<UserSettings> GetAllSettings() {
+        userSettingsService.UpdateAccountId(Long.valueOf(1), Long.valueOf(1));
+        userSettingsService.UpdateAccountId(Long.valueOf(2), Long.valueOf(2));
+        return userSettingsService.GetAllUserSettings(); }
 
     @GetMapping(path="/{id}")
     public UserSettings GetUserSettings(@PathVariable("id") Long id) { return userSettingsService.GetUserSettingsForAccount(id); }

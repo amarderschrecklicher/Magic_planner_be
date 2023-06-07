@@ -96,4 +96,8 @@ public class UserSettingsService {
         if (userSettings == null) return null;
         return userSettings.getPhoneLoginString();
     }
+
+    public void UpdateAccountId(Long aid, Long sid) {
+        userSettingsRepository.getById(sid).setAccountId(aid);
+    }
 }
