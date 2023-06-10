@@ -152,13 +152,16 @@ public class UserSettings {
     @Override
     public String toString() {
         return "UserSettings{" +
-                "accountId=" + accountId +
+                "id=" + id +
+                ", accountId=" + accountId +
                 ", font='" + font + '\'' +
+                ", fontSize=" + fontSize +
                 ", colorOfPriorityTask='" + colorOfPriorityTask + '\'' +
                 ", colorOfNormalTask='" + colorOfNormalTask + '\'' +
                 ", colorForSubtask='" + colorForSubtask + '\'' +
                 ", colorForHeader='" + colorForHeader + '\'' +
                 ", colorForBackground='" + colorForBackground + '\'' +
+                ", phoneLoginString='" + phoneLoginString + '\'' +
                 '}';
     }
 }
