@@ -1,8 +1,9 @@
 package ba.unsa.etf.cehajic.hcehajic2.appback.account;
 
-import ba.unsa.etf.cehajic.hcehajic2.appback.task.Task;
-import ba.unsa.etf.cehajic.hcehajic2.appback.usersettings.UserSettings;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,20 +44,56 @@ class AccountController {
     }
 
     @PutMapping(path="/name/id")
-    public ResponseEntity<Account> updateName(@PathVariable("id") Long id, @RequestBody String name) {
-        Account updatedAccount = accountService.UpdateName(id, name);
-        return ResponseEntity.ok().body(updatedAccount);
+    public ResponseEntity<Account> updateName(@PathVariable("id") Long id, @RequestBody String nameJson) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode = objectMapper.readTree(nameJson);
+            String name = jsonNode.get("name").asText();
+
+            Account updatedUser = accountService.UpdateName(id, name);
+            if (updatedUser != null) {
+                return ResponseEntity.ok(updatedUser);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
 
     @PutMapping(path="/surname/id")
-    public ResponseEntity<Account> updateSurname(@PathVariable("id") Long id, @RequestBody String surname) {
-        Account updatedAccount = accountService.UpdateSurname(id, surname);
-        return ResponseEntity.ok().body(updatedAccount);
+    public ResponseEntity<Account> updateSurname(@PathVariable("id") Long id, @RequestBody String surnameJson) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode = objectMapper.readTree(surnameJson);
+            String surname = jsonNode.get("surname").asText();
+
+            Account updatedUser = accountService.UpdateSurname(id, surname);
+            if (updatedUser != null) {
+                return ResponseEntity.ok(updatedUser);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
 
     @PutMapping(path="/pass/id")
-    public ResponseEntity<Account> updatePassword(@PathVariable("id") Long id, @RequestBody String password) {
-        Account updatedAccount = accountService.UpdatePassword(id, password);
-        return ResponseEntity.ok().body(updatedAccount);
+    public ResponseEntity<Account> updatePassword(@PathVariable("id") Long id, @RequestBody String passwordJson) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode = objectMapper.readTree(passwordJson);
+            String pass = jsonNode.get("password").asText();
+
+            Account updatedUser = accountService.UpdateName(id, pass);
+            if (updatedUser != null) {
+                return ResponseEntity.ok(updatedUser);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
 }
