@@ -1,6 +1,5 @@
 package ba.unsa.etf.cehajic.hcehajic2.appback.usersettings;
 
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

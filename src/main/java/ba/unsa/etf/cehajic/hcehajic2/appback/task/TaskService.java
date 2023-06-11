@@ -3,6 +3,7 @@ package ba.unsa.etf.cehajic.hcehajic2.appback.task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -21,8 +22,12 @@ public class TaskService {
 
     public List<Task> GetTasksForAccount(Long id) {
         List<Task> tasks = GetAllTasks();
-        tasks.stream().filter(task -> task.getId().equals(id));
-        return tasks;
+        List<Task> matching = new ArrayList<>();
+        for (int i = 0; i < tasks.size(); i++)
+            if (tasks.get(i).getAccountId() == id)
+                matching.add(tasks.get(i));
+
+        return matching;
     }
 
     public Task AddNewTask(Task task) {
