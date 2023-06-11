@@ -1,5 +1,6 @@
 package ba.unsa.etf.cehajic.hcehajic2.appback.usersettings;
 
+import org.hibernate.tool.schema.internal.exec.ScriptTargetOutputToFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
@@ -43,6 +44,7 @@ public class UserSettingsService {
     }
 
     public UserSettings UpdateFont(Long id, String font) {
+        System.out.println(font);
         UserSettings existingSettings = GetUserSettingsForAccount(id);
         if (existingSettings == null) return null;
         existingSettings.setFont(font);

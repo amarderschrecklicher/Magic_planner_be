@@ -1,6 +1,9 @@
 package ba.unsa.etf.cehajic.hcehajic2.appback.usersettings;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,46 +49,129 @@ public class UserSettingsController {
         UserSettings newUserSettings = userSettingsService.CreateUserSettingsDefault(id);
         return ResponseEntity.ok().body(newUserSettings);
     }
-
     @PutMapping("/font/{id}")
-    public ResponseEntity<UserSettings> updateUserFont(@PathVariable Long id, @RequestBody String string) {
-        UserSettings updatedUser = userSettingsService.UpdateFont(id, string);
-        return ResponseEntity.ok(updatedUser);
+    public ResponseEntity<UserSettings> updateUserFont(@PathVariable Long id, @RequestBody String fontJson) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode = objectMapper.readTree(fontJson);
+            String font = jsonNode.get("font").asText();
+
+            UserSettings updatedUser = userSettingsService.UpdateFont(id, font);
+            if (updatedUser != null) {
+                return ResponseEntity.ok(updatedUser);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
 
     @PutMapping("/fontsize/{id}")
-    public ResponseEntity<UserSettings> updateUserFontSize(@PathVariable Long id, @RequestBody int size) {
-        UserSettings updatedUser = userSettingsService.UpdateFontSize(id, size);
-        return ResponseEntity.ok(updatedUser);
+    public ResponseEntity<UserSettings> updateUserFontSize(@PathVariable Long id,  @RequestBody String sizeJson) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode = objectMapper.readTree(sizeJson);
+            int size = jsonNode.get("size").asInt();
+
+            UserSettings updatedUser = userSettingsService.UpdateFontSize(id, size);
+            if (updatedUser != null) {
+                return ResponseEntity.ok(updatedUser);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
 
     @PutMapping("/priority/{id}")
-    public ResponseEntity<UserSettings> updateUserPriority(@PathVariable Long id, @RequestBody String string) {
-        UserSettings updatedUser = userSettingsService.UpdatePriorityTask(id, string);
-        return ResponseEntity.ok(updatedUser);
+    public ResponseEntity<UserSettings> updateUserPriority(@PathVariable Long id, @RequestBody String priorityJson) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode = objectMapper.readTree(priorityJson);
+            String priority = jsonNode.get("priority").asText();
+
+            UserSettings updatedUser = userSettingsService.UpdatePriorityTask(id, priority);
+            if (updatedUser != null) {
+                return ResponseEntity.ok(updatedUser);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
 
     @PutMapping("/normal/{id}")
-    public ResponseEntity<UserSettings> updateUserNormal(@PathVariable Long id, @RequestBody String string) {
-        UserSettings updatedUser = userSettingsService.UpdateNormalTask(id, string);
-        return ResponseEntity.ok(updatedUser);
+    public ResponseEntity<UserSettings> updateUserNormal(@PathVariable Long id, @RequestBody String normalJson) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode = objectMapper.readTree(normalJson);
+            String normal = jsonNode.get("normal").asText();
+
+            UserSettings updatedUser = userSettingsService.UpdateNormalTask(id, normal);
+            if (updatedUser != null) {
+                return ResponseEntity.ok(updatedUser);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
 
     @PutMapping("/sub/{id}")
-    public ResponseEntity<UserSettings> updateUserSub(@PathVariable Long id, @RequestBody String string) {
-        UserSettings updatedUser = userSettingsService.UpdateSubTask(id, string);
-        return ResponseEntity.ok(updatedUser);
+    public ResponseEntity<UserSettings> updateUserSub(@PathVariable Long id, @RequestBody String subJson) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode = objectMapper.readTree(subJson);
+            String sub = jsonNode.get("sub").asText();
+
+            UserSettings updatedUser = userSettingsService.UpdateSubTask(id, sub);
+            if (updatedUser != null) {
+                return ResponseEntity.ok(updatedUser);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
 
     @PutMapping("/header/{id}")
-    public ResponseEntity<UserSettings> updateUserHeader(@PathVariable Long id, @RequestBody String string) {
-        UserSettings updatedUser = userSettingsService.UpdateHeader(id, string);
-        return ResponseEntity.ok(updatedUser);
+    public ResponseEntity<UserSettings> updateUserHeader(@PathVariable Long id, @RequestBody String headerJson) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode = objectMapper.readTree(headerJson);
+            String header = jsonNode.get("header").asText();
+
+            UserSettings updatedUser = userSettingsService.UpdateHeader(id, header);
+            if (updatedUser != null) {
+                return ResponseEntity.ok(updatedUser);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
 
     @PutMapping("/background/{id}")
-    public ResponseEntity<UserSettings> updateUserBackground(@PathVariable Long id, @RequestBody String string) {
-        UserSettings updatedUser = userSettingsService.UpdateBackground(id, string);
-        return ResponseEntity.ok(updatedUser);
+    public ResponseEntity<UserSettings> updateUserBackground(@PathVariable Long id, @RequestBody String bgJson) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode = objectMapper.readTree(bgJson);
+            String background = jsonNode.get("background").asText();
+
+            UserSettings updatedUser = userSettingsService.UpdateBackground(id, background);
+            if (updatedUser != null) {
+                return ResponseEntity.ok(updatedUser);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
 }
