@@ -57,6 +57,7 @@ public class UserSettingsController {
             String font = jsonNode.get("font").asText();
 
             UserSettings updatedUser = userSettingsService.UpdateFont(id, font);
+//            System.out.println(updatedUser);
             if (updatedUser != null) {
                 return ResponseEntity.ok(updatedUser);
             } else {
@@ -75,6 +76,7 @@ public class UserSettingsController {
             int size = jsonNode.get("size").asInt();
 
             UserSettings updatedUser = userSettingsService.UpdateFontSize(id, size);
+//            System.out.println(updatedUser);
             if (updatedUser != null) {
                 return ResponseEntity.ok(updatedUser);
             } else {

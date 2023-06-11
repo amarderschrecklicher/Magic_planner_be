@@ -4,11 +4,13 @@ import org.hibernate.tool.schema.internal.exec.ScriptTargetOutputToFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional
 public class UserSettingsService {
     private final UserSettingsRepository userSettingsRepository;
 
@@ -49,6 +51,7 @@ public class UserSettingsService {
         if (existingSettings == null) return null;
         existingSettings.setFont(font);
         userSettingsRepository.save(existingSettings);
+//        System.out.printf(String.valueOf(GetUserSettingsForAccount(id)));
         return existingSettings;
     }
 
@@ -57,6 +60,8 @@ public class UserSettingsService {
         if (existingSettings == null) return null;
         existingSettings.setFontSize(font);
         userSettingsRepository.save(existingSettings);
+//        UserSettings e = GetUserSettingsForAccount(id);
+//        System.out.printf(e.toString());
         return existingSettings;
     }
 
