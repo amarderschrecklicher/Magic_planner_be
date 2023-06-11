@@ -48,6 +48,7 @@ public class UserSettingsService {
         UserSettings existingSettings = GetUserSettingsForAccount(id);
         if (existingSettings == null) return null;
         existingSettings.setFont(font);
+        userSettingsRepository.save(existingSettings);
         return existingSettings;
     }
 
@@ -55,6 +56,7 @@ public class UserSettingsService {
         UserSettings existingSettings = GetUserSettingsForAccount(id);
         if (existingSettings == null) return null;
         existingSettings.setFontSize(font);
+        userSettingsRepository.save(existingSettings);
         return existingSettings;
     }
 
@@ -62,6 +64,7 @@ public class UserSettingsService {
         UserSettings existingSettings = GetUserSettingsForAccount(id);
         if (existingSettings == null) return null;
         existingSettings.setColorOfPriorityTask(rgb);
+        userSettingsRepository.save(existingSettings);
         return existingSettings;
     }
 
@@ -69,6 +72,7 @@ public class UserSettingsService {
         UserSettings existingSettings = GetUserSettingsForAccount(id);
         if (existingSettings == null) return null;
         existingSettings.setColorOfNormalTask(rgb);
+        userSettingsRepository.save(existingSettings);
         return existingSettings;
     }
 
@@ -76,6 +80,7 @@ public class UserSettingsService {
         UserSettings existingSettings = GetUserSettingsForAccount(id);
         if (existingSettings == null) return null;
         existingSettings.setColorForSubtask(rgb);
+        userSettingsRepository.save(existingSettings);
         return existingSettings;
     }
 
@@ -83,6 +88,7 @@ public class UserSettingsService {
         UserSettings existingSettings = GetUserSettingsForAccount(id);
         if (existingSettings == null) return null;
         existingSettings.setColorForHeader(rgb);
+        userSettingsRepository.save(existingSettings);
         return existingSettings;
     }
 
@@ -90,6 +96,7 @@ public class UserSettingsService {
         UserSettings existingSettings = GetUserSettingsForAccount(id);
         if (existingSettings == null) return null;
         existingSettings.setColorForBackground(rgb);
+        userSettingsRepository.save(existingSettings);
         return existingSettings;
     }
 
