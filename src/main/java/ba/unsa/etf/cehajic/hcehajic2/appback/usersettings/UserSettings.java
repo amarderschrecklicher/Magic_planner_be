@@ -22,19 +22,19 @@ public class UserSettings {
     private String colorOfPriorityTask;
     private String colorOfNormalTask;
     private String colorForSubtask;
-    private String colorForHeader;
+    private String colorForFont;
     private String colorForBackground;
 
     private String phoneLoginString;
 
-    public UserSettings(Long accountId, String font, int fontSize, String colorOfPriorityTask, String colorOfNormalTask, String colorForSubtask, String colorForHeader, String colorForBackground) {
+    public UserSettings(Long accountId, String font, int fontSize, String colorOfPriorityTask, String colorOfNormalTask, String colorForSubtask, String colorForFont, String colorForBackground) {
         this.accountId = accountId;
         this.font = font;
         this.fontSize = fontSize;
         this.colorOfPriorityTask = colorOfPriorityTask;
         this.colorOfNormalTask = colorOfNormalTask;
         this.colorForSubtask = colorForSubtask;
-        this.colorForHeader = colorForHeader;
+        this.colorForFont = colorForFont;
         this.colorForBackground = colorForBackground;
         this.phoneLoginString = accountId + generateRandomString(5) + accountId;
     }
@@ -50,7 +50,7 @@ public class UserSettings {
         this.colorOfPriorityTask = "#000000";
         this.colorOfNormalTask = "#000000";
         this.colorForSubtask = "#000000";
-        this.colorForHeader = "#000000";
+        this.colorForFont = "#000000";
         this.colorForBackground = "#000000";
         this.phoneLoginString = accountId + generateRandomString(5) + accountId;
     }
@@ -111,12 +111,12 @@ public class UserSettings {
         this.colorForSubtask = colorForSubtask;
     }
 
-    public String getColorForHeader() {
-        return colorForHeader;
+    public String getColorForFont() {
+        return colorForFont;
     }
 
-    public void setColorForHeader(String colorForHeader) {
-        this.colorForHeader = colorForHeader;
+    public void setColorForFont(String colorForHeader) {
+        this.colorForFont = colorForHeader;
     }
 
     public String getColorForBackground() {
@@ -159,7 +159,7 @@ public class UserSettings {
                 ", colorOfPriorityTask='" + colorOfPriorityTask + '\'' +
                 ", colorOfNormalTask='" + colorOfNormalTask + '\'' +
                 ", colorForSubtask='" + colorForSubtask + '\'' +
-                ", colorForHeader='" + colorForHeader + '\'' +
+                ", colorForFont='" + colorForFont + '\'' +
                 ", colorForBackground='" + colorForBackground + '\'' +
                 ", phoneLoginString='" + phoneLoginString + '\'' +
                 '}';

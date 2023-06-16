@@ -141,14 +141,14 @@ public class UserSettingsController {
         }
     }
 
-    @PutMapping("/header/{id}")
-    public ResponseEntity<UserSettings> updateUserHeader(@PathVariable Long id, @RequestBody String headerJson) {
+    @PutMapping("/fcolor/{id}")
+    public ResponseEntity<UserSettings> updateUserHeader(@PathVariable Long id, @RequestBody String fontColorJson) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode jsonNode = objectMapper.readTree(headerJson);
-            String header = jsonNode.get("header").asText();
+            JsonNode jsonNode = objectMapper.readTree(fontColorJson);
+            String fontColor = jsonNode.get("fcolor").asText();
 
-            UserSettings updatedUser = userSettingsService.UpdateHeader(id, header);
+            UserSettings updatedUser = userSettingsService.UpdateFontColor(id, fontColor);
             if (updatedUser != null) {
                 return ResponseEntity.ok(updatedUser);
             } else {

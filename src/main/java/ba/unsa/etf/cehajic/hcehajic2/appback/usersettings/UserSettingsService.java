@@ -1,12 +1,9 @@
 package ba.unsa.etf.cehajic.hcehajic2.appback.usersettings;
 
-import org.hibernate.tool.schema.internal.exec.ScriptTargetOutputToFile;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -89,10 +86,10 @@ public class UserSettingsService {
         return existingSettings;
     }
 
-    public UserSettings UpdateHeader(Long id, String rgb) {
+    public UserSettings UpdateFontColor(Long id, String rgb) {
         UserSettings existingSettings = GetUserSettingsForAccount(id);
         if (existingSettings == null) return null;
-        existingSettings.setColorForHeader(rgb);
+        existingSettings.setColorForFont(rgb);
         userSettingsRepository.save(existingSettings);
         return existingSettings;
     }
