@@ -33,14 +33,17 @@ class AccountController {
         return accountService.GetAccountByCredentials(accName, pass);
     }
 
-    @PostMapping(path="/create")
-    public ResponseEntity<Account> addNewAccount(@RequestBody String name,
-                                                 @RequestBody String surname,
-                                                 @RequestBody String password,
-                                                 @RequestBody LocalDate dateOfBirth) {
-
+    @PostMapping(path = "/create")
+    public ResponseEntity<Account> addNewAccount(@RequestBody AccountRequestDTO requestDTO) {
         System.out.println("Creating new User!");
-        Account newAccount = accountService.CreateNewAccount(name, surname, password, dateOfBirth);
+
+        Account newAccount = accountService.CreateNewAccount(
+                requestDTO.getName(),
+                requestDTO.getSurname(),
+                requestDTO.getPassword(),
+                requestDTO.getDateOfBirth()
+        );
+
         return ResponseEntity.ok().body(newAccount);
     }
 
