@@ -47,7 +47,7 @@ class AccountController {
         return ResponseEntity.ok().body(newAccount);
     }
 
-    @PutMapping(path="/name/id")
+    @PutMapping(path="/name/{id}")
     public ResponseEntity<Account> updateName(@PathVariable("id") Long id, @RequestBody String nameJson) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
@@ -65,7 +65,7 @@ class AccountController {
         }
     }
 
-    @PutMapping(path="/surname/id")
+    @PutMapping(path="/surname/{id}")
     public ResponseEntity<Account> updateSurname(@PathVariable("id") Long id, @RequestBody String surnameJson) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
@@ -83,7 +83,7 @@ class AccountController {
         }
     }
 
-    @PutMapping(path="/pass/id")
+    @PutMapping(path="/pass/{id}")
     public ResponseEntity<Account> updatePassword(@PathVariable("id") Long id, @RequestBody String passwordJson) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
