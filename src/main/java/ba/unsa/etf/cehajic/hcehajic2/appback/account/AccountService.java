@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -39,6 +40,12 @@ public class AccountService {
     public Account AddNewAccount(Account account) {
         accountRepository.save(account);
         return account;
+    }
+
+    public  Account CreateNewAccount(String name, String surname, String password, LocalDate dateOfBirth) {
+        Account account = new Account(name, surname, password, dateOfBirth);
+        Account savedAcc = accountRepository.save(account);
+        return savedAcc;
     }
 
     public Account UpdateName(Long id, String name) {

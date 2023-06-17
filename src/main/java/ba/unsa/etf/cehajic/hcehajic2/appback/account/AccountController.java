@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -33,13 +34,13 @@ class AccountController {
     }
 
     @PostMapping(path="/create")
-    public ResponseEntity<Account> addNewAccount(@RequestBody Account account) {
-        Account exists = null;
-        exists = accountService.GetAccountByCredentials(account.getName(), account.getPassword());
-        if (exists == null)
-            return ResponseEntity.badRequest().body(account);
+    public ResponseEntity<Account> addNewAccount(@RequestBody String name,
+                                                 @RequestBody String surname,
+                                                 @RequestBody String password,
+                                                 @RequestBody LocalDate dateOfBirth) {
+
         System.out.println("Creating new User!");
-        Account newAccount = accountService.AddNewAccount(account);
+        Account newAccount = accountService.CreateNewAccount(name, surname, password, dateOfBirth);
         return ResponseEntity.ok().body(newAccount);
     }
 
