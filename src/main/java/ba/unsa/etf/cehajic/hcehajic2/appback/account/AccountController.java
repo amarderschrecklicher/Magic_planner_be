@@ -27,7 +27,7 @@ class AccountController {
         return accountService.GetAllAccounts();
     }
 
-    @GetMapping(path="/{username}/{pass}")
+    @GetMapping(path = "/{username}/{pass}")
     public Account getAccountByCredentials(@PathVariable("username") String accName,
                                            @PathVariable("pass") String pass) {
         return accountService.GetAccountByCredentials(accName, pass);
@@ -47,7 +47,7 @@ class AccountController {
         return ResponseEntity.ok().body(newAccount);
     }
 
-    @PutMapping(path="/name/{id}")
+    @PutMapping(path = "/name/{id}")
     public ResponseEntity<Account> updateName(@PathVariable("id") Long id, @RequestBody String nameJson) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
@@ -55,17 +55,15 @@ class AccountController {
             String name = jsonNode.get("name").asText();
 
             Account updatedUser = accountService.UpdateName(id, name);
-            if (updatedUser != null) {
-                return ResponseEntity.ok(updatedUser);
-            } else {
-                return ResponseEntity.notFound().build();
-            }
+
+            return ResponseEntity.ok(updatedUser);
+
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
-    @PutMapping(path="/surname/{id}")
+    @PutMapping(path = "/surname/{id}")
     public ResponseEntity<Account> updateSurname(@PathVariable("id") Long id, @RequestBody String surnameJson) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
@@ -73,18 +71,15 @@ class AccountController {
             String surname = jsonNode.get("surname").asText();
 
             Account updatedUser = accountService.UpdateSurname(id, surname);
-            if (updatedUser != null) {
-                return ResponseEntity.ok(updatedUser);
-            } else {
-                return ResponseEntity.notFound().build();
-            }
+
+            return ResponseEntity.ok(updatedUser);
+
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
-
-    @PutMapping(path="/pass/{id}")
+    @PutMapping(path = "/pass/{id}")
     public ResponseEntity<Account> updatePassword(@PathVariable("id") Long id, @RequestBody String passwordJson) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
@@ -92,11 +87,9 @@ class AccountController {
             String pass = jsonNode.get("password").asText();
 
             Account updatedUser = accountService.UpdateName(id, pass);
-            if (updatedUser != null) {
-                return ResponseEntity.ok(updatedUser);
-            } else {
-                return ResponseEntity.notFound().build();
-            }
+
+            return ResponseEntity.ok(updatedUser);
+
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
