@@ -20,13 +20,17 @@ public class SubTask {
     private String description;
     private Long accountId;
     private Long taskId;
+    private Boolean done;
 
-    public SubTask() {}
+    public SubTask() {
+        done = false;
+    }
 
     public SubTask(String description, Long accountId, Long taskId) {
         this.description = description;
         this.accountId = accountId;
         this.taskId = taskId;
+        this.done = false;
     }
 
     public Long getId() {
@@ -61,6 +65,14 @@ public class SubTask {
         this.taskId = taskId;
     }
 
+    public Boolean getDone() {
+        return done;
+    }
+
+    public void setDone(Boolean done) {
+        this.done = done;
+    }
+
     @Override
     public String toString() {
         return "SubTask{" +
@@ -68,6 +80,7 @@ public class SubTask {
                 ", description='" + description + '\'' +
                 ", userId=" + accountId +
                 ", taskId=" + taskId +
+                ", done=" + done +
                 '}';
     }
 }

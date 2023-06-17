@@ -34,6 +34,11 @@ class SubTaskController {
         return ResponseEntity.ok().body(newSubTask);
     }
 
+    @PutMapping(path = "/done/{id}")
+    public void finishSubTask(@PathVariable Long id) {
+        subTaskService.FinishSubTask(id);
+    }
+
     @DeleteMapping(path={"/{subId}"})
     public void deleteTask(@PathVariable("subId") Long subId) {
         System.out.println("Delete called!");

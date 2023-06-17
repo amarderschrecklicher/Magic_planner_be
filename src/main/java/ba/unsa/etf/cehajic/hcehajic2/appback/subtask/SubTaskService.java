@@ -1,5 +1,6 @@
 package ba.unsa.etf.cehajic.hcehajic2.appback.subtask;
 
+import ba.unsa.etf.cehajic.hcehajic2.appback.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +35,13 @@ public class SubTaskService {
     public SubTask AddNewSubTask(SubTask subTask) {
         subTaskRepository.save(subTask);
         return subTask;
+    }
+
+    public SubTask FinishSubTask(Long id) {
+        SubTask tOld = subTaskRepository.getById(id);
+        tOld.setDone(true);
+        subTaskRepository.save(tOld);
+        return tOld;
     }
 
     public void deleteTask(Long id) {
