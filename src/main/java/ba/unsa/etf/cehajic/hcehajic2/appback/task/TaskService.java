@@ -1,12 +1,15 @@
 package ba.unsa.etf.cehajic.hcehajic2.appback.task;
 
+import ba.unsa.etf.cehajic.hcehajic2.appback.usersettings.UserSettings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional
 public class TaskService {
 
     private final TaskRepository taskRepository;
@@ -37,5 +40,12 @@ public class TaskService {
 
     public void deleteTask(Long id) {
         taskRepository.deleteById(id);
+    }
+
+    public Task FinishTask(Long id) {
+        Task tOld = taskRepository.getById(id);
+        tOld.setDone(true);
+        taskRepository.save(tOld);
+        return tOld;
     }
 }

@@ -1,6 +1,10 @@
 package ba.unsa.etf.cehajic.hcehajic2.appback.task;
 
+import ba.unsa.etf.cehajic.hcehajic2.appback.usersettings.UserSettings;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +27,7 @@ class TaskController {
         return taskService.GetAllTasks();
     }
 
-    @GetMapping(path="/{id}")
+    @GetMapping(path = "/{id}")
     public List<Task> getTasksForAccount(@PathVariable("id") Long id) {
         return taskService.GetTasksForAccount(id);
     }
@@ -34,7 +38,13 @@ class TaskController {
         return ResponseEntity.ok().body(newTask);
     }
 
-    @DeleteMapping(path={"/{taskId}"})
+    @PutMapping(path = "/done/{id}")
+    public void finishTask(@PathVariable Long id) {
+        taskService.FinishTask(id);
+    }
+
+
+    @DeleteMapping(path = {"/{taskId}"})
     public void deleteTask(@PathVariable("taskId") Long taskId) {
         System.out.println("Delete called!");
         taskService.deleteTask(taskId);

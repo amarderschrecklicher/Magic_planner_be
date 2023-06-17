@@ -26,7 +26,8 @@ public class Task {
     private Long accountId;
 
     private boolean priority;
-    public Task() {    }
+    private boolean done;
+    public Task() {  priority = false; done = false;  }
 
     public Task(String taskName, String description, LocalDate dateOfCreation, String dueTime, Long accountId) {
         this(taskName, description, dateOfCreation, dueTime, accountId, false);
@@ -39,6 +40,17 @@ public class Task {
         this.dueTime = dueTime;
         this.accountId = accountId;
         this.priority = priority;
+        this.done = false;
+    }
+
+    public Task(String taskName, String description, LocalDate dateOfCreation, String dueTime, Long accountId, boolean priority, boolean done) {
+        this.taskName = taskName;
+        this.description = description;
+        this.dueDate = dateOfCreation;
+        this.dueTime = dueTime;
+        this.accountId = accountId;
+        this.priority = priority;
+        this.done = done;
     }
 
     public Long getId() {
@@ -97,6 +109,14 @@ public class Task {
         this.accountId = accountId;
     }
 
+    public boolean isDone() {
+        return done;
+    }
+
+    public void setDone(boolean done) {
+        this.done = done;
+    }
+
     @Override
     public String toString() {
         return "Task{" +
@@ -107,6 +127,7 @@ public class Task {
                 ", dueTime=" + dueTime +
                 ", accountId=" + accountId +
                 ", priority=" + priority +
+                ", done=" + done +
                 '}';
     }
 }
