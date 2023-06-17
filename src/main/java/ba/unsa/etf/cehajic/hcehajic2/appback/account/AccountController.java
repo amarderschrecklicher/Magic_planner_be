@@ -83,6 +83,7 @@ class AccountController {
         }
     }
 
+
     @PutMapping(path="/pass/{id}")
     public ResponseEntity<Account> updatePassword(@PathVariable("id") Long id, @RequestBody String passwordJson) {
         try {
