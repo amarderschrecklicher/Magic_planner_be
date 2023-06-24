@@ -60,6 +60,12 @@ public class AccountService {
         return savedAcc;
     }
 
+    public  Account CreateNewAccount(String name, String surname, String email, String kidName, Boolean kidMale, String password, LocalDate dateOfBirth) {
+        Account account = new Account(name, surname, email, kidName, password, dateOfBirth, kidMale);
+        Account savedAcc = accountRepository.save(account);
+        return savedAcc;
+    }
+
     public Account UpdateName(Long id, String name) {
         Account existingAcc = accountRepository.getById(id);
         if (existingAcc == null) return null;

@@ -42,6 +42,7 @@ class AccountController {
                 requestDTO.getSurname(),
                 requestDTO.getEmail(),
                 requestDTO.getKidName(),
+                requestDTO.getKidMale(),
                 requestDTO.getPassword(),
                 requestDTO.getDateOfBirth()
         );

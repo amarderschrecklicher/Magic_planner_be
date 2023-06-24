@@ -24,6 +24,7 @@ public class Account {
     private String Password;
     private String email;
     private String kidName;
+    private Boolean kidMale;
     @Transient
     private String Username;
     private LocalDate dateOfBirth;
@@ -53,6 +54,15 @@ public class Account {
         this.dateOfBirth = dateOfBirth;
         this.email = email;
         this.kidName = kidName;
+    }
+    public Account(String name, String surname, String email, String kidName, String password, LocalDate dateOfBirth, boolean kidMale) {
+        Name = name;
+        Surname = surname;
+        Password = password;
+        this.dateOfBirth = dateOfBirth;
+        this.email = email;
+        this.kidName = kidName;
+        this.kidMale = kidMale;
     }
 
     public Long getId() {
@@ -119,6 +129,14 @@ public class Account {
         this.kidName = kidName;
     }
 
+    public Boolean getKidMale() {
+        return kidMale;
+    }
+
+    public void setKidMale(Boolean kidMale) {
+        this.kidMale = kidMale;
+    }
+
     @Override
     public String toString() {
         return "Account{" +
@@ -127,6 +145,7 @@ public class Account {
                 ", Surname='" + Surname + '\'' +
                 ", Email=" + email + '\'' +
                 ", kidName=" + kidName + '\'' +
+                ", kidMale=" + kidMale + '\'' +
                 ", Password='" + Password + '\'' +
                 ", Username='" + Username + '\'' +
                 ", dateOfBirth=" + dateOfBirth +

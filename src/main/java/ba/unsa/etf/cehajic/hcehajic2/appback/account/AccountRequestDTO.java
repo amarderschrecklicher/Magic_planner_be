@@ -7,6 +7,7 @@ public class AccountRequestDTO {
     private String surname;
     private String email;
     private String kidName;
+    private Boolean kidMale;
     private String password;
     private LocalDate dateOfBirth;
 
@@ -19,6 +20,7 @@ public class AccountRequestDTO {
         this.surname = surname;
         this.password = password;
         this.dateOfBirth = dateOfBirth;
+        this.kidMale = true;
     }
 
     public AccountRequestDTO(String name, String surname, String email,String password, LocalDate dateOfBirth) {
@@ -27,6 +29,7 @@ public class AccountRequestDTO {
         this.password = password;
         this.dateOfBirth = dateOfBirth;
         this.email = email;
+        this.kidMale = true;
     }
     public AccountRequestDTO(String name, String surname, String email, String kidName,String password, LocalDate dateOfBirth) {
         this.name = name;
@@ -35,6 +38,16 @@ public class AccountRequestDTO {
         this.dateOfBirth = dateOfBirth;
         this.email = email;
         this.kidName = kidName;
+        this.kidMale = true;
+    }
+    public AccountRequestDTO(String name, String surname, String email, String kidName, Boolean kidMale, String password, LocalDate dateOfBirth) {
+        this.name = name;
+        this.surname = surname;
+        this.password = password;
+        this.dateOfBirth = dateOfBirth;
+        this.email = email;
+        this.kidName = kidName;
+        this.kidMale = kidMale;
     }
 
     public String getName() {
@@ -79,6 +92,14 @@ public class AccountRequestDTO {
 
     public String getKidName() {
         return kidName;
+    }
+
+    public Boolean getKidMale() {
+        return kidMale;
+    }
+
+    public void setKidMale(Boolean kidMale) {
+        this.kidMale = kidMale;
     }
 
     public void setKidName(String kidName) {
