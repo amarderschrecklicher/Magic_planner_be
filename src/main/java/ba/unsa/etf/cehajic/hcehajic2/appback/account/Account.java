@@ -3,9 +3,11 @@ package ba.unsa.etf.cehajic.hcehajic2.appback.account;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.Period;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table
+@JsonIgnoreProperties("hibernateLazyInitializer")
 public class Account {
 
     @Id
