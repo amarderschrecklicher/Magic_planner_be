@@ -176,4 +176,21 @@ public class UserSettingsController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
+    @PutMapping("/progress/{id}")
+    public ResponseEntity<UserSettings> updateUserProgress(@PathVariable Long id, @RequestBody String progressJson) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode = objectMapper.readTree(progressJson);
+            String progress = jsonNode.get("progress").asText();
+
+            UserSettings updatedUser = userSettingsService.UpdateProgress(id, progress);
+            if (updatedUser != null) {
+                return ResponseEntity.ok(updatedUser);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
 }

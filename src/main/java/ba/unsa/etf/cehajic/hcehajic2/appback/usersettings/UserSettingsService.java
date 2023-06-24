@@ -17,7 +17,7 @@ public class UserSettingsService {
     }
 
     public UserSettings CreateUserSettingsDefault(Long id) {
-        UserSettings userSettings = new UserSettings(id, "Arial", 12, "#cccc00", "#ccffff", "#ffffff", "#ffffff", "#3399ff");
+        UserSettings userSettings = new UserSettings(id, "Arial", 12, "#cccc00", "#ccffff", "#ffffff", "#ffffff", "#3399ff", "#3399ff");
         this.userSettingsRepository.save(userSettings);
         return userSettings;
     }
@@ -98,6 +98,14 @@ public class UserSettingsService {
         UserSettings existingSettings = GetUserSettingsForAccount(id);
         if (existingSettings == null) return null;
         existingSettings.setColorForBackground(rgb);
+        userSettingsRepository.save(existingSettings);
+        return existingSettings;
+    }
+
+    public UserSettings UpdateProgress(Long id, String rgb) {
+        UserSettings existingSettings = GetUserSettingsForAccount(id);
+        if (existingSettings == null) return null;
+        existingSettings.setColorForProgress(rgb);
         userSettingsRepository.save(existingSettings);
         return existingSettings;
     }

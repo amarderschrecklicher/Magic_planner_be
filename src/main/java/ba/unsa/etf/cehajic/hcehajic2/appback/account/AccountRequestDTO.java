@@ -5,6 +5,8 @@ import java.time.LocalDate;
 public class AccountRequestDTO {
     private String name;
     private String surname;
+    private String email;
+    private String kidName;
     private String password;
     private LocalDate dateOfBirth;
 
@@ -18,6 +20,23 @@ public class AccountRequestDTO {
         this.password = password;
         this.dateOfBirth = dateOfBirth;
     }
+
+    public AccountRequestDTO(String name, String surname, String email,String password, LocalDate dateOfBirth) {
+        this.name = name;
+        this.surname = surname;
+        this.password = password;
+        this.dateOfBirth = dateOfBirth;
+        this.email = email;
+    }
+    public AccountRequestDTO(String name, String surname, String email, String kidName,String password, LocalDate dateOfBirth) {
+        this.name = name;
+        this.surname = surname;
+        this.password = password;
+        this.dateOfBirth = dateOfBirth;
+        this.email = email;
+        this.kidName = kidName;
+    }
+
     public String getName() {
         return name;
     }
@@ -48,5 +67,21 @@ public class AccountRequestDTO {
 
     public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getKidName() {
+        return kidName;
+    }
+
+    public void setKidName(String kidName) {
+        this.kidName = kidName;
     }
 }

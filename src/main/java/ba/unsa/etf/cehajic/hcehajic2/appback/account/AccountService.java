@@ -48,6 +48,18 @@ public class AccountService {
         return savedAcc;
     }
 
+    public  Account CreateNewAccount(String name, String surname, String email,String password, LocalDate dateOfBirth) {
+        Account account = new Account(name, surname, email, password, dateOfBirth);
+        Account savedAcc = accountRepository.save(account);
+        return savedAcc;
+    }
+
+    public  Account CreateNewAccount(String name, String surname, String email, String kidName,String password, LocalDate dateOfBirth) {
+        Account account = new Account(name, surname, email, kidName, password, dateOfBirth);
+        Account savedAcc = accountRepository.save(account);
+        return savedAcc;
+    }
+
     public Account UpdateName(Long id, String name) {
         Account existingAcc = accountRepository.getById(id);
         if (existingAcc == null) return null;
@@ -60,6 +72,22 @@ public class AccountService {
         Account existingAcc = accountRepository.getById(id);
         if (existingAcc == null) return null;
         existingAcc.setSurname(surname);
+        accountRepository.save(existingAcc);
+        return existingAcc;
+    }
+
+    public Account UpdateEmail(Long id, String email) {
+        Account existingAcc = accountRepository.getById(id);
+        if (existingAcc == null) return null;
+        existingAcc.setEmail(email);
+        accountRepository.save(existingAcc);
+        return existingAcc;
+    }
+
+    public Account UpdateKidName(Long id, String kidName) {
+        Account existingAcc = accountRepository.getById(id);
+        if (existingAcc == null) return null;
+        existingAcc.setKidName(kidName);
         accountRepository.save(existingAcc);
         return existingAcc;
     }

@@ -24,10 +24,11 @@ public class UserSettings {
     private String colorForSubtask;
     private String colorForFont;
     private String colorForBackground;
+    private String colorForProgress;
 
     private String phoneLoginString;
 
-    public UserSettings(Long accountId, String font, int fontSize, String colorOfPriorityTask, String colorOfNormalTask, String colorForSubtask, String colorForFont, String colorForBackground) {
+    public UserSettings(Long accountId, String font, int fontSize, String colorOfPriorityTask, String colorOfNormalTask, String colorForSubtask, String colorForFont, String colorForBackground, String colorForProgress) {
         this.accountId = accountId;
         this.font = font;
         this.fontSize = fontSize;
@@ -36,6 +37,7 @@ public class UserSettings {
         this.colorForSubtask = colorForSubtask;
         this.colorForFont = colorForFont;
         this.colorForBackground = colorForBackground;
+        this.colorForProgress = colorForProgress;
         this.phoneLoginString = accountId + generateRandomString(5) + accountId;
     }
 
@@ -52,6 +54,7 @@ public class UserSettings {
         this.colorForSubtask = "#000000";
         this.colorForFont = "#000000";
         this.colorForBackground = "#000000";
+        this.colorForProgress = "#000000";
         this.phoneLoginString = accountId + generateRandomString(5) + accountId;
     }
 
@@ -127,6 +130,14 @@ public class UserSettings {
         this.colorForBackground = colorForBackground;
     }
 
+    public String getColorForProgress() {
+        return colorForProgress;
+    }
+
+    public void setColorForProgress(String colorForProgress) {
+        this.colorForProgress = colorForProgress;
+    }
+
     public String getPhoneLoginString() {
         return phoneLoginString;
     }
@@ -161,6 +172,7 @@ public class UserSettings {
                 ", colorForSubtask='" + colorForSubtask + '\'' +
                 ", colorForFont='" + colorForFont + '\'' +
                 ", colorForBackground='" + colorForBackground + '\'' +
+                ", colorForProgress='" + colorForProgress + '\'' +
                 ", phoneLoginString='" + phoneLoginString + '\'' +
                 '}';
     }

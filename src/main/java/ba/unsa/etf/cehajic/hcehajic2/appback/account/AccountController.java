@@ -40,6 +40,8 @@ class AccountController {
         Account newAccount = accountService.CreateNewAccount(
                 requestDTO.getName(),
                 requestDTO.getSurname(),
+                requestDTO.getEmail(),
+                requestDTO.getKidName(),
                 requestDTO.getPassword(),
                 requestDTO.getDateOfBirth()
         );
@@ -79,6 +81,38 @@ class AccountController {
         }
     }
 
+    @PutMapping(path = "/email/{id}")
+    public ResponseEntity<Account> updateEmail(@PathVariable("id") Long id, @RequestBody String emailJson) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode = objectMapper.readTree(emailJson);
+            String surname = jsonNode.get("email").asText();
+
+            Account updatedUser = accountService.UpdateEmail(id, surname);
+
+            return ResponseEntity.ok(updatedUser);
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
+    @PutMapping(path = "/kid/{id}")
+    public ResponseEntity<Account> updateKidName(@PathVariable("id") Long id, @RequestBody String kidNameJson) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode = objectMapper.readTree(kidNameJson);
+            String kidName = jsonNode.get("kidName").asText();
+
+            Account updatedUser = accountService.UpdateKidName(id, kidName);
+
+            return ResponseEntity.ok(updatedUser);
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
     @PutMapping(path = "/pass/{id}")
     public ResponseEntity<Account> updatePassword(@PathVariable("id") Long id, @RequestBody String passwordJson) {
         try {
@@ -86,7 +120,7 @@ class AccountController {
             JsonNode jsonNode = objectMapper.readTree(passwordJson);
             String pass = jsonNode.get("password").asText();
 
-            Account updatedUser = accountService.UpdateName(id, pass);
+            Account updatedUser = accountService.UpdatePassword(id, pass);
 
             return ResponseEntity.ok(updatedUser);
 
