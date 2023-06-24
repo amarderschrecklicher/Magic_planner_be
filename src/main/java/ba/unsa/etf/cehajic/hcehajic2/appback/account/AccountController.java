@@ -100,18 +100,17 @@ class AccountController {
 
     @PutMapping(path = "/kid/{id}")
     public ResponseEntity<Account> updateKidName(@PathVariable("id") Long id, @RequestBody String kidNameJson) {
+        String kidName;
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode jsonNode = objectMapper.readTree(kidNameJson);
-            String kidName = jsonNode.get("kidName").asText();
-
-            Account updatedUser = accountService.UpdateKidName(id, kidName);
-
-            return ResponseEntity.ok(updatedUser);
-
+            kidName = jsonNode.get("kidName").asText();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
+        Account updatedUser = accountService.UpdateKidName(id, kidName);
+
+        return ResponseEntity.ok(updatedUser);
     }
 
     @PutMapping(path = "/pass/{id}")
