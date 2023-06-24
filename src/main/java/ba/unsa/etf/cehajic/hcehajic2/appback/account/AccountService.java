@@ -28,7 +28,8 @@ public class AccountService {
         Account obj = null;
         for (Account acc : possible) {
             if (acc.getPassword().equals(pass)
-                && acc.getUsername().equals(accName)) {
+             && (acc.getUsername().equals(accName)
+                || acc.getEmail().equals(accName))) {
                 obj = acc;
                 break;
             }
