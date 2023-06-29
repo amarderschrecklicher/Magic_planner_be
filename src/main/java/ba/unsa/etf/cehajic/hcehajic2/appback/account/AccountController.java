@@ -33,6 +33,11 @@ class AccountController {
         return accountService.GetAccountByCredentials(accName, pass);
     }
 
+    @GetMapping(path = "/{id}")
+    public Account getAccountById(@PathVariable("id") Long id) {
+        return accountService.GetAccountById(id);
+    }
+
     @PostMapping(path = "/create")
     public ResponseEntity<Account> addNewAccount(@RequestBody AccountRequestDTO requestDTO) {
         System.out.println("Creating new User!");

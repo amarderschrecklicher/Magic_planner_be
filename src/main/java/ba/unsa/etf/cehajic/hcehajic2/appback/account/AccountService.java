@@ -23,6 +23,10 @@ public class AccountService {
         return accountRepository.findAll();
     }
 
+    public Account GetAccountById(Long id) {
+        return accountRepository.getById(id);
+    }
+
     public Account GetAccountByCredentials(String accName, String pass) {
         List<Account> possible = GetAllAccounts();
         Account obj = null;
