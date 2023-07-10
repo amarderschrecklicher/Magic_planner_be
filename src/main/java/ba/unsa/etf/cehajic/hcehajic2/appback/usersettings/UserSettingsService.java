@@ -17,7 +17,15 @@ public class UserSettingsService {
     }
 
     public UserSettings CreateUserSettingsDefault(Long id) {
-        UserSettings userSettings = new UserSettings(id, "Arial", 12, "#cccc00", "#ccffff", "#ffffff", "#ffffff", "#3399ff", "#3399ff");
+        UserSettings userSettings = new UserSettings(id,
+                "Palatino Linotype",
+                22,
+                "#FF6347",
+                "#00BFFF",
+                "#FF6347",
+                "#141414",
+                "#F5FFFA",
+                "#00b200");
         this.userSettingsRepository.save(userSettings);
         return userSettings;
     }
