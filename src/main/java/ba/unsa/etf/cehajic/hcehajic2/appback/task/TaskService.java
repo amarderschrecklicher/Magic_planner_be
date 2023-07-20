@@ -37,7 +37,7 @@ public class TaskService {
         List<Task> tasks = GetAllTasks();
         List<Task> matching = new ArrayList<>();
         for (int i = 0; i < tasks.size(); i++)
-            if (tasks.get(i).getAccountId() == id && task.get(i).isDone())
+            if (tasks.get(i).getAccountId() == id && tasks.get(i).isDone())
                 matching.add(tasks.get(i));
 
         return matching;
