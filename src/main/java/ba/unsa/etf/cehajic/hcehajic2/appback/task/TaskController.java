@@ -33,7 +33,7 @@ class TaskController {
     }
 
     @GetMapping(path = "/alldone/{id}")
-    public List<Task> getTasksForAccount(@PathVariable("id") Long id) {
+    public List<Task> getDoneTasksForAccount(@PathVariable("id") Long id) {
         return taskService.GetDoneTasksForAccount(id);
     }
 
