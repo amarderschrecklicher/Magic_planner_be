@@ -112,7 +112,12 @@ public class Account {
     }
 
     public String getUsername() {
-        return (this.Name.toLowerCase()).charAt(0) + this.getSurname().toLowerCase() + this.id;
+        return ((this.Name.toLowerCase()).charAt(0) + this.getSurname().toLowerCase() + this.id)
+                .replace("č", "c")
+                .replace("ć", "c")
+                .replace("ž", "z")
+                .replace("š", "s")
+                .replace("đ", "d");
     }
 
     public String getEmail() {
