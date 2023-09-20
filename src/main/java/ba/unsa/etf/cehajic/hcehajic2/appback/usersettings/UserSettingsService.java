@@ -44,7 +44,7 @@ public class UserSettingsService {
         UserSettings matching = null;
 
         for (int i = 0; i < settings.size(); i++)
-            if (settings.get(i).getAccountId() == id)
+            if (settings.get(i).getAccountId().equals(id))
                 matching = settings.get(i);
 
         return matching;

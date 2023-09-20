@@ -55,7 +55,7 @@ public class UserSettingsController {
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode jsonNode = objectMapper.readTree(fontJson);
             String font = jsonNode.get("font").asText();
-
+            System.out.println(font);
             UserSettings updatedUser = userSettingsService.UpdateFont(id, font);
 //            System.out.println(updatedUser);
             if (updatedUser != null) {
