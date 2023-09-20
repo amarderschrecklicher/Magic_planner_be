@@ -32,6 +32,16 @@ class TaskController {
         return taskService.GetTasksForAccount(id);
     }
 
+    @GetMapping(path = "/undone/{id}")
+    public List<Task> getUndoneTasksForAccount(@PathVariable("id") Long id) {
+        return taskService.GetUndoneTasksForAccount(id);
+    }
+
+    @GetMapping(path = "/alldone/{id}")
+    public List<Task> getDoneTasksForAccount(@PathVariable("id") Long id) {
+        return taskService.GetDoneTasksForAccount(id);
+    }
+
     @PostMapping
     public ResponseEntity<Task> addNewTask(@RequestBody Task task) {
         Task newTask = taskService.AddNewTask(task);
