@@ -1,6 +1,5 @@
 package ba.unsa.etf.cehajic.hcehajic2.appback.subtask;
 
-import ba.unsa.etf.cehajic.hcehajic2.appback.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
