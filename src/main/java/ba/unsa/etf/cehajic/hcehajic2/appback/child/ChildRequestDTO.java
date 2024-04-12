@@ -18,29 +18,32 @@ public class ChildRequestDTO {
         // Default no-argument constructor
     }
 
-    public ChildRequestDTO(String name, String surname, String password, LocalDate dateOfBirth) {
+    public ChildRequestDTO(String name, String surname, String password, LocalDate dateOfBirth, Long managerId) {
         this.name = name;
         this.surname = surname;
         this.password = password;
         this.dateOfBirth = dateOfBirth;
         this.kidMale = true;
+        this.managerId = managerId;
     }
 
-    public ChildRequestDTO(String name, String surname, String email,String password, LocalDate dateOfBirth) {
+    public ChildRequestDTO(String name, String surname, String email,String password, LocalDate dateOfBirth, Long managerId) {
         this.name = name;
         this.surname = surname;
         this.password = password;
         this.dateOfBirth = dateOfBirth;
         this.email = email;
         this.kidMale = true;
+        this.managerId = managerId;
     }
-    public ChildRequestDTO(String name, String surname, String email, Boolean kidMale, String password, LocalDate dateOfBirth) {
+    public ChildRequestDTO(String name, String surname, String email, Boolean kidMale, String password, LocalDate dateOfBirth, Long managerId) {
         this.name = name;
         this.surname = surname;
         this.password = password;
         this.dateOfBirth = dateOfBirth;
         this.email = email;
         this.kidMale = kidMale;
+        this.managerId = managerId;
     }
 
     public String getName() {

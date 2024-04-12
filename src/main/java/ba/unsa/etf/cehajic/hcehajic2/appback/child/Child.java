@@ -5,9 +5,11 @@ import java.time.LocalDate;
 import java.time.Period;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import ba.unsa.etf.cehajic.hcehajic2.appback.manager.Manager;
+
 @Entity
 @Table
-@JsonIgnoreProperties("hibernateLazyInitializer")
+@JsonIgnoreProperties("age")
 public class Child {
 
     @Id
@@ -28,7 +30,9 @@ public class Child {
     private String qualities;
     private String preferences;
     private String special;
-    private Long managerId;
+    @ManyToOne
+    @JoinColumn(name = "managerId") // Specify the name of the foreign key column
+    private Manager manager;
     @Transient
     private LocalDate dateOfBirth;
 
@@ -42,7 +46,8 @@ public class Child {
         this.kidMale = male;
         this.preferences = preferences;
         this.special = special;
-        this.managerId = managerId;
+        this.manager = new Manager();
+        this.manager.setId(managerId);
     }
 
     public Child(String name, String surname, String email, LocalDate dateOfBirth) {
@@ -143,12 +148,12 @@ public class Child {
     public void setPreferences(String kidName) {
         this.preferences = kidName;
     }
-    public Long getManagerId() {
-        return managerId;
+    public Manager getManager() {
+        return manager;
     }
 
-    public void setManagerId(Long kidName) {
-        this.managerId = kidName;
+    public void setManager(Manager manager) {
+        this.manager = manager;
     }
     
 
@@ -164,7 +169,7 @@ public class Child {
                 ", qualities=" + qualities + '\'' +
                 ", preferences=" + preferences + '\'' +
                 ", special=" + special + '\'' +
-                ", managerId=" + managerId +
+                ", managerId=" + manager.getId() +
                 '}';
     }
 }

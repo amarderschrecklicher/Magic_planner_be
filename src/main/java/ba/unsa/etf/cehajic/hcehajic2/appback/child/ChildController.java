@@ -22,8 +22,8 @@ class ChildController {
     }
 
     @GetMapping
-    public List<Child> getAllAccounts() {
-        return accountService.GetAllAccounts();
+    public List<Child> getAllChildren() {
+        return accountService.GetAllChildren();
     }
 
     @GetMapping(path = "/{username}")
@@ -37,7 +37,7 @@ class ChildController {
     }
 
     @PostMapping(path = "/create")
-    public ResponseEntity<Child> addNewAccount(@RequestBody ChildRequestDTO requestDTO) {
+    public ResponseEntity<Child> addNewChild(@RequestBody ChildRequestDTO requestDTO) {
         System.out.println("Creating new User!");
 
         Child newAccount = accountService.CreateNewAccount(

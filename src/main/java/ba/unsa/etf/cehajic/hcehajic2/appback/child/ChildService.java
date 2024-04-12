@@ -18,7 +18,7 @@ public class ChildService {
         this.accountRepository = accountRepository;
     }
 
-    public List<Child> GetAllAccounts() {
+    public List<Child> GetAllChildren() {
         return accountRepository.findAll();
     }
 
@@ -27,7 +27,7 @@ public class ChildService {
     }
 
     public Child GetAccountByCredentials(String accName) {
-        List<Child> possible = GetAllAccounts();
+        List<Child> possible = GetAllChildren();
         Child obj = null;
         for (Child acc : possible) {
             if (
