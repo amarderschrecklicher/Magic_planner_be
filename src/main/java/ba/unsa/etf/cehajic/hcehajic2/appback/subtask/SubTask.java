@@ -2,6 +2,8 @@ package ba.unsa.etf.cehajic.hcehajic2.appback.subtask;
 
 import javax.persistence.*;
 
+import ba.unsa.etf.cehajic.hcehajic2.appback.task.Task;
+
 @Entity
 @Table
 public class SubTask {
@@ -18,18 +20,19 @@ public class SubTask {
     )
     private Long id;
     private String description;
-    private Long accountId;
-    private Long taskId;
     private Boolean done;
+    @ManyToOne
+    @JoinColumn(name = "taskId") // Specify the name of the foreign key column
+    private Task task;
 
     public SubTask() {
         done = false;
     }
 
-    public SubTask(String description, Long accountId, Long taskId) {
+    public SubTask(String description,Long taskId) {
         this.description = description;
-        this.accountId = accountId;
-        this.taskId = taskId;
+        this.task = new Task();
+        this.task.setId(taskId);
         this.done = false;
     }
 
@@ -49,20 +52,13 @@ public class SubTask {
         this.description = description;
     }
 
-    public Long getAccountId() {
-        return accountId;
+
+    public Task getTask() {
+        return task;
     }
 
-    public void setAccountId(Long accountId) {
-        this.accountId = accountId;
-    }
-
-    public Long getTaskId() {
-        return taskId;
-    }
-
-    public void setTaskId(Long taskId) {
-        this.taskId = taskId;
+    public void setTask(Task task) {
+        this.task = task;
     }
 
     public Boolean getDone() {
@@ -78,8 +74,6 @@ public class SubTask {
         return "SubTask{" +
                 "id=" + id +
                 ", description='" + description + '\'' +
-                ", userId=" + accountId +
-                ", taskId=" + taskId +
                 ", done=" + done +
                 '}';
     }

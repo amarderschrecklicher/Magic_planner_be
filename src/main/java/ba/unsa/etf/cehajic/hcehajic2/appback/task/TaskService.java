@@ -26,7 +26,7 @@ public class TaskService {
         List<Task> tasks = GetAllTasks();
         List<Task> matching = new ArrayList<>();
         for (int i = 0; i < tasks.size(); i++)
-            if (tasks.get(i).getAccountId() == id)
+            if (tasks.get(i).getChild().getId() == id)
                 matching.add(tasks.get(i));
 
         return matching;
@@ -36,7 +36,7 @@ public class TaskService {
         List<Task> tasks = GetAllTasks();
         List<Task> matching = new ArrayList<>();
         for (int i = 0; i < tasks.size(); i++)
-            if (tasks.get(i).getAccountId() == id && tasks.get(i).isDone())
+            if (tasks.get(i).getChild().getId() == id && tasks.get(i).isDone())
                 matching.add(tasks.get(i));
 
         return matching;
@@ -46,7 +46,7 @@ public class TaskService {
         List<Task> tasks = GetAllTasks();
         List<Task> matching = new ArrayList<>();
         for (int i = 0; i < tasks.size(); i++)
-            if (tasks.get(i).getAccountId() == id && !tasks.get(i).isDone())
+            if (tasks.get(i).getChild().getId() == id && !tasks.get(i).isDone())
                 matching.add(tasks.get(i));
 
         return matching;

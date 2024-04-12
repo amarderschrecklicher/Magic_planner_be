@@ -1,6 +1,9 @@
 package ba.unsa.etf.cehajic.hcehajic2.appback.task;
 
 import javax.persistence.*;
+
+import ba.unsa.etf.cehajic.hcehajic2.appback.child.Child;
+
 import java.time.LocalDate;
 
 @Entity
@@ -21,10 +24,10 @@ public class Task {
     private String taskName;
     private String description;
     private LocalDate dueDate;
-
     private String dueTime;
-    private Long accountId;
-
+    @ManyToOne
+    @JoinColumn(name = "childId") // Specify the name of the foreign key column
+    private Child child;
     private boolean priority;
     private boolean done;
     private String difficulty;
@@ -39,7 +42,8 @@ public class Task {
         this.description = description;
         this.dueDate = dateOfCreation;
         this.dueTime = dueTime;
-        this.accountId = accountId;
+        this.child = new Child();
+        this.child.setId(accountId);
         this.priority = priority;
         this.done = false;
         this.difficulty = difficulty;
@@ -50,7 +54,8 @@ public class Task {
         this.description = description;
         this.dueDate = dateOfCreation;
         this.dueTime = dueTime;
-        this.accountId = accountId;
+        this.child = new Child();
+        this.child.setId(accountId);
         this.priority = priority;
         this.done = done;
         this.difficulty = difficulty;
@@ -104,12 +109,12 @@ public class Task {
         this.dueTime = dueTime;
     }
 
-    public Long getAccountId() {
-        return accountId;
+    public Child getChild() {
+        return child;
     }
 
-    public void setAccountId(Long accountId) {
-        this.accountId = accountId;
+    public void setChild(Child child) {
+        this.child = child;
     }
 
     public boolean isDone() {
@@ -136,7 +141,6 @@ public class Task {
                 ", description='" + description + '\'' +
                 ", dueDate=" + dueDate +
                 ", dueTime=" + dueTime +
-                ", accountId=" + accountId +
                 ", priority=" + priority +
                 ", done=" + done +
                 '}';

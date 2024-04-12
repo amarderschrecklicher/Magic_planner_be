@@ -25,7 +25,7 @@ public class SubTaskService {
         List<SubTask> matching = new ArrayList<>();
 
         for (int i = 0; i < subs.size(); i++)
-            if (subs.get(i).getTaskId().equals(id)) {
+            if (subs.get(i).getTask().getId().equals(id)) {
                 matching.add(subs.get(i));}
 
         return matching;

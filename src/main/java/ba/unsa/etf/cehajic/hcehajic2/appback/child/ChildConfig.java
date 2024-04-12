@@ -6,20 +6,6 @@ import org.springframework.context.annotation.Configuration;
 
 import java.time.LocalDate;
 
-@Configuration
-public class ChildConfig {
-    @Bean
-    CommandLineRunner commandLineRunnerChild(ChildRepository accountRepository) {
-        return args -> {
-            Child u1 = new Child("Child1", "c1","c1@gmail.com",LocalDate.of(2000,7, 20),true, " "," "," ",Long.valueOf(233));
-            Child u2 = new Child("Child2", "c2","c2@gmail.com",LocalDate.of(2000,5, 25),true, " "," "," ",Long.valueOf(233));
-            accountRepository.save(u1);
-            accountRepository.save(u2);
-        };
-    }
-}
-
-
 
 
 

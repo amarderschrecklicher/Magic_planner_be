@@ -54,7 +54,7 @@ class TaskController {
     public ResponseEntity<Task> addNewTask(@RequestBody Task task) {
         Task newTask = taskService.AddNewTask(task);
 
-        List<Token> pushTokens = tokenService.GetTokensForAccount(task.getAccountId());
+        List<Token> pushTokens = tokenService.GetTokensForAccount(task.getChild().getId());
 
         // Send push notification to each token
         for (Token pushToken : pushTokens) {
