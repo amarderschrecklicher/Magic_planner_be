@@ -27,13 +27,14 @@ public class Task {
 
     private boolean priority;
     private boolean done;
+    private String difficulty;
     public Task() {  priority = false; done = false;  }
 
-    public Task(String taskName, String description, LocalDate dateOfCreation, String dueTime, Long accountId) {
-        this(taskName, description, dateOfCreation, dueTime, accountId, false);
+    public Task(String taskName, String description, LocalDate dateOfCreation, String dueTime, Long accountId,String difficulty) {
+        this(taskName, description, dateOfCreation, dueTime, accountId, false,difficulty);
     }
 
-    public Task(String taskName, String description, LocalDate dateOfCreation, String dueTime, Long accountId, boolean priority) {
+    public Task(String taskName, String description, LocalDate dateOfCreation, String dueTime, Long accountId, boolean priority, String difficulty) {
         this.taskName = taskName;
         this.description = description;
         this.dueDate = dateOfCreation;
@@ -41,9 +42,10 @@ public class Task {
         this.accountId = accountId;
         this.priority = priority;
         this.done = false;
+        this.difficulty = difficulty;
     }
 
-    public Task(String taskName, String description, LocalDate dateOfCreation, String dueTime, Long accountId, boolean priority, boolean done) {
+    public Task(String taskName, String description, LocalDate dateOfCreation, String dueTime, Long accountId, boolean priority, boolean done,String difficulty) {
         this.taskName = taskName;
         this.description = description;
         this.dueDate = dateOfCreation;
@@ -51,6 +53,7 @@ public class Task {
         this.accountId = accountId;
         this.priority = priority;
         this.done = done;
+        this.difficulty = difficulty;
     }
 
     public Long getId() {
@@ -115,6 +118,14 @@ public class Task {
 
     public void setDone(boolean done) {
         this.done = done;
+    }
+
+    public String getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(String difficulty) {
+        this.difficulty = difficulty;
     }
 
     @Override

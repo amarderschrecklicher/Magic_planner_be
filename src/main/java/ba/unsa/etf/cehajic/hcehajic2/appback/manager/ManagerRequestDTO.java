@@ -1,8 +1,8 @@
-package ba.unsa.etf.cehajic.hcehajic2.appback.account;
+package ba.unsa.etf.cehajic.hcehajic2.appback.manager;
 
 import java.time.LocalDate;
 
-public class AccountRequestDTO {
+public class ManagerRequestDTO {
     private String name;
     private String surname;
     private String email;
@@ -11,11 +11,11 @@ public class AccountRequestDTO {
     private String password;
     private LocalDate dateOfBirth;
 
-    public AccountRequestDTO() {
+    public ManagerRequestDTO() {
         // Default no-argument constructor
     }
 
-    public AccountRequestDTO(String name, String surname, String password, LocalDate dateOfBirth) {
+    public ManagerRequestDTO(String name, String surname, String password, LocalDate dateOfBirth) {
         this.name = name;
         this.surname = surname;
         this.password = password;
@@ -23,7 +23,7 @@ public class AccountRequestDTO {
         this.kidMale = true;
     }
 
-    public AccountRequestDTO(String name, String surname, String email,String password, LocalDate dateOfBirth) {
+    public ManagerRequestDTO(String name, String surname, String email,String password, LocalDate dateOfBirth) {
         this.name = name;
         this.surname = surname;
         this.password = password;
@@ -31,7 +31,7 @@ public class AccountRequestDTO {
         this.email = email;
         this.kidMale = true;
     }
-    public AccountRequestDTO(String name, String surname, String email, String kidName,String password, LocalDate dateOfBirth) {
+    public ManagerRequestDTO(String name, String surname, String email, String kidName,String password, LocalDate dateOfBirth) {
         this.name = name;
         this.surname = surname;
         this.password = password;
@@ -40,7 +40,7 @@ public class AccountRequestDTO {
         this.kidName = kidName;
         this.kidMale = true;
     }
-    public AccountRequestDTO(String name, String surname, String email, String kidName, Boolean kidMale, String password, LocalDate dateOfBirth) {
+    public ManagerRequestDTO(String name, String surname, String email, String kidName, Boolean kidMale, String password, LocalDate dateOfBirth) {
         this.name = name;
         this.surname = surname;
         this.password = password;

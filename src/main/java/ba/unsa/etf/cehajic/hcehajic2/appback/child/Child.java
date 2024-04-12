@@ -1,4 +1,4 @@
-package ba.unsa.etf.cehajic.hcehajic2.appback.account;
+package ba.unsa.etf.cehajic.hcehajic2.appback.child;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Entity
 @Table
 @JsonIgnoreProperties("hibernateLazyInitializer")
-public class Account {
+public class Child {
 
     @Id
     @SequenceGenerator(
@@ -23,47 +23,40 @@ public class Account {
     private Long id;
     private String Name;
     private String Surname;
-    private String Password;
     private String email;
-    private String kidName;
-    private Boolean kidMale;
+    private Boolean kidMale;   
+    private String qualities;
+    private String preferences;
+    private String special;
+    private Long managerId;
     @Transient
-    private String Username;
     private LocalDate dateOfBirth;
-    @Transient
-    private int age;
 
-    public Account(){};
-    public Account(String name, String surname, String password, LocalDate dateOfBirth) {
+    public Child(){};
+    public Child(String name, String surname,String email, LocalDate dateOfBirth,boolean male, String qualities, String preferences, String special, Long managerId) {
         Name = name;
         Surname = surname;
-        Password = password;
         this.dateOfBirth = dateOfBirth;
+        this.email = email;
+        this.qualities = qualities;
+        this.kidMale = male;
+        this.preferences = preferences;
+        this.special = special;
+        this.managerId = managerId;
     }
 
-    public Account(String name, String surname, String email, String password, LocalDate dateOfBirth) {
+    public Child(String name, String surname, String email, LocalDate dateOfBirth) {
         Name = name;
         Surname = surname;
-        Password = password;
         this.dateOfBirth = dateOfBirth;
         this.email = email;
     }
 
-    public Account(String name, String surname, String email, String kidName, String password, LocalDate dateOfBirth) {
+    public Child(String name, String surname, String email, LocalDate dateOfBirth, boolean kidMale) {
         Name = name;
         Surname = surname;
-        Password = password;
         this.dateOfBirth = dateOfBirth;
         this.email = email;
-        this.kidName = kidName;
-    }
-    public Account(String name, String surname, String email, String kidName, String password, LocalDate dateOfBirth, boolean kidMale) {
-        Name = name;
-        Surname = surname;
-        Password = password;
-        this.dateOfBirth = dateOfBirth;
-        this.email = email;
-        this.kidName = kidName;
         this.kidMale = kidMale;
     }
 
@@ -91,13 +84,6 @@ public class Account {
         Surname = surname;
     }
 
-    public String getPassword() {
-        return Password;
-    }
-
-    public void setPassword(String password) {
-        Password = password;
-    }
 
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
@@ -128,14 +114,6 @@ public class Account {
         this.email = email;
     }
 
-    public String getKidName() {
-        return kidName;
-    }
-
-    public void setKidName(String kidName) {
-        this.kidName = kidName;
-    }
-
     public Boolean getKidMale() {
         return kidMale;
     }
@@ -144,6 +122,36 @@ public class Account {
         this.kidMale = kidMale;
     }
 
+    public String getQualities() {
+        return qualities;
+    }
+
+    public void setQualities(String kidName) {
+        this.qualities = kidName;
+    }
+    public String getSpecial() {
+        return special;
+    }
+
+    public void setSpecial(String kidName) {
+        this.special = kidName;
+    }
+    public String getPreferences() {
+        return preferences;
+    }
+
+    public void setPreferences(String kidName) {
+        this.preferences = kidName;
+    }
+    public Long getManagerId() {
+        return managerId;
+    }
+
+    public void setManagerId(Long kidName) {
+        this.managerId = kidName;
+    }
+    
+
     @Override
     public String toString() {
         return "Account{" +
@@ -151,12 +159,12 @@ public class Account {
                 ", Name='" + Name + '\'' +
                 ", Surname='" + Surname + '\'' +
                 ", Email=" + email + '\'' +
-                ", kidName=" + kidName + '\'' +
                 ", kidMale=" + kidMale + '\'' +
-                ", Password='" + Password + '\'' +
-                ", Username='" + Username + '\'' +
-                ", dateOfBirth=" + dateOfBirth +
-                ", age=" + age +
+                ", dateOfBirth=" + dateOfBirth + '\'' +
+                ", qualities=" + qualities + '\'' +
+                ", preferences=" + preferences + '\'' +
+                ", special=" + special + '\'' +
+                ", managerId=" + managerId +
                 '}';
     }
 }
