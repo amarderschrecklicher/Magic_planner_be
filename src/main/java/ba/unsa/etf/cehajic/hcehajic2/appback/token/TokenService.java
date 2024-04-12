@@ -26,7 +26,7 @@ public class TokenService {
         List<Token> tokens = GetAllTokens();
         List<Token> matching = new ArrayList<>();
         for (int i = 0; i < tokens.size(); i++)
-            if (tokens.get(i).getAccountId() == id)
+            if (tokens.get(i).getChild().getId() == id)
                 matching.add(tokens.get(i));
 
         return matching;

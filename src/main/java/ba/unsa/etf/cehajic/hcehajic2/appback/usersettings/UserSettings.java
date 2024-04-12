@@ -1,5 +1,8 @@
 package ba.unsa.etf.cehajic.hcehajic2.appback.usersettings;
 import javax.persistence.*;
+
+import ba.unsa.etf.cehajic.hcehajic2.appback.child.Child;
+
 import java.util.Random;
 
 @Entity
@@ -16,7 +19,9 @@ public class UserSettings {
             generator = "user_settings_sequence"
     )
     private Long id;
-    private Long accountId;
+    @ManyToOne
+    @JoinColumn(name = "childId") // Specify the name of the foreign key column
+    private Child child;
     private String font;
     private int fontSize;
     private String colorOfPriorityTask;
@@ -29,7 +34,8 @@ public class UserSettings {
     private String phoneLoginString;
 
     public UserSettings(Long accountId, String font, int fontSize, String colorOfPriorityTask, String colorOfNormalTask, String colorForSubtask, String colorForFont, String colorForBackground, String colorForProgress) {
-        this.accountId = accountId;
+        this.child = new Child();
+        this.child.setId(accountId);
         this.font = font;
         this.fontSize = fontSize;
         this.colorOfPriorityTask = colorOfPriorityTask;
@@ -46,7 +52,8 @@ public class UserSettings {
     }
 
     public UserSettings(Long id) {
-        this.accountId = id;
+        this.child = new Child();
+        this.child.setId(id);
         this.font = "Arial";
         this.fontSize = 12;
         this.colorOfPriorityTask = "#000000";
@@ -55,7 +62,7 @@ public class UserSettings {
         this.colorForFont = "#000000";
         this.colorForBackground = "#000000";
         this.colorForProgress = "#000000";
-        this.phoneLoginString = accountId + generateRandomString(5) + accountId;
+        this.phoneLoginString = id + generateRandomString(5) + id;
     }
 
     public Long getId() {
@@ -66,12 +73,12 @@ public class UserSettings {
         this.id = id;
     }
 
-    public Long getAccountId() {
-        return accountId;
+    public Child getChild() {
+        return child;
     }
 
-    public void setAccountId(Long accountId) {
-        this.accountId = accountId;
+    public void setChild(Child child) {
+        this.child = child;
     }
 
     public String getFont() {
@@ -164,7 +171,6 @@ public class UserSettings {
     public String toString() {
         return "UserSettings{" +
                 "id=" + id +
-                ", accountId=" + accountId +
                 ", font='" + font + '\'' +
                 ", fontSize=" + fontSize +
                 ", colorOfPriorityTask='" + colorOfPriorityTask + '\'' +

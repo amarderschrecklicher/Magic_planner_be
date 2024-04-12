@@ -44,7 +44,7 @@ public class UserSettingsService {
         UserSettings matching = null;
 
         for (int i = 0; i < settings.size(); i++)
-            if (settings.get(i).getAccountId().equals(id))
+            if (settings.get(i).getChild().getId().equals(id))
                 matching = settings.get(i);
 
         return matching;
@@ -125,6 +125,6 @@ public class UserSettingsService {
     }
 
     public void UpdateAccountId(Long aid, Long sid) {
-        userSettingsRepository.getById(sid).setAccountId(aid);
+        userSettingsRepository.getById(sid).getChild().setId(sid);;
     }
 }
