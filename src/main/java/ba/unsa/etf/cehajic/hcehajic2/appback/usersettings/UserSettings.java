@@ -19,7 +19,7 @@ public class UserSettings {
             generator = "user_settings_sequence"
     )
     private Long id;
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "childId") // Specify the name of the foreign key column
     private Child child;
     private String font;

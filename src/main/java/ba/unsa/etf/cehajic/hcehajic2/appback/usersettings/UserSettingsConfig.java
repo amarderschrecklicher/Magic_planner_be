@@ -9,8 +9,8 @@ public class UserSettingsConfig {
     @Bean
     CommandLineRunner commandLineRunnerUserSettings(UserSettingsRepository repository) {
         return args -> {
-            UserSettings t1 = new UserSettings(Long.valueOf(1));
-            UserSettings t2 = new UserSettings(Long.valueOf(2));
+            UserSettings t1 = new UserSettings(Long.valueOf(243));
+            UserSettings t2 = new UserSettings(Long.valueOf(244));
             repository.save(t1);
             repository.save(t2);
         };
