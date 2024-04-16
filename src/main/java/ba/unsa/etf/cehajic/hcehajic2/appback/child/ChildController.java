@@ -54,7 +54,6 @@ class ChildController {
                 requestDTO.getManagerId()
         );
         Manager m = managerService.getManagerById(requestDTO.getManagerId());
-        System.out.println(m);
         newAccount.setManager(m);
         
         return ResponseEntity.ok().body(newAccount);

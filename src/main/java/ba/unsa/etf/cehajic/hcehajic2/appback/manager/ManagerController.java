@@ -2,12 +2,17 @@ package ba.unsa.etf.cehajic.hcehajic2.appback.manager;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import ba.unsa.etf.cehajic.hcehajic2.appback.child.Child;
+import ba.unsa.etf.cehajic.hcehajic2.appback.child.ChildService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/manager")
@@ -15,15 +20,27 @@ import java.util.List;
 class ManagerController {
 
     private final ManagerService accountService;
+    private final ChildService childService;
 
     @Autowired
-    public ManagerController(ManagerService accountService) {
+    public ManagerController(ManagerService accountService,ChildService childService) {
         this.accountService = accountService;
+        this.childService = childService;
     }
 
     @GetMapping
     public List<Manager> getAllAccounts() {
         return accountService.GetAllAccounts();
+    }
+
+    @GetMapping(path = "/children/{id}")
+    public List<Child> getAllChildren(@PathVariable("id") Long id) {
+        return childService.GetAllChildren().stream()
+        .filter(child -> {
+            Manager manager = child.getManager();
+            return manager != null && manager.getId().equals(id);
+        })
+        .collect(Collectors.toList());
     }
 
     @GetMapping(path = "/{username}/{pass}")

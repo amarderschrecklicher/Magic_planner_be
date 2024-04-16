@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 
+
 @Service
 @Transactional
 public class ManagerService {
@@ -100,4 +101,5 @@ public class ManagerService {
     public void deleteAllAccounts() {
         accountRepository.deleteAll();
     }
-}
+
+    }
