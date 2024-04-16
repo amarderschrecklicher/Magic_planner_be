@@ -10,13 +10,13 @@ public class SubTask {
 
     @Id
     @SequenceGenerator(
-            name = "sub_task_sequence",
-            sequenceName = "sub_task_sequence",
+            name = "sub_task_sequence_new",
+            sequenceName = "sub_task_sequence_new",
             allocationSize = 1
     )
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
-            generator = "sub_task_sequence"
+            generator = "sub_task_sequence_new"
     )
     private Long id;
     private String description;

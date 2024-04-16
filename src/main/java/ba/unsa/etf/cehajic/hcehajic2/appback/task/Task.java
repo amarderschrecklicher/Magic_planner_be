@@ -12,13 +12,13 @@ public class Task {
 
     @Id
     @SequenceGenerator(
-            name = "task_sequence",
-            sequenceName = "task_sequence",
+            name = "task_sequence_new",
+            sequenceName = "task_sequence_new",
             allocationSize = 1
     )
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
-            generator = "task_sequence"
+            generator = "task_sequence_new"
     )
     private Long id;
     private String taskName;

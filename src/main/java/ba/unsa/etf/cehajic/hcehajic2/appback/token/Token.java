@@ -9,13 +9,13 @@ import ba.unsa.etf.cehajic.hcehajic2.appback.child.Child;
 public class Token {
      @Id
     @SequenceGenerator(
-            name = "token_sequence",
-            sequenceName = "token_sequence",
+            name = "token_sequence_new",
+            sequenceName = "token_sequence_new",
             allocationSize = 1
     )
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
-            generator = "token_sequence"
+            generator = "token_sequence_new"
     )
     private Long id;
     private String Token;

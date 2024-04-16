@@ -22,7 +22,7 @@ public class ChildService {
         return accountRepository.findAll();
     }
 
-    public Child GetAccountById(Long id) {
+    public Child GetChildById(Long id) {
         return accountRepository.getById(id);
     }
 

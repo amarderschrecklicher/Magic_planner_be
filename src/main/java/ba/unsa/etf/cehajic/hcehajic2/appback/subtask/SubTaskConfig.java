@@ -7,13 +7,5 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class SubTaskConfig {
 
-    @Bean
-    CommandLineRunner commandLineRunnerSubTask(SubTaskRepository repository) {
-        return args -> {
-            SubTask s1 = new SubTask("SubDescription1",Long.valueOf(262));
-            SubTask s2 = new SubTask("SubDescription2",Long.valueOf(263));
-            repository.save(s1);
-            repository.save(s2);
-        };
-    }
+//
 }

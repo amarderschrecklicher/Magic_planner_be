@@ -10,13 +10,13 @@ import java.util.Random;
 public class UserSettings {
     @Id
     @SequenceGenerator(
-            name = "user_settings_sequence",
-            sequenceName = "user_settings_sequence",
+            name = "user_settings_sequence_new",
+            sequenceName = "user_settings_sequence_new",
             allocationSize = 1
     )
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
-            generator = "user_settings_sequence"
+            generator = "user_settings_sequence_new"
     )
     private Long id;
     @OneToOne

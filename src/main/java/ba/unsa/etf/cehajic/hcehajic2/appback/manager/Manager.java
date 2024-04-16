@@ -7,18 +7,18 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table
-@JsonIgnoreProperties("hibernateLazyInitializer")
+@JsonIgnoreProperties({"age","hibernateLazyInitializer"})
 public class Manager {
 
     @Id
     @SequenceGenerator(
-            name = "account_sequence",
-            sequenceName = "account_sequence",
+            name = "manager_sequence_new",
+            sequenceName = "manager_sequence_new",
             allocationSize = 1
     )
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
-            generator = "account_sequence"
+            generator = "manager_sequence_new"
     )
     private Long id;
     private String Name;

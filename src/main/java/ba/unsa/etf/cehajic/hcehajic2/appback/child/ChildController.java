@@ -26,14 +26,10 @@ class ChildController {
         return accountService.GetAllChildren();
     }
 
-    @GetMapping(path = "/{username}")
-    public Child getAccountByCredentials(@PathVariable("username") String accName) {
-        return accountService.GetAccountByCredentials(accName);
-    }
-
     @GetMapping(path = "/{id}")
     public Child getAccountById(@PathVariable("id") Long id) {
-        return accountService.GetAccountById(id);
+        Child c = accountService.GetChildById(id);
+        return c;
     }
 
     @PostMapping(path = "/create")
@@ -51,7 +47,7 @@ class ChildController {
                 requestDTO.getSpecial(),
                 requestDTO.getManagerId()
         );
-
+        
         return ResponseEntity.ok().body(newAccount);
     }
 

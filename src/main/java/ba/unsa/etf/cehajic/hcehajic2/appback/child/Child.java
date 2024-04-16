@@ -9,18 +9,18 @@ import ba.unsa.etf.cehajic.hcehajic2.appback.manager.Manager;
 
 @Entity
 @Table
-@JsonIgnoreProperties("age")
+@JsonIgnoreProperties({"age","hibernateLazyInitializer"})
 public class Child {
 
     @Id
     @SequenceGenerator(
-            name = "account_sequence",
-            sequenceName = "account_sequence",
+            name = "child_sequence_new",
+            sequenceName = "child_sequence_new",
             allocationSize = 1
     )
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
-            generator = "account_sequence"
+            generator = "child_sequence_new"
     )
     private Long id;
     private String Name;
@@ -33,7 +33,6 @@ public class Child {
     @ManyToOne
     @JoinColumn(name = "managerId") // Specify the name of the foreign key column
     private Manager manager;
-    @Transient
     private LocalDate dateOfBirth;
 
     public Child(){};

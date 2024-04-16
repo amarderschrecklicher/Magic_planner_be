@@ -33,8 +33,8 @@ class ManagerController {
     }
 
     @GetMapping(path = "/{id}")
-    public Manager getAccountById(@PathVariable("id") Long id) {
-        return accountService.GetAccountById(id);
+    public Manager getManagerById(@PathVariable("id") Long id) {
+        return accountService.getManagerById(id);
     }
 
     @PostMapping(path = "/create")

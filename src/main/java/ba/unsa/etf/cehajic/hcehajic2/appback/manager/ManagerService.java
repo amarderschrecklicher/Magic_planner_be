@@ -22,7 +22,7 @@ public class ManagerService {
         return accountRepository.findAll();
     }
 
-    public Manager GetAccountById(Long id) {
+    public Manager getManagerById(Long id) {
         return accountRepository.getById(id);
     }
 
