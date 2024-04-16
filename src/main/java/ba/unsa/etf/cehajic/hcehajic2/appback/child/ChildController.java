@@ -2,6 +2,10 @@ package ba.unsa.etf.cehajic.hcehajic2.appback.child;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import ba.unsa.etf.cehajic.hcehajic2.appback.manager.Manager;
+import ba.unsa.etf.cehajic.hcehajic2.appback.manager.ManagerService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,10 +19,12 @@ import java.util.List;
 class ChildController {
 
     private final ChildService accountService;
+    private final ManagerService managerService;
 
     @Autowired
-    public ChildController(ChildService accountService) {
+    public ChildController(ChildService accountService, ManagerService managerService) {
         this.accountService = accountService;
+        this.managerService = managerService;
     }
 
     @GetMapping
@@ -47,6 +53,9 @@ class ChildController {
                 requestDTO.getSpecial(),
                 requestDTO.getManagerId()
         );
+        Manager m = managerService.getManagerById(requestDTO.getManagerId());
+        System.out.println(m);
+        newAccount.setManager(m);
         
         return ResponseEntity.ok().body(newAccount);
     }
