@@ -125,6 +125,6 @@ public class UserSettingsService {
     }
 
     public void UpdateAccountId(Long aid, Long sid) {
-        userSettingsRepository.getById(sid).getChild().setId(sid);;
+        userSettingsRepository.getById(sid).getChild().setId(sid);
     }
 }

@@ -98,6 +98,32 @@ public class ManagerService {
         return existingAcc;
     }
 
+
+    public Manager updateUser(Long id, Manager updatedUserData) {
+        Manager existingAcc = accountRepository.getById(id);
+
+        if (existingAcc == null) return null;
+
+        if (updatedUserData.getName() != null) {
+            existingAcc.setName(updatedUserData.getName());
+        }
+        if (updatedUserData.getSurname() != null) {
+            existingAcc.setSurname(updatedUserData.getSurname());
+        }
+        if (updatedUserData.getEmail() != null) {
+            existingAcc.setEmail(updatedUserData.getEmail());
+        }
+        if (updatedUserData.getDateOfBirth() != null) {
+            existingAcc.setDateOfBirth(updatedUserData.getDateOfBirth());
+        }
+        if (updatedUserData.getKidMale() != null) {
+            existingAcc.setKidMale(updatedUserData.getKidMale());
+        }
+
+        accountRepository.save(existingAcc);
+        return existingAcc;
+    }
+
     public void deleteAllAccounts() {
         accountRepository.deleteAll();
     }

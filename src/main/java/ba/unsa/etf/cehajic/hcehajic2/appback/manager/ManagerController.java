@@ -144,4 +144,19 @@ class ManagerController {
              .body("An error occurred while deleting all accounts.");
         }
     }
+
+    @PutMapping(path = "/{id}")
+    public ResponseEntity<Manager> updateUser(@PathVariable("id") Long id, @RequestBody Manager updatedUserData) {
+        try {
+            Manager updatedUser = accountService.updateUser(id, updatedUserData);
+
+            if (updatedUser == null) {
+                return ResponseEntity.notFound().build(); 
+            }
+
+            return ResponseEntity.ok(updatedUser);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build(); // Return 500 if an error occurs
+        }
+    }
 }
