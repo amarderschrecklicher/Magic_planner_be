@@ -25,7 +25,6 @@ public class Child {
     private Long id;
     private String Name;
     private String Surname;
-    private String email;
     private Boolean kidMale;   
     private String qualities;
     private String preferences;
@@ -34,9 +33,11 @@ public class Child {
     @JoinColumn(name = "managerId") // Specify the name of the foreign key column
     private Manager manager;
     private LocalDate dateOfBirth;
+    private String email;
+    private String password;
 
     public Child(){};
-    public Child(String name, String surname,String email, LocalDate dateOfBirth,boolean male, String qualities, String preferences, String special, Long managerId) {
+    public Child(String name, String surname, LocalDate dateOfBirth,boolean male, String qualities, String preferences, String special, Long managerId, String email ,String password) {
         Name = name;
         Surname = surname;
         this.dateOfBirth = dateOfBirth;
@@ -117,6 +118,14 @@ public class Child {
     public void setEmail(String email) {
         this.email = email;
     }
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
 
     public Boolean getKidMale() {
         return kidMale;

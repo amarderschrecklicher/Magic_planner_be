@@ -1,6 +1,7 @@
 package ba.unsa.etf.cehajic.hcehajic2.appback.manager;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -60,7 +61,9 @@ public class ManagerService {
     }
 
     public  Manager CreateNewAccount(String name, String surname, String email, Boolean kidMale, String password, LocalDate dateOfBirth) {
-        Manager account = new Manager(name, surname, email,  password, dateOfBirth, kidMale);
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String hashedPassword = passwordEncoder.encode(password);
+        Manager account = new Manager(name, surname, email,  hashedPassword, dateOfBirth, kidMale);
         Manager savedAcc = accountRepository.save(account);
         return savedAcc;
     }
@@ -93,7 +96,9 @@ public class ManagerService {
     public Manager UpdatePassword(Long id, String password) {
         Manager existingAcc = accountRepository.getById(id);
         if (existingAcc == null) return null;
-        existingAcc.setPassword(password);
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String hashedPassword = passwordEncoder.encode(password);
+        existingAcc.setPassword(hashedPassword);
         accountRepository.save(existingAcc);
         return existingAcc;
     }

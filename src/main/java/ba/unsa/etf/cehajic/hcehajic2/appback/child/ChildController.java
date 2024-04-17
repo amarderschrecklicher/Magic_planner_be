@@ -45,13 +45,14 @@ class ChildController {
         Child newAccount = accountService.CreateNewAccount(
                 requestDTO.getName(),
                 requestDTO.getSurname(),
-                requestDTO.getEmail(),
                 requestDTO.getKidMale(),
                 requestDTO.getDateOfBirth(),
                 requestDTO.getQualities(),
                 requestDTO.getPreferences(),
                 requestDTO.getSpecial(),
-                requestDTO.getManagerId()
+                requestDTO.getManagerId(),
+                requestDTO.getEmail(),
+                requestDTO.getPassword()
         );
         Manager m = managerService.getManagerById(requestDTO.getManagerId());
         newAccount.setManager(m);
@@ -107,6 +108,21 @@ class ChildController {
         }
     }
 
+    @PutMapping(path = "/password/{id}")
+    public ResponseEntity<Child> updatePassword(@PathVariable("id") Long id, @RequestBody String passJson) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode = objectMapper.readTree(passJson);
+            String pass = jsonNode.get("password").asText();
+
+            Child updatedUser = accountService.updatePassword(id, pass);
+
+            return ResponseEntity.ok(updatedUser);
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
 
     @DeleteMapping
     public ResponseEntity<String> deleteAllAccounts() {

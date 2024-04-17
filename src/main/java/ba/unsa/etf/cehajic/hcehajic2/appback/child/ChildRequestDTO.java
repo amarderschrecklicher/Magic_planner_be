@@ -5,14 +5,14 @@ import java.time.LocalDate;
 public class ChildRequestDTO {
     private String name;
     private String surname;
-    private String email;
     private Boolean kidMale;
-    private String password;
     private LocalDate dateOfBirth;
     private String qualities;
     private String preferences;
     private String special;
     private Long managerId;
+    private String email;
+    private String password;
 
     public ChildRequestDTO() {
         // Default no-argument constructor
@@ -27,12 +27,13 @@ public class ChildRequestDTO {
         this.managerId = managerId;
     }
 
-    public ChildRequestDTO(String name, String surname, String email,String password, LocalDate dateOfBirth, Long managerId) {
+    public ChildRequestDTO(String name, String surname,LocalDate dateOfBirth, Long managerId, String email, String password) {
         this.name = name;
         this.surname = surname;
         this.password = password;
         this.dateOfBirth = dateOfBirth;
         this.email = email;
+        this.password = password;
         this.kidMale = true;
         this.managerId = managerId;
     }

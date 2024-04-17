@@ -3,6 +3,7 @@ package ba.unsa.etf.cehajic.hcehajic2.appback.child;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -46,8 +47,10 @@ public class ChildService {
         return account;
     }
 
-    public  Child CreateNewAccount(String name, String surname, String email,Boolean male, LocalDate dateOfBirth, String qualities, String preferences, String special, Long managerId) {
-        Child account = new Child(name,surname,email,dateOfBirth,male,qualities,preferences,special,managerId);
+    public  Child CreateNewAccount(String name, String surname,Boolean male, LocalDate dateOfBirth, String qualities, String preferences, String special, Long managerId,String email,String password) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String hashedPassword = passwordEncoder.encode(password);
+        Child account = new Child(name,surname,dateOfBirth,male,qualities,preferences,special,managerId,email,hashedPassword);
         Child savedAcc = accountRepository.save(account);
         return savedAcc;
     }
@@ -80,5 +83,18 @@ public class ChildService {
 
     public void deleteAllAccounts() {
         accountRepository.deleteAll();
+    }
+
+    public Child updatePassword(Long id, String password) {
+        Child existingAcc = accountRepository.getById(id);
+        if (existingAcc == null) {
+            return null;
+        }
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String hashedPassword = passwordEncoder.encode(password);
+        existingAcc.setPassword(hashedPassword);
+        accountRepository.save(existingAcc);
+        
+        return existingAcc;
     }
 }
