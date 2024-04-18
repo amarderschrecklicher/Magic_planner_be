@@ -32,14 +32,16 @@ public class ManagerService {
         List<Manager> possible = GetAllAccounts();
         Manager obj = null;
         for (Manager acc : possible) {
-            if (acc.getPassword().equals(pass)
-             && (acc.getUsername().equals(accName)
-                || acc.getEmail().equals(accName))) {
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+            if (acc.getPassword() != null && encoder.matches(pass, acc.getPassword())
+                    && (acc.getUsername().equals(accName) || acc.getEmail().equals(accName))) {
                 obj = acc;
                 break;
             }
         }
-        if (obj == null) System.out.println("User doesn't exist!");
+        if (obj == null) {
+            System.out.println("User doesn't exist!");
+        }
         return obj;
     }
 
