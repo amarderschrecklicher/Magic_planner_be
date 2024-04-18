@@ -77,62 +77,11 @@ class ManagerController {
 
         Manager manager = accountService.GetAccountByCredentials(username, password);
         if (manager != null) {
-            // Ako korisnik postoji i lozinke se poklapaju, vrati korisnika kao odgovor
             return ResponseEntity.ok(manager);
         } else {
-            // Ako korisnik ne postoji ili lozinke nisu ispravne, vrati odgovarajući status
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
         }
     }
-
-    @PutMapping(path = "/name/{id}")
-    public ResponseEntity<Manager> updateName(@PathVariable("id") Long id, @RequestBody String nameJson) {
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode jsonNode = objectMapper.readTree(nameJson);
-            String name = jsonNode.get("name").asText();
-
-            Manager updatedUser = accountService.UpdateName(id, name);
-
-            return ResponseEntity.ok(updatedUser);
-
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-    }
-
-    @PutMapping(path = "/surname/{id}")
-    public ResponseEntity<Manager> updateSurname(@PathVariable("id") Long id, @RequestBody String surnameJson) {
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode jsonNode = objectMapper.readTree(surnameJson);
-            String surname = jsonNode.get("surname").asText();
-
-            Manager updatedUser = accountService.UpdateSurname(id, surname);
-
-            return ResponseEntity.ok(updatedUser);
-
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-    }
-
-    @PutMapping(path = "/email/{id}")
-    public ResponseEntity<Manager> updateEmail(@PathVariable("id") Long id, @RequestBody String emailJson) {
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode jsonNode = objectMapper.readTree(emailJson);
-            String surname = jsonNode.get("email").asText();
-
-            Manager updatedUser = accountService.UpdateEmail(id, surname);
-
-            return ResponseEntity.ok(updatedUser);
-
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-    }
-
 
     @PutMapping(path = "/pass/{id}")
     public ResponseEntity<Manager> updatePassword(@PathVariable("id") Long id, @RequestBody String passwordJson) {
@@ -171,7 +120,7 @@ class ManagerController {
 
             return ResponseEntity.ok(updatedUser);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build(); // Return 500 if an error occurs
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 }

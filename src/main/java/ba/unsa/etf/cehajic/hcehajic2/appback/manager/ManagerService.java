@@ -70,31 +70,6 @@ public class ManagerService {
         return savedAcc;
     }
 
-    public Manager UpdateName(Long id, String name) {
-        Manager existingAcc = accountRepository.getById(id);
-        if (existingAcc == null) return null;
-        existingAcc.setName(name);
-        accountRepository.save(existingAcc);
-        return existingAcc;
-    }
-
-    public Manager UpdateSurname(Long id, String surname) {
-        Manager existingAcc = accountRepository.getById(id);
-        if (existingAcc == null) return null;
-        existingAcc.setSurname(surname);
-        accountRepository.save(existingAcc);
-        return existingAcc;
-    }
-
-    public Manager UpdateEmail(Long id, String email) {
-        Manager existingAcc = accountRepository.getById(id);
-        if (existingAcc == null) return null;
-        existingAcc.setEmail(email);
-        accountRepository.save(existingAcc);
-        return existingAcc;
-    }
-
-
     public Manager UpdatePassword(Long id, String password) {
         Manager existingAcc = accountRepository.getById(id);
         if (existingAcc == null) return null;
@@ -104,7 +79,6 @@ public class ManagerService {
         accountRepository.save(existingAcc);
         return existingAcc;
     }
-
 
     public Manager updateUser(Long id, Manager updatedUserData) {
         Manager existingAcc = accountRepository.getById(id);
