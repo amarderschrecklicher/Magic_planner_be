@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -68,6 +69,20 @@ class ManagerController {
         );
 
         return ResponseEntity.ok().body(newAccount);
+    }
+    @PostMapping(path = "/login")
+    public ResponseEntity<?> login(@RequestBody Map<String, String> loginRequest) {
+        String username = loginRequest.get("username");
+        String password = loginRequest.get("password");
+
+        Manager manager = accountService.GetAccountByCredentials(username, password);
+        if (manager != null) {
+            // Ako korisnik postoji i lozinke se poklapaju, vrati korisnika kao odgovor
+            return ResponseEntity.ok(manager);
+        } else {
+            // Ako korisnik ne postoji ili lozinke nisu ispravne, vrati odgovarajući status
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
+        }
     }
 
     @PutMapping(path = "/name/{id}")
