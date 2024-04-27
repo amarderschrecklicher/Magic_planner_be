@@ -5,11 +5,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ba.unsa.etf.cehajic.hcehajic2.appback.child.Child;
 import ba.unsa.etf.cehajic.hcehajic2.appback.child.ChildService;
+import ba.unsa.etf.cehajic.hcehajic2.appback.usersettings.UserSettingsService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.UserRecord.CreateRequest;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,11 +26,13 @@ class ManagerController {
 
     private final ManagerService accountService;
     private final ChildService childService;
+    private final UserSettingsService settingsService;
 
     @Autowired
-    public ManagerController(ManagerService accountService,ChildService childService) {
+    public ManagerController(ManagerService accountService,ChildService childService,UserSettingsService settingsService) {
         this.accountService = accountService;
         this.childService = childService;
+        this.settingsService = settingsService;
     }
 
     @GetMapping
@@ -66,6 +73,20 @@ class ManagerController {
                 requestDTO.getPassword(),
                 requestDTO.getDateOfBirth()
         );
+
+        CreateRequest request = new CreateRequest()
+        .setEmail(newAccount.getEmail())
+        .setPassword(newAccount.getPassword())
+        .setDisplayName(requestDTO.getName()+ " "+ requestDTO.getSurname())
+        .setEmailVerified(true);     
+
+        try {
+            FirebaseAuth.getInstance().createUser(request);
+            settingsService.CreateUserSettingsDefault(newAccount.getId());
+
+        } catch (FirebaseAuthException e) {
+            e.printStackTrace();
+        };   
 
         return ResponseEntity.ok().body(newAccount);
     }

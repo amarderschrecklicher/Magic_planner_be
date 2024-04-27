@@ -33,6 +33,7 @@ public class UserSettings {
 
     private String phoneLoginString;
 
+
     public UserSettings(Long accountId, String font, int fontSize, String colorOfPriorityTask, String colorOfNormalTask, String colorForSubtask, String colorForFont, String colorForBackground, String colorForProgress) {
         this.child = new Child();
         this.child.setId(accountId);
@@ -63,6 +64,7 @@ public class UserSettings {
         this.colorForBackground = "#000000";
         this.colorForProgress = "#000000";
         this.phoneLoginString = id + generateRandomString(5) + id;
+
     }
 
     public Long getId() {
@@ -152,6 +154,7 @@ public class UserSettings {
     public void setPhoneLoginString(String phoneLoginString) {
         this.phoneLoginString = phoneLoginString;
     }
+
 
     public static String generateRandomString(int length) {
         String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";

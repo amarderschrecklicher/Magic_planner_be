@@ -48,6 +48,7 @@ public class Child {
         this.special = special;
         this.manager = new Manager();
         this.manager.setId(managerId);
+        this.password = password;
     }
 
     public Child(String name, String surname, String email, LocalDate dateOfBirth) {

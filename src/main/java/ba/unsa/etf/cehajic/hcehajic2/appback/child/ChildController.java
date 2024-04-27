@@ -5,11 +5,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ba.unsa.etf.cehajic.hcehajic2.appback.manager.Manager;
 import ba.unsa.etf.cehajic.hcehajic2.appback.manager.ManagerService;
+import ba.unsa.etf.cehajic.hcehajic2.appback.usersettings.UserSettingsService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.UserRecord;
+import com.google.firebase.auth.UserRecord.CreateRequest;
 
 import java.util.List;
 
@@ -20,11 +26,13 @@ class ChildController {
 
     private final ChildService accountService;
     private final ManagerService managerService;
+    private final UserSettingsService settingsService;
 
     @Autowired
-    public ChildController(ChildService accountService, ManagerService managerService) {
+    public ChildController(ChildService accountService, ManagerService managerService,UserSettingsService settingsService) {
         this.accountService = accountService;
         this.managerService = managerService;
+        this.settingsService = settingsService;
     }
 
     @GetMapping
@@ -54,8 +62,24 @@ class ChildController {
                 requestDTO.getEmail(),
                 requestDTO.getPassword()
         );
+
         Manager m = managerService.getManagerById(requestDTO.getManagerId());
         newAccount.setManager(m);
+
+        CreateRequest request = new CreateRequest()
+               .setEmail(newAccount.getEmail())
+               .setPassword(newAccount.getPassword())
+               .setDisplayName(requestDTO.getName()+ " "+ requestDTO.getSurname())
+               .setEmailVerified(true);     
+
+       try {
+
+        FirebaseAuth.getInstance().createUser(request);
+        settingsService.CreateUserSettingsDefault(newAccount.getId());
+
+    } catch (FirebaseAuthException e) {
+        e.printStackTrace();
+    };   
         
         return ResponseEntity.ok().body(newAccount);
     }
