@@ -34,7 +34,7 @@ public class Child {
     private Manager manager;
     private LocalDate dateOfBirth;
     private String email;
-    private String password;
+    private String Password;
 
     public Child(){};
     public Child(String name, String surname, LocalDate dateOfBirth,boolean male, String qualities, String preferences, String special, Long managerId, String email ,String password) {
@@ -46,6 +46,7 @@ public class Child {
         this.kidMale = male;
         this.preferences = preferences;
         this.special = special;
+        this.Password = password;
         this.manager = new Manager();
         this.manager.setId(managerId);
         this.password = password;
@@ -120,11 +121,11 @@ public class Child {
         this.email = email;
     }
     public String getPassword() {
-        return password;
+        return Password;
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.Password = password;
     }
 
 

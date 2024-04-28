@@ -32,14 +32,16 @@ public class ManagerService {
         List<Manager> possible = GetAllAccounts();
         Manager obj = null;
         for (Manager acc : possible) {
-            if (acc.getPassword().equals(pass)
-             && (acc.getUsername().equals(accName)
-                || acc.getEmail().equals(accName))) {
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+            if (acc.getPassword() != null && encoder.matches(pass, acc.getPassword())
+                    && (acc.getUsername().equals(accName) || acc.getEmail().equals(accName))) {
                 obj = acc;
                 break;
             }
         }
-        if (obj == null) System.out.println("User doesn't exist!");
+        if (obj == null) {
+            System.out.println("User doesn't exist!");
+        }
         return obj;
     }
 
@@ -68,31 +70,6 @@ public class ManagerService {
         return savedAcc;
     }
 
-    public Manager UpdateName(Long id, String name) {
-        Manager existingAcc = accountRepository.getById(id);
-        if (existingAcc == null) return null;
-        existingAcc.setName(name);
-        accountRepository.save(existingAcc);
-        return existingAcc;
-    }
-
-    public Manager UpdateSurname(Long id, String surname) {
-        Manager existingAcc = accountRepository.getById(id);
-        if (existingAcc == null) return null;
-        existingAcc.setSurname(surname);
-        accountRepository.save(existingAcc);
-        return existingAcc;
-    }
-
-    public Manager UpdateEmail(Long id, String email) {
-        Manager existingAcc = accountRepository.getById(id);
-        if (existingAcc == null) return null;
-        existingAcc.setEmail(email);
-        accountRepository.save(existingAcc);
-        return existingAcc;
-    }
-
-
     public Manager UpdatePassword(Long id, String password) {
         Manager existingAcc = accountRepository.getById(id);
         if (existingAcc == null) return null;
@@ -102,7 +79,6 @@ public class ManagerService {
         accountRepository.save(existingAcc);
         return existingAcc;
     }
-
 
     public Manager updateUser(Long id, Manager updatedUserData) {
         Manager existingAcc = accountRepository.getById(id);
