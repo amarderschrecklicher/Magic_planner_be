@@ -58,7 +58,39 @@ public class ChildService {
         return savedAcc;
     }
 
+    public Child updateEmployee(Long id, Child updatedUserData) {
+        Child existingChild = accountRepository.getById(id);
 
+        if (existingChild == null) return null;
+
+        if (updatedUserData.getName() != null) {
+            existingChild.setName(updatedUserData.getName());
+        }
+        if (updatedUserData.getSurname() != null) {
+            existingChild.setSurname(updatedUserData.getSurname());
+        }
+        if (updatedUserData.getEmail() != null) {
+            existingChild.setEmail(updatedUserData.getEmail());
+        }
+        if (updatedUserData.getDateOfBirth() != null) {
+            existingChild.setDateOfBirth(updatedUserData.getDateOfBirth());
+        }
+        if (updatedUserData.getKidMale() != null) {
+            existingChild.setKidMale(updatedUserData.getKidMale());
+        }
+        if (updatedUserData.getQualities() != null) {
+            existingChild.setQualities(updatedUserData.getQualities());
+        }
+        if (updatedUserData.getPreferences() != null) {
+            existingChild.setPreferences(updatedUserData.getPreferences());
+        }
+        if (updatedUserData.getSpecial() != null) {
+            existingChild.setSpecial(updatedUserData.getSpecial());
+        }
+
+        accountRepository.save(existingChild);
+        return existingChild;
+    }
     public Child UpdateUser(Long id, String name,String surname,String email,String password,Manager manager) {
         Child existingAcc = accountRepository.getById(id);
         if (existingAcc == null) return null;
