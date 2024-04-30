@@ -109,6 +109,10 @@ public class ManagerService {
         accountRepository.deleteAll();
     }
 
+    public void deleteManagerById(Long id) {
+        accountRepository.deleteById(id);
+    }
+
     public boolean existsByEmail(String email) {
         return accountRepository.existsByEmail(email);
     }
