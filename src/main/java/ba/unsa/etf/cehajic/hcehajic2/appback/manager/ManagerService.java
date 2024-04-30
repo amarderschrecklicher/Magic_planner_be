@@ -109,4 +109,8 @@ public class ManagerService {
         accountRepository.deleteAll();
     }
 
+    public boolean existsByEmail(String email) {
+        return accountRepository.existsByEmail(email);
+    }
+
     }

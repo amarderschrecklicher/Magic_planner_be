@@ -33,6 +33,7 @@ public class Child {
     @JoinColumn(name = "managerId") // Specify the name of the foreign key column
     private Manager manager;
     private LocalDate dateOfBirth;
+    @Column(unique = true)
     private String email;
     private String Password;
 

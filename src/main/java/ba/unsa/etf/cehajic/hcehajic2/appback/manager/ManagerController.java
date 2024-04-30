@@ -63,9 +63,14 @@ class ManagerController {
     }
 
     @PostMapping(path = "/create")
-    public ResponseEntity<Manager> addNewAccount(@RequestBody ManagerRequestDTO requestDTO) {
+    public ResponseEntity<?> addNewAccount(@RequestBody ManagerRequestDTO requestDTO) {
         System.out.println("Creating new User!");
 
+        if (accountService.existsByEmail(requestDTO.getEmail())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+            .body("Email already exists");
+        }
+        
         Manager newAccount = accountService.CreateNewAccount(
                 requestDTO.getName(),
                 requestDTO.getSurname(),
@@ -91,6 +96,8 @@ class ManagerController {
 
         return ResponseEntity.ok().body(newAccount);
     }
+
+    
     @PostMapping(path = "/login")
     public ResponseEntity<?> login(@RequestBody Map<String, String> loginRequest) {
         String username = loginRequest.get("username");

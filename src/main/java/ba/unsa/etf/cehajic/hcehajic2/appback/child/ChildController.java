@@ -47,8 +47,13 @@ class ChildController {
     }
 
     @PostMapping(path = "/create")
-    public ResponseEntity<Child> addNewChild(@RequestBody ChildRequestDTO requestDTO) {
+    public ResponseEntity<?> addNewChild(@RequestBody ChildRequestDTO requestDTO) {
         System.out.println("Creating new User!");
+
+        if (accountService.existsByEmail(requestDTO.getEmail())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+            .body("Email already exists");
+        }
 
         Child newAccount = accountService.CreateNewAccount(
                 requestDTO.getName(),

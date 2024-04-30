@@ -97,4 +97,8 @@ public class ChildService {
         
         return existingAcc;
     }
+
+    public boolean existsByEmail(String email) {
+        return accountRepository.existsByEmail(email);
+    }
 }

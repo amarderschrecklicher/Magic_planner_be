@@ -24,6 +24,7 @@ public class Manager {
     private String Name;
     private String Surname;
     private String Password;
+    @Column(unique = true)
     private String email;
     private Boolean kidMale;
     @Transient
