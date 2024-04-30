@@ -137,7 +137,7 @@ class ManagerController {
         }
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteManagerById(@PathVariable Long id) {
         accountService.deleteManagerById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
