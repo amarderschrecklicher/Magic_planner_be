@@ -3,6 +3,9 @@ package ba.unsa.etf.cehajic.hcehajic2.appback.child;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import ba.unsa.etf.cehajic.hcehajic2.appback.manager.Manager;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.LocalDate;
@@ -56,10 +59,24 @@ public class ChildService {
     }
 
 
-    public Child UpdateName(Long id, String name) {
+    public Child UpdateUser(Long id, String name,String surname,String email,String password,Manager manager) {
         Child existingAcc = accountRepository.getById(id);
         if (existingAcc == null) return null;
+        
+        if(name!=null)
         existingAcc.setName(name);
+        if(surname!=null)
+        existingAcc.setSurname(surname);
+        if(email!=null)
+        existingAcc.setEmail(email);
+        if(password!=null){
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String hashedPassword = passwordEncoder.encode(password);
+        existingAcc.setPassword(hashedPassword);
+        }
+        if(manager!=null)
+        existingAcc.setManager(manager);
+
         accountRepository.save(existingAcc);
         return existingAcc;
     }
@@ -101,4 +118,5 @@ public class ChildService {
     public boolean existsByEmail(String email) {
         return accountRepository.existsByEmail(email);
     }
+
 }

@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
-import com.google.firebase.auth.UserRecord;
 import com.google.firebase.auth.UserRecord.CreateRequest;
 
 import java.util.List;
@@ -89,67 +88,31 @@ class ChildController {
         return ResponseEntity.ok().body(newAccount);
     }
 
-    @PutMapping(path = "/name/{id}")
-    public ResponseEntity<Child> updateName(@PathVariable("id") Long id, @RequestBody String nameJson) {
+    @PutMapping(path = "/update/{id}")
+    public ResponseEntity<Child> updateUser(@PathVariable("id") Long id, @RequestBody String updatedUserData) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode jsonNode = objectMapper.readTree(nameJson);
-            String name = jsonNode.get("name").asText();
+            JsonNode jsonNode = objectMapper.readTree(updatedUserData);
+            
 
-            Child updatedUser = accountService.UpdateName(id, name);
+            String name = jsonNode.has("name") ? jsonNode.get("name").asText() : null;
+            String surname = jsonNode.has("surname") ? jsonNode.get("surname").asText() : null;
+            String email = jsonNode.has("email") ? jsonNode.get("email").asText() : null;
+            String pass = jsonNode.has("password") ? jsonNode.get("password").asText() : null;
+            Long managerId = jsonNode.has("managerId") ? jsonNode.get("managerId").asLong() : null;
+
+           
+
+            Manager manager = managerService.getManagerById(managerId); 
+            
+            System.out.println(manager);
+
+            Child updatedUser = accountService.UpdateUser(id,name,surname,email,pass,manager);
 
             return ResponseEntity.ok(updatedUser);
 
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-    }
-
-    @PutMapping(path = "/surname/{id}")
-    public ResponseEntity<Child> updateSurname(@PathVariable("id") Long id, @RequestBody String surnameJson) {
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode jsonNode = objectMapper.readTree(surnameJson);
-            String surname = jsonNode.get("surname").asText();
-
-            Child updatedUser = accountService.UpdateSurname(id, surname);
-
-            return ResponseEntity.ok(updatedUser);
-
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-    }
-
-    @PutMapping(path = "/email/{id}")
-    public ResponseEntity<Child> updateEmail(@PathVariable("id") Long id, @RequestBody String emailJson) {
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode jsonNode = objectMapper.readTree(emailJson);
-            String surname = jsonNode.get("email").asText();
-
-            Child updatedUser = accountService.UpdateEmail(id, surname);
-
-            return ResponseEntity.ok(updatedUser);
-
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-    }
-
-    @PutMapping(path = "/password/{id}")
-    public ResponseEntity<Child> updatePassword(@PathVariable("id") Long id, @RequestBody String passJson) {
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode jsonNode = objectMapper.readTree(passJson);
-            String pass = jsonNode.get("password").asText();
-
-            Child updatedUser = accountService.updatePassword(id, pass);
-
-            return ResponseEntity.ok(updatedUser);
-
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
