@@ -2,28 +2,14 @@ package ba.unsa.etf.cehajic.hcehajic2.appback.material;
 
 import java.util.Arrays;
 
-import javax.persistence.*;
-
-@Entity
-@Table
 public class Material {
 
-    @Id
-    @SequenceGenerator(
-            name = "material_sequence_new",
-            sequenceName = "material_sequence_new",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "material_sequence_new"
-    )
     private Long id;
-    private String name; // Name of the media file
-    private String contentType; // Content type (e.g., image/jpeg, video/mp4)
-    private byte[] data; // Binary data of the media file
+    private String name;
+    private String contentType;
+    private byte[] data;
 
-    // Add constructors
+    // Constructor
     public Material() {
     }
 
@@ -33,15 +19,7 @@ public class Material {
         this.data = data;
     }
 
-    // Add getters and setters for all attributes
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
+    // Getters and setters
     public String getName() {
         return name;
     }
@@ -66,15 +44,23 @@ public class Material {
         this.data = data;
     }
 
-    // Add toString method
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    // toString method
     @Override
     public String toString() {
-        return "Material{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
+        return "MaterialRequestDTO{" +
+                "name='" + name + '\'' +
                 ", contentType='" + contentType + '\'' +
                 ", data=" + Arrays.toString(data) +
                 '}';
     }
-   
+
+
 }

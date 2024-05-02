@@ -4,23 +4,27 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 /*
-@Configuration
-public class SubTaskConfig {
- 
-    @Configuration
-    public class TaskConfig {
-        @Bean
-        CommandLineRunner commandLineRunnerUserSettings(SubTaskRepository repository) {
-            return args -> {
-                SubTask t1 = new SubTask("Prvi dio",Long.valueOf(1));
-                SubTask t2 = new SubTask("Drugi dio",Long.valueOf(1));
-                SubTask t3 = new SubTask("Prvi dio",Long.valueOf(2));
-                SubTask t4 = new SubTask("Drugi dio",Long.valueOf(2));
-                repository.save(t1);
-                repository.save(t2);
-                repository.save(t3);
-                repository.save(t4);
-            };
-        }
+    @Bean
+    CommandLineRunner commandLineRunnerMaterial(MaterialRepository repository) {
+        return args -> {
+            // Add photo
+            String photoName = "example_photo.jpg";
+            String photoContentType = "image/jpeg";
+            byte[] photoData = readMediaFileBytes("path/to/photo.jpg");
+            Material photoMaterial = new Material(photoName, photoContentType, photoData);
+            repository.save(photoMaterial);
+
+            // Add video
+            String videoName = "example_video.mp4";
+            String videoContentType = "video/mp4";
+            byte[] videoData = readMediaFileBytes("path/to/video.mp4");
+            Material videoMaterial = new Material(videoName, videoContentType, videoData);
+            repository.save(videoMaterial);
+        };
     }
-}*/
+
+    private byte[] readMediaFileBytes(String filePath) throws IOException {
+        // Read the media file as bytes
+        Path path = Paths.get(filePath);
+        return Files.readAllBytes(path);
+    }*/

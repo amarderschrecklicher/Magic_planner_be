@@ -4,44 +4,40 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("/api/v1/task/sub")
+@RequestMapping("/api/v1/material")
 @CrossOrigin
 class MaterialController {
 
-    private final MaterialService subTaskService;
+    private final MaterialService materialService;
 
     @Autowired
-    public MaterialController(MaterialService subTaskService) {
-        this.subTaskService = subTaskService;
+    public MaterialController(MaterialService materialService) {
+        this.materialService= materialService;
     }
 
-    @GetMapping
-    public List<Material> getAllSubTasks() {
-        return subTaskService.GetAllSubTasks();
+    @PostMapping("/save")
+    public ResponseEntity<Material> createMaterial(@RequestBody Material requestDTO) throws Exception {
+        Material createdMaterial = materialService.saveMaterial(requestDTO);
+        return ResponseEntity.ok().body(createdMaterial);
     }
 
-    @GetMapping(path="/{id}")
-    public List<Material> getSubsForTask(@PathVariable("id") Long id) {
-        return subTaskService.GetSubsForTask(id);
+    @GetMapping("/{id}")
+    public ResponseEntity<Material> getMaterialById(@PathVariable Long id) throws Exception {
+        Material material = materialService.getMaterialById(id);
+        return ResponseEntity.ok().body(material);
     }
 
-    @PostMapping
-    public ResponseEntity<Material> addNewSubTask(@RequestBody Material subTask) {
-        Material newSubTask = subTaskService.AddNewSubTask(subTask);
-        return ResponseEntity.ok().body(newSubTask);
+    @PutMapping("/{id}")
+    public ResponseEntity<Material> updateMaterial(@PathVariable Long id, @RequestBody Material requestDTO) throws Exception {
+        Material material = new Material(requestDTO.getName(),requestDTO.getContentType(),requestDTO.getData());
+        Material updatedMaterial = materialService.updateMaterial(id, material);
+        return ResponseEntity.ok().body(updatedMaterial);
     }
 
-    @PutMapping(path = "/done/{id}")
-    public void finishSubTask(@PathVariable Long id) {
-        subTaskService.FinishSubTask(id);
-    }
-
-    @DeleteMapping(path={"/{subId}"})
-    public void deleteTask(@PathVariable("subId") Long subId) {
-        System.out.println("Delete called!");
-        subTaskService.deleteTask(subId);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteMaterial(@PathVariable Long id) throws Exception {
+        materialService.deleteMaterial(id);
+        return ResponseEntity.noContent().build();
     }
 }
