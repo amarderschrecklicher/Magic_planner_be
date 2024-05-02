@@ -29,12 +29,12 @@ public class SubTask {
         done = false;
     }
 
-    public SubTask(String description,Long taskId) {
+    public SubTask(String description, Task task) {
         this.description = description;
-        this.task = new Task();
-        this.task.setId(taskId);
+        this.task = task;
         this.done = false;
     }
+
 
     public Long getId() {
         return id;

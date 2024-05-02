@@ -1,5 +1,7 @@
 package ba.unsa.etf.cehajic.hcehajic2.appback.subtask;
 
+import ba.unsa.etf.cehajic.hcehajic2.appback.task.Task;
+import ba.unsa.etf.cehajic.hcehajic2.appback.task.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,10 +14,12 @@ import java.util.List;
 class SubTaskController {
 
     private final SubTaskService subTaskService;
+    private final TaskService taskService;
 
     @Autowired
-    public SubTaskController(SubTaskService subTaskService) {
+    public SubTaskController(SubTaskService subTaskService, TaskService taskService) {
         this.subTaskService = subTaskService;
+        this.taskService = taskService;
     }
 
     @GetMapping
@@ -30,9 +34,16 @@ class SubTaskController {
 
     @PostMapping
     public ResponseEntity<SubTask> addNewSubTask(@RequestBody SubTask subTask) {
+        Task task = taskService.getTaskById(subTask.getTask().getId());
+        if (task == null) {
+            // Handle case where task with given ID doesn't exist
+            return ResponseEntity.badRequest().build();
+        }
+        subTask.setTask(task);
         SubTask newSubTask = subTaskService.AddNewSubTask(subTask);
         return ResponseEntity.ok().body(newSubTask);
     }
+
 
     @PutMapping(path = "/done/{id}")
     public void finishSubTask(@PathVariable Long id) {
