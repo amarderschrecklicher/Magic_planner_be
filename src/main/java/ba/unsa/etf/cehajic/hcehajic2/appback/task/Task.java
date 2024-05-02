@@ -33,21 +33,21 @@ public class Task {
     private String difficulty;
     public Task() {  priority = false; done = false;  }
 
-    public Task(String taskName, String description, LocalDate dateOfCreation, String dueTime, Long accountId,String difficulty) {
+    /*public Task(String taskName, String description, LocalDate dateOfCreation, String dueTime, Long accountId,String difficulty) {
         this(taskName, description, dateOfCreation, dueTime, accountId, false,difficulty);
-    }
+    }*/
 
-    public Task(String taskName, String description, LocalDate dateOfCreation, String dueTime, Long accountId, boolean priority, String difficulty) {
+    public Task(String taskName, String description, LocalDate dateOfCreation, String dueTime, Child child, boolean priority, boolean done, String difficulty) {
         this.taskName = taskName;
         this.description = description;
         this.dueDate = dateOfCreation;
         this.dueTime = dueTime;
-        this.child = new Child();
-        this.child.setId(accountId);
+        this.child = child;
         this.priority = priority;
-        this.done = false;
+        this.done = done;
         this.difficulty = difficulty;
     }
+
 
     public Task(String taskName, String description, LocalDate dateOfCreation, String dueTime, Long accountId, boolean priority, boolean done,String difficulty) {
         this.taskName = taskName;

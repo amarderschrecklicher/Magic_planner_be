@@ -1,5 +1,7 @@
 package ba.unsa.etf.cehajic.hcehajic2.appback.task;
 
+import ba.unsa.etf.cehajic.hcehajic2.appback.subtask.SubTask;
+import ba.unsa.etf.cehajic.hcehajic2.appback.subtask.SubTaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,10 +14,12 @@ import java.util.List;
 public class TaskService {
 
     private final TaskRepository taskRepository;
+    private final SubTaskRepository subTaskRepository;
 
     @Autowired
-    public TaskService(TaskRepository taskRepository) {
+    public TaskService(TaskRepository taskRepository, SubTaskRepository subTaskRepository) {
         this.taskRepository = taskRepository;
+        this.subTaskRepository = subTaskRepository;
     }
 
     public List<Task> GetAllTasks() {
@@ -30,6 +34,9 @@ public class TaskService {
                 matching.add(tasks.get(i));
 
         return matching;
+    }
+    public Task getTaskById(Long id) {
+        return taskRepository.findById(id).orElse(null);
     }
 
     public List<Task> GetDoneTasksForAccount(Long id) {
@@ -53,12 +60,25 @@ public class TaskService {
     }
 
     public Task AddNewTask(Task task) {
+        task.setChild(task.getChild());
         taskRepository.save(task);
         return task;
     }
 
+
     public void deleteTask(Long id) {
+        deleteSubtasksByTaskId(id);
+
         taskRepository.deleteById(id);
+    }
+
+    private void deleteSubtasksByTaskId(Long taskId) {
+        List<SubTask> subTasks = subTaskRepository.findAll();
+        for (SubTask subTask : subTasks) {
+            if (subTask.getTask().getId() == taskId) {
+                subTaskRepository.delete(subTask);
+            }
+        }
     }
 
     public Task FinishTask(Long id) {
