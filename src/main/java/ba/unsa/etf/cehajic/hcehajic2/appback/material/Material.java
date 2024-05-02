@@ -1,8 +1,8 @@
 package ba.unsa.etf.cehajic.hcehajic2.appback.material;
 
-import javax.persistence.*;
+import java.util.Arrays;
 
-import ba.unsa.etf.cehajic.hcehajic2.appback.task.Task;
+import javax.persistence.*;
 
 @Entity
 @Table
@@ -10,32 +10,30 @@ public class Material {
 
     @Id
     @SequenceGenerator(
-            name = "sub_task_sequence_new",
-            sequenceName = "sub_task_sequence_new",
+            name = "material_sequence_new",
+            sequenceName = "material_sequence_new",
             allocationSize = 1
     )
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
-            generator = "sub_task_sequence_new"
+            generator = "material_sequence_new"
     )
     private Long id;
-    private String description;
-    private Boolean done;
-    @ManyToOne
-    @JoinColumn(name = "taskId") // Specify the name of the foreign key column
-    private Task task;
+    private String name; // Name of the media file
+    private String contentType; // Content type (e.g., image/jpeg, video/mp4)
+    private byte[] data; // Binary data of the media file
 
+    // Add constructors
     public Material() {
-        done = false;
     }
 
-    public Material(String description,Long taskId) {
-        this.description = description;
-        this.task = new Task();
-        this.task.setId(taskId);
-        this.done = false;
+    public Material(String name, String contentType, byte[] data) {
+        this.name = name;
+        this.contentType = contentType;
+        this.data = data;
     }
 
+    // Add getters and setters for all attributes
     public Long getId() {
         return id;
     }
@@ -44,37 +42,39 @@ public class Material {
         this.id = id;
     }
 
-    public String getDescription() {
-        return description;
+    public String getName() {
+        return name;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setName(String name) {
+        this.name = name;
     }
 
-
-    public Task getTask() {
-        return task;
+    public String getContentType() {
+        return contentType;
     }
 
-    public void setTask(Task task) {
-        this.task = task;
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
     }
 
-    public Boolean getDone() {
-        return done;
+    public byte[] getData() {
+        return data;
     }
 
-    public void setDone(Boolean done) {
-        this.done = done;
+    public void setData(byte[] data) {
+        this.data = data;
     }
 
+    // Add toString method
     @Override
     public String toString() {
-        return "SubTask{" +
+        return "Material{" +
                 "id=" + id +
-                ", description='" + description + '\'' +
-                ", done=" + done +
+                ", name='" + name + '\'' +
+                ", contentType='" + contentType + '\'' +
+                ", data=" + Arrays.toString(data) +
                 '}';
     }
+   
 }
