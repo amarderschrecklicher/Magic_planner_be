@@ -133,4 +133,10 @@ class ChildController {
              .body("An error occurred while deleting all accounts.");
         }
     }
+
+    @DeleteMapping(path = {"/{childId}"})
+    public void deleteEmployee(@PathVariable("childId") Long childId) {
+        System.out.println("Delete called!");
+        accountService.deleteEmployee(childId);
+    }
 }

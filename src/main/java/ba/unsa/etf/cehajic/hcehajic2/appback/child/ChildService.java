@@ -1,5 +1,8 @@
 package ba.unsa.etf.cehajic.hcehajic2.appback.child;
 
+import ba.unsa.etf.cehajic.hcehajic2.appback.subtask.SubTask;
+import ba.unsa.etf.cehajic.hcehajic2.appback.usersettings.UserSettings;
+import ba.unsa.etf.cehajic.hcehajic2.appback.usersettings.UserSettingsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,10 +19,12 @@ import java.util.List;
 public class ChildService {
 
     private final ChildRepository accountRepository;
+    private final UserSettingsRepository userSettingsRepository;
 
     @Autowired
-    public ChildService(ChildRepository accountRepository) {
+    public ChildService(ChildRepository accountRepository, UserSettingsRepository userSettingsRepository) {
         this.accountRepository = accountRepository;
+        this.userSettingsRepository = userSettingsRepository;
     }
 
     public List<Child> GetAllChildren() {
@@ -145,6 +150,21 @@ public class ChildService {
         accountRepository.save(existingAcc);
         
         return existingAcc;
+    }
+
+    public void deleteEmployee(Long id) {
+        deleteUserSettingsByChildId(id);
+
+        accountRepository.deleteById(id);
+    }
+
+    private void deleteUserSettingsByChildId(Long childId) {
+        List<UserSettings> userSettings = userSettingsRepository.findAll();
+        for (UserSettings userSetting : userSettings) {
+            if (userSetting.getChild().getId() == childId) {
+                userSettingsRepository.delete(userSetting);
+            }
+        }
     }
 
     public boolean existsByEmail(String email) {
