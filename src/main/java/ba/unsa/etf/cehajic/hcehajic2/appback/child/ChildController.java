@@ -102,33 +102,26 @@ class ChildController {
         }
     }
 
-    /*@PutMapping(path = "/update/{id}")
+    @PutMapping(path = "/update/manager/{id}")
     public ResponseEntity<Child> updateUser(@PathVariable("id") Long id, @RequestBody String updatedUserData) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode jsonNode = objectMapper.readTree(updatedUserData);
 
-
-            String name = jsonNode.has("name") ? jsonNode.get("name").asText() : null;
-            String surname = jsonNode.has("surname") ? jsonNode.get("surname").asText() : null;
-            String email = jsonNode.has("email") ? jsonNode.get("email").asText() : null;
-            String pass = jsonNode.has("password") ? jsonNode.get("password").asText() : null;
             Long managerId = jsonNode.has("managerId") ? jsonNode.get("managerId").asLong() : null;
-
-
 
             Manager manager = managerService.getManagerById(managerId);
 
             System.out.println(manager);
 
-            Child updatedUser = accountService.UpdateUser(id,name,surname,email,pass,manager);
+            Child updatedUser = accountService.UpdateUser(null,null,null,null,null,manager);
 
             return ResponseEntity.ok(updatedUser);
 
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-    }*/
+    }
 
     @DeleteMapping
     public ResponseEntity<String> deleteAllAccounts() {

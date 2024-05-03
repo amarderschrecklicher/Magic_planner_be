@@ -36,7 +36,6 @@ class SubTaskController {
     public ResponseEntity<SubTask> addNewSubTask(@RequestBody SubTask subTask) {
         Task task = taskService.getTaskById(subTask.getTask().getId());
         if (task == null) {
-            // Handle case where task with given ID doesn't exist
             return ResponseEntity.badRequest().build();
         }
         subTask.setTask(task);
