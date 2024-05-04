@@ -27,13 +27,8 @@ public class TaskService {
     }
 
     public List<Task> GetTasksForAccount(Long id) {
-        List<Task> tasks = GetAllTasks();
-        List<Task> matching = new ArrayList<>();
-        for (int i = 0; i < tasks.size(); i++)
-            if (tasks.get(i).getChild().getId() == id)
-                matching.add(tasks.get(i));
 
-        return matching;
+        return taskRepository.findByChildId(id);
     }
     public Task getTaskById(Long id) {
         return taskRepository.findById(id).orElse(null);
@@ -60,7 +55,6 @@ public class TaskService {
     }
 
     public Task AddNewTask(Task task) {
-        task.setChild(task.getChild());
         taskRepository.save(task);
         return task;
     }

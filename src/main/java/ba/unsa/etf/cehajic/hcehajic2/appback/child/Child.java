@@ -9,7 +9,7 @@ import ba.unsa.etf.cehajic.hcehajic2.appback.manager.Manager;
 
 @Entity
 @Table
-@JsonIgnoreProperties({"age","hibernateLazyInitializer"})
+@JsonIgnoreProperties({"age","hibernateLazyInitializer","username"})
 public class Child {
 
     @Id

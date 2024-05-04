@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import ba.unsa.etf.cehajic.hcehajic2.appback.child.Child;
+import ba.unsa.etf.cehajic.hcehajic2.appback.child.ChildService;
 import ba.unsa.etf.cehajic.hcehajic2.appback.token.Token;
 import ba.unsa.etf.cehajic.hcehajic2.appback.token.TokenService;
 
@@ -23,11 +25,13 @@ class TaskController {
 
     private final TaskService taskService;
     private final TokenService tokenService;
+    private final ChildService childService;
 
     @Autowired
-    public TaskController(TaskService taskService, TokenService tokenService) {
+    public TaskController(TaskService taskService, TokenService tokenService,ChildService childService) {
         this.taskService = taskService;
         this.tokenService = tokenService;
+        this.childService = childService;
     }
 
     @GetMapping
@@ -52,6 +56,10 @@ class TaskController {
 
     @PostMapping
     public ResponseEntity<Task> addNewTask(@RequestBody Task task) {
+        
+        Child child = childService.GetChildById(task.getChild().getId());
+        task.setChild(child);
+
         Task newTask = taskService.AddNewTask(task);
 
         List<Token> pushTokens = tokenService.GetTokensForAccount(task.getChild().getId());

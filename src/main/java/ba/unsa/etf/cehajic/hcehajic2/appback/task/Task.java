@@ -2,12 +2,15 @@ package ba.unsa.etf.cehajic.hcehajic2.appback.task;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import ba.unsa.etf.cehajic.hcehajic2.appback.child.Child;
 
 import java.time.LocalDate;
 
 @Entity
 @Table
+@JsonIgnoreProperties({"username"})
 public class Task {
 
     @Id
