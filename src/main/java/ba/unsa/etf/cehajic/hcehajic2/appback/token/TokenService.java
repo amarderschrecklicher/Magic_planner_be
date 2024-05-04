@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -43,13 +44,15 @@ public class TokenService {
     }
     
     public Token UpdateToken(Long id, String newToken){
-        java.util.Optional<Token> existingAcc = tokenRepository.findById(id);
-        Token acc = existingAcc.orElse(null);
-        if (acc == null) return null;
-        acc.setToken(newToken);
-        tokenRepository.save(acc);
 
-        return acc;
+        Optional<Token> existingToken = tokenRepository.findByChildId(id);
+        Token token = existingToken.orElse(null);
+        if (token == null) return null;
+        token.setToken(newToken);
+        tokenRepository.save(token);
+
+        return token;
     }
-    
+
+
 }
