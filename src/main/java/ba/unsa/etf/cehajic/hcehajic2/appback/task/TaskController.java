@@ -56,7 +56,7 @@ class TaskController {
 
     @PostMapping
     public ResponseEntity<Task> addNewTask(@RequestBody Task task) {
-        
+
         Child child = childService.GetChildById(task.getChild().getId());
         task.setChild(child);
 
@@ -66,19 +66,22 @@ class TaskController {
 
         // Send push notification to each token
         for (Token pushToken : pushTokens) {
-            sendPushNotification(pushToken, newTask.getTaskName());
+            sendPushNotification(pushToken,newTask);
         }
 
         return ResponseEntity.ok().body(newTask);
     }
 
-    private void sendPushNotification(Token pushToken, String taskName) {
+    private void sendPushNotification(Token pushToken,Task task) {
             try {
                 HttpHeaders headers = new HttpHeaders();
                 headers.setContentType(MediaType.APPLICATION_JSON);
                 headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
                 
-                String body = "{\"to\": \"" + pushToken.getToken() + "\", \"title\": \"" + "Imaš novi task!" + "\", \"body\": \"" + taskName + "\", \"sound\": \"default\" }";
+                String body = "{\"to\": \"" + pushToken.getToken() + "\", \"title\": \"" + 
+                "Imaš novi task!" + 
+                "\", \"body\": \"" 
+                + task + "\", \"sound\": \"default\" }";
                 HttpEntity<String> entity = new HttpEntity<>(body, headers);
 
                 String apiUrl = "https://exp.host/--/api/v2/push/send";
