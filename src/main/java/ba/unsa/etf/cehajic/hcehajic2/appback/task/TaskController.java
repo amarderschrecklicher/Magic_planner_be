@@ -81,7 +81,7 @@ class TaskController {
                 String body = "{\"to\": \"" + pushToken.getToken() + "\", \"title\": \"" + 
                 "Imaš novi task!" + 
                 "\", \"body\": \"" 
-                + task + "\", \"sound\": \"default\" }";
+                + task.getTaskName() + "\", \"sound\": \"default\", \"data\": {\"taskId\": " + task.getId() + ", \"dueDate\": \"" + task.getDueDate() + "\"}}";
                 HttpEntity<String> entity = new HttpEntity<>(body, headers);
 
                 String apiUrl = "https://exp.host/--/api/v2/push/send";

@@ -142,9 +142,9 @@ public class Task {
                 "id=" + id +
                 ", taskName='" + taskName + '\'' +
                 ", description='" + description + '\'' +
-                ", dueDate=" + dueDate +
-                ", dueTime=" + dueTime +
-                ", priority=" + priority +
+                ", dueDate=" + dueDate + '\'' +
+                ", dueTime=" + dueTime+ '\'' +
+                ", priority=" + priority+ '\'' +
                 ", done=" + done +
                 '}';
     }
