@@ -20,7 +20,7 @@ public class UserSettings {
     )
     private Long id;
     @OneToOne
-    @JoinColumn(name = "childId") // Specify the name of the foreign key column
+    @JoinColumn(name = "childId")
     private Child child;
     private String font;
     private int fontSize;

@@ -101,11 +101,15 @@ class TaskController {
         
     }
 
+    @PutMapping(path = "/start/{id}")
+    public void startTask(@PathVariable Long id) {
+        taskService.StartTask(id);
+    }
+
     @PutMapping(path = "/done/{id}")
     public void finishTask(@PathVariable Long id) {
         taskService.FinishTask(id);
     }
-
 
     @DeleteMapping(path = {"/{taskId}"})
     public void deleteTask(@PathVariable("taskId") Long taskId) {

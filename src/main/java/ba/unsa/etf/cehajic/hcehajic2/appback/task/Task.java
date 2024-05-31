@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import ba.unsa.etf.cehajic.hcehajic2.appback.child.Child;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table
@@ -23,24 +24,30 @@ public class Task {
             strategy = GenerationType.SEQUENCE,
             generator = "task_sequence_new"
     )
+
     private Long id;
     private String taskName;
     private String description;
     private LocalDate dueDate;
     private String dueTime;
+
     @ManyToOne
     @JoinColumn(name = "childId") // Specify the name of the foreign key column
     private Child child;
+
     private boolean priority;
     private boolean done;
     private String difficulty;
-    public Task() {  priority = false; done = false;  }
+    private LocalDateTime taskStart;
+    private LocalDateTime taskEnd;
 
-    /*public Task(String taskName, String description, LocalDate dateOfCreation, String dueTime, Long accountId,String difficulty) {
-        this(taskName, description, dateOfCreation, dueTime, accountId, false,difficulty);
-    }*/
+    public Task() { 
+        priority = false; 
+        done = false;  
+    }
 
-    public Task(String taskName, String description, LocalDate dateOfCreation, String dueTime, Child child, boolean priority, boolean done, String difficulty) {
+
+    public Task(String taskName, String description, LocalDate dateOfCreation, String dueTime, Child child, boolean priority, boolean done, String difficulty, LocalDateTime start, LocalDateTime end) {
         this.taskName = taskName;
         this.description = description;
         this.dueDate = dateOfCreation;
@@ -49,6 +56,8 @@ public class Task {
         this.priority = priority;
         this.done = done;
         this.difficulty = difficulty;
+        this.taskStart = start;
+        this.taskEnd = end;
     }
 
 
@@ -62,6 +71,8 @@ public class Task {
         this.priority = priority;
         this.done = done;
         this.difficulty = difficulty;
+        this.taskStart = null;
+        this.taskEnd = null;
     }
 
     public Long getId() {
@@ -136,16 +147,33 @@ public class Task {
         this.difficulty = difficulty;
     }
 
+    public void setStart(LocalDateTime start){
+        this.taskStart = start;
+    }
+    public LocalDateTime getStart(){
+        return taskStart;
+    }
+    public void setEnd(LocalDateTime end){
+        this.taskEnd = end;
+    }
+    public LocalDateTime getEnd(){
+        return taskEnd;
+    }
+
     @Override
     public String toString() {
         return "Task{" +
                 "id=" + id +
                 ", taskName='" + taskName + '\'' +
                 ", description='" + description + '\'' +
-                ", dueDate=" + dueDate + '\'' +
-                ", dueTime=" + dueTime+ '\'' +
-                ", priority=" + priority+ '\'' +
+                ", dueDate=" + dueDate +
+                ", dueTime='" + dueTime + '\'' +
+                ", child=" + (child != null ? child.getId() : null) +
+                ", priority=" + priority +
                 ", done=" + done +
+                ", difficulty='" + difficulty + '\'' +
+                ", start=" + taskStart +
+                ", end=" + taskEnd +
                 '}';
     }
 }

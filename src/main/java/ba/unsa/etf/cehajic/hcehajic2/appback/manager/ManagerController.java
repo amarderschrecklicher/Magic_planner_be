@@ -88,7 +88,6 @@ class ManagerController {
 
         try {
             FirebaseAuth.getInstance().createUser(request);
-            settingsService.CreateUserSettingsDefault(newAccount.getId());
 
         } catch (FirebaseAuthException e) {
             e.printStackTrace();

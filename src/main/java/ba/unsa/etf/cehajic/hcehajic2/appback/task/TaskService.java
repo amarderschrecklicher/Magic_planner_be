@@ -6,6 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.type.DateTime;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,10 +79,18 @@ public class TaskService {
         }
     }
 
+    public Task StartTask(Long id){
+        Task task = taskRepository.getById(id);
+        task.setStart(LocalDateTime.now());
+        taskRepository.save(task);
+        return task;
+    }
+
     public Task FinishTask(Long id) {
-        Task tOld = taskRepository.getById(id);
-        tOld.setDone(true);
-        taskRepository.save(tOld);
-        return tOld;
+        Task task = taskRepository.getById(id);
+        task.setDone(true);
+        task.setEnd(LocalDateTime.now());
+        taskRepository.save(task);
+        return task;
     }
 }
