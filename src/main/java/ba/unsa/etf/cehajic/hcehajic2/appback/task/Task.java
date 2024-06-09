@@ -2,11 +2,11 @@ package ba.unsa.etf.cehajic.hcehajic2.appback.task;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import ba.unsa.etf.cehajic.hcehajic2.appback.child.Child;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -28,17 +28,21 @@ public class Task {
     private Long id;
     private String taskName;
     private String description;
-    private LocalDate dueDate;
-    private String dueTime;
+
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime dueDateTime;
 
     @ManyToOne
-    @JoinColumn(name = "childId") // Specify the name of the foreign key column
+    @JoinColumn(name = "childId")
     private Child child;
 
     private boolean priority;
     private boolean done;
     private String difficulty;
+
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime taskStart;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime taskEnd;
 
     public Task() { 
@@ -47,11 +51,10 @@ public class Task {
     }
 
 
-    public Task(String taskName, String description, LocalDate dateOfCreation, String dueTime, Child child, boolean priority, boolean done, String difficulty, LocalDateTime start, LocalDateTime end) {
+    public Task(String taskName, String description, LocalDateTime dueDateTime, Child child, boolean priority, boolean done, String difficulty, LocalDateTime start, LocalDateTime end) {
         this.taskName = taskName;
         this.description = description;
-        this.dueDate = dateOfCreation;
-        this.dueTime = dueTime;
+        this.dueDateTime = dueDateTime;
         this.child = child;
         this.priority = priority;
         this.done = done;
@@ -61,11 +64,10 @@ public class Task {
     }
 
 
-    public Task(String taskName, String description, LocalDate dateOfCreation, String dueTime, Long accountId, boolean priority, boolean done,String difficulty) {
+    public Task(String taskName, String description, LocalDateTime dueDateTime, Long accountId, boolean priority, boolean done,String difficulty) {
         this.taskName = taskName;
         this.description = description;
-        this.dueDate = dateOfCreation;
-        this.dueTime = dueTime;
+        this.dueDateTime = dueDateTime;
         this.child = new Child();
         this.child.setId(accountId);
         this.priority = priority;
@@ -99,13 +101,14 @@ public class Task {
         this.description = description;
     }
 
-    public LocalDate getDueDate() {
-        return dueDate;
+    public LocalDateTime getDueDateTime() {
+        return dueDateTime;
     }
 
-    public void setDueDate(LocalDate dueDate) {
-        this.dueDate = dueDate;
+    public void setDueDateTime(LocalDateTime dueDateTime) {
+        this.dueDateTime = dueDateTime;
     }
+
 
     public boolean isPriority() {
         return priority;
@@ -113,14 +116,6 @@ public class Task {
 
     public void setPriority(boolean priority) {
         this.priority = priority;
-    }
-
-    public String getDueTime() {
-        return dueTime;
-    }
-
-    public void setDueTime(String dueTime) {
-        this.dueTime = dueTime;
     }
 
     public Child getChild() {
@@ -166,8 +161,6 @@ public class Task {
                 "id=" + id +
                 ", taskName='" + taskName + '\'' +
                 ", description='" + description + '\'' +
-                ", dueDate=" + dueDate +
-                ", dueTime='" + dueTime + '\'' +
                 ", child=" + (child != null ? child.getId() : null) +
                 ", priority=" + priority +
                 ", done=" + done +
