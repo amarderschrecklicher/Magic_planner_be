@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @Transactional
@@ -73,7 +74,7 @@ public class TaskService {
     private void deleteSubtasksByTaskId(Long taskId) {
         List<SubTask> subTasks = subTaskRepository.findAll();
         for (SubTask subTask : subTasks) {
-            if (subTask.getTask().getId() == taskId) {
+            if (Objects.equals(subTask.getTask().getId(), taskId)) {
                 subTaskRepository.delete(subTask);
             }
         }
