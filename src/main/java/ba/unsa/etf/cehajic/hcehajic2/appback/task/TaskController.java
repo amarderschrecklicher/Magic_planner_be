@@ -55,7 +55,7 @@ class TaskController {
         Child child = childService.GetChildById(task.getChild().getId());
         task.setChild(child);
 
-        System.out.println(task.getDueDateTime());
+      //  System.out.println(task.getDueDateTime());
 
         Task newTask = taskService.AddNewTask(task);
 

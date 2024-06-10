@@ -11,6 +11,6 @@ import org.springframework.stereotype.Repository;
 public interface TaskRepository extends JpaRepository<Task, Long> {
     List<Task> findByChildId(Long childId);
 
-    @Query("SELECT t FROM Task t WHERE t.dueDateTime BETWEEN :start AND :end")
+    @Query("SELECT t FROM Task t WHERE t.dueDate BETWEEN :start AND :end")
     List<Task> findTasksEndingIn30Minutes(LocalDateTime start, LocalDateTime end);
 }
