@@ -7,7 +7,9 @@ import ba.unsa.etf.cehajic.hcehajic2.appback.token.Token;
 import ba.unsa.etf.cehajic.hcehajic2.appback.token.TokenService;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+
 
 @Service
 public class TaskSchedulerService {
@@ -22,19 +24,27 @@ public class TaskSchedulerService {
     private TokenService tokenService;
 
     public void checkTasksEndingSoon() {
-        LocalDateTime start = LocalDateTime.now().plusMinutes(29).plusSeconds(30);
-        LocalDateTime end = LocalDateTime.now().plusMinutes(30).plusSeconds(30);;
 
-        List<Task> tasks = taskRepository.findTasksEndingIn30Minutes(start,end);
+        LocalDateTime a = LocalDateTime.now().plusMinutes(29).plusSeconds(30);
+        LocalDateTime b = LocalDateTime.now().plusMinutes(30).plusSeconds(30);
 
-        for (Task task : tasks) {
+        String A = a.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        String B = b.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+
+        List<Task> tasksEndingSoon = taskRepository.findTasksEndingInNext30Minutes(A, B);
+
+        for (Task task : tasksEndingSoon) {
             List<Token> pushTokens = tokenService.GetTokensForAccount(task.getChild().getId());
-
+            System.out.println(pushTokens);
             // Send push notification to each token
             for (Token pushToken : pushTokens) {
                 notificationService.sendMobileNotification(pushToken, task, "Još 30min");
             }
-            notificationService.sendWebNotification(task);
+            String endpoint = tokenService.getManagerToken(task.getChild().getManager());
+
+            if (!"no".equals(endpoint)) {
+                notificationService.sendWebNotification(endpoint, "Još 30min");
+            }
         }
     }
 }

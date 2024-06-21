@@ -19,7 +19,7 @@ public class Token {
     )
     private Long id;
     private String Token;
-    @ManyToOne
+    @ManyToOne(optional = true)
     @JoinColumn(name = "childId") // Specify the name of the foreign key column
     private Child child;
     private String ModelId;
@@ -27,8 +27,10 @@ public class Token {
     public Token(){};
     public Token(String token,Long accountId, String modelId) {
         this.Token = token;
+        if(accountId!=null){
         this.child = new Child();
         this.child.setId(accountId);
+        }
         this.ModelId = modelId;
     }
 

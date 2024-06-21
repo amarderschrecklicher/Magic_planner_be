@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ba.unsa.etf.cehajic.hcehajic2.appback.manager.Manager;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -52,6 +54,21 @@ public class TokenService {
         tokenRepository.save(token);
 
         return token;
+    }
+
+    public String getManagerToken(Manager manager) {
+        List<Token> tokens = GetAllTokens();
+        Token matching = new Token("", null,manager.getId().toString());
+        for (int i = 0; i < tokens.size();){
+            if (tokens.get(i).getChild().getManager().getId() == manager.getId())
+                matching.setToken(tokens.get(i).getToken());
+                break;
+        }
+
+        if(matching.getToken()=="")
+            return "no";   
+
+        return matching.getToken();
     }
 
 

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ba.unsa.etf.cehajic.hcehajic2.appback.child.Child;
 import ba.unsa.etf.cehajic.hcehajic2.appback.child.ChildService;
+import ba.unsa.etf.cehajic.hcehajic2.appback.token.TokenService;
 import ba.unsa.etf.cehajic.hcehajic2.appback.usersettings.UserSettingsService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,13 +28,13 @@ class ManagerController {
 
     private final ManagerService accountService;
     private final ChildService childService;
-    private final UserSettingsService settingsService;
+    private final TokenService tokenService;
 
     @Autowired
-    public ManagerController(ManagerService accountService,ChildService childService,UserSettingsService settingsService) {
+    public ManagerController(ManagerService accountService,ChildService childService,TokenService tokenService) {
         this.accountService = accountService;
         this.childService = childService;
-        this.settingsService = settingsService;
+        this.tokenService = tokenService;
     }
 
     @GetMapping
@@ -88,6 +89,7 @@ class ManagerController {
 
         try {
             FirebaseAuth.getInstance().createUser(request);
+
 
         } catch (FirebaseAuthException e) {
             e.printStackTrace();

@@ -11,16 +11,34 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import ba.unsa.etf.cehajic.hcehajic2.appback.manager.Manager;
+import nl.martijndwars.webpush.Notification;
+
 import ba.unsa.etf.cehajic.hcehajic2.appback.token.Token;
+import nl.martijndwars.webpush.PushService;
 
 @Service
 public class TaskNotificationService {
 
-    public void sendWebNotification(Task task) {
-        Manager manager  = task.getChild().getManager();
-        throw new UnsupportedOperationException("Unimplemented method 'sendNotification'");
+    private final PushService pushService;
+
+    public TaskNotificationService(PushService pushService) {
+        this.pushService = pushService;
     }
+
+    public void sendWebNotification(String endpoint, String payload) {
+            try {
+                Notification notification = new Notification(
+                    endpoint, 
+                    "",
+                    "", 
+                    payload);
+
+                pushService.send(notification);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+    }
+
 
     public void sendMobileNotification(Token pushToken,Task task,String title) {
         try {
