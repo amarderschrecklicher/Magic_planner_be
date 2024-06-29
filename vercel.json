@@ -1,16 +1,15 @@
 {
-    "version": 2,
-    "builds": [
-      {
-        "src": "src/main/java/ba/unsa/etf/cehajic/hcehajic2/appback/BackApplication.java",
-        "use": "@vercel/static-build",
-        "config": {
-          "distDir": "target"
-        }
+  "version": 2,
+  "builds": [
+    {
+      "src": "src/main/java/ba/unsa/etf/cehajic/hcehajic2/appback",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "target" 
       }
-    ],
-    "routes": [
-      { "src": "/(.*)", "dest": "/src/main/java/ba/unsa/etf/cehajic/hcehajic2/appback/BackApplication.java" }
-    ]
-  }
-  
+    }
+  ],
+  "routes": [
+    { "src": "/api/v1/child", "dest": "/src/main/java/ba/unsa/etf/cehajic/hcehajic2/appback/BackApplication.java" }
+  ]
+}
