@@ -40,11 +40,7 @@ public class TaskSchedulerService {
             for (Token pushToken : pushTokens) {
                 notificationService.sendMobileNotification(pushToken, task, "Još 30min");
             }
-            String endpoint = tokenService.getManagerToken(task.getChild().getManager());
 
-            if (!"no".equals(endpoint)) {
-                notificationService.sendWebNotification(endpoint, "Još 30min");
-            }
         }
     }
 }

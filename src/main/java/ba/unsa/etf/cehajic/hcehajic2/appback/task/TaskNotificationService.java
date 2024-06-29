@@ -25,20 +25,6 @@ public class TaskNotificationService {
         this.pushService = pushService;
     }
 
-    public void sendWebNotification(String endpoint, String payload) {
-            try {
-                Notification notification = new Notification(
-                    endpoint, 
-                    "",
-                    "", 
-                    payload);
-
-                pushService.send(notification);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-    }
-
 
     public void sendMobileNotification(Token pushToken,Task task,String title) {
         try {
