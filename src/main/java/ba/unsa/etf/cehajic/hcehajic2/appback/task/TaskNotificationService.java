@@ -11,20 +11,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import nl.martijndwars.webpush.Notification;
-
 import ba.unsa.etf.cehajic.hcehajic2.appback.token.Token;
-import nl.martijndwars.webpush.PushService;
 
 @Service
 public class TaskNotificationService {
-
-    private final PushService pushService;
-
-    public TaskNotificationService(PushService pushService) {
-        this.pushService = pushService;
-    }
-
 
     public void sendMobileNotification(Token pushToken,Task task,String title) {
         try {
