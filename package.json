@@ -1,0 +1,11 @@
+{
+  "name": "magic-planner-be",
+  "version": "1.0.0",
+  "scripts": {
+    "install": "./mvnw install -DskipTests=true",
+    "build": "./mvnw clean package"
+  },
+  "dependencies": {
+    "vercel": "latest"
+  }
+}
