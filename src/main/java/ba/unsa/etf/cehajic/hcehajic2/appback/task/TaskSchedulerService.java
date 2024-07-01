@@ -32,6 +32,7 @@ public class TaskSchedulerService {
         String B = b.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
 
         List<Task> tasksEndingSoon = taskRepository.findTasksEndingInNext30Minutes(A, B);
+        System.out.println(tasksEndingSoon);
 
         for (Task task : tasksEndingSoon) {
             List<Token> pushTokens = tokenService.GetTokensForAccount(task.getChild().getId());
