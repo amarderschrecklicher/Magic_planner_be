@@ -28,12 +28,12 @@ public class TaskSchedulerService {
     private TokenService tokenService;
 
     public void checkTasksEndingSoon() {
-        LocalDateTime now = LocalDateTime.now();
-        ZonedDateTime oregonNow = now.atZone(ZoneId.of("America/Los_Angeles"));
+        
+        ZonedDateTime sarajevoNow = ZonedDateTime.now(ZoneId.of("Europe/Sarajevo"));
         
         // Convert Oregon time to Sarajevo time
-        ZonedDateTime sarajevoA = oregonNow.withZoneSameInstant(ZoneId.of("Europe/Sarajevo")).plusMinutes(29).plusSeconds(30);
-        ZonedDateTime sarajevoB = oregonNow.withZoneSameInstant(ZoneId.of("Europe/Sarajevo")).plusMinutes(30).plusSeconds(30);
+        ZonedDateTime sarajevoA = sarajevoNow.plusMinutes(29).plusSeconds(30);
+        ZonedDateTime sarajevoB = sarajevoNow.plusMinutes(30).plusSeconds(30);
         
         // Format ZonedDateTime to ISO string for verification
         String A = sarajevoA.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
