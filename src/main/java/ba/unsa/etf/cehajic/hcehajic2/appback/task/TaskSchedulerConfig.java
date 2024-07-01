@@ -12,7 +12,7 @@ public class TaskSchedulerConfig {
     @Autowired
     private TaskSchedulerService taskSchedulerService;
 
-    @Scheduled(fixedRate = 30000) // Run every minute
+    @Scheduled(fixedRate = 60000) // Run every minute
     public void scheduleTask() {
         taskSchedulerService.checkTasksEndingSoon();
     }
