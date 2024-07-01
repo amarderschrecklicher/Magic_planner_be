@@ -5,7 +5,7 @@ import javax.persistence.*;
 import ba.unsa.etf.cehajic.hcehajic2.appback.child.Child;
 
 @Entity
-@Table
+@Table(name = "token", uniqueConstraints = @UniqueConstraint(columnNames = "ModelId"))
 public class Token {
      @Id
     @SequenceGenerator(
@@ -23,6 +23,7 @@ public class Token {
     @ManyToOne(optional = true)
     @JoinColumn(name = "childId") // Specify the name of the foreign key column
     private Child child;
+    @Column(name = "ModelId", unique = true)
     private String ModelId;
     
     public Token(){};
