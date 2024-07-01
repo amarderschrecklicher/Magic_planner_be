@@ -12,7 +12,7 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
     List<Task> findByChildId(Long childId);
 
     @Query("SELECT t FROM Task t WHERE " +
-    "CAST(CONCAT(t.dueDate, ' ', t.dueTime) AS TIMESTAMP) AT TIME ZONE 'UTC' BETWEEN :start AT TIME ZONE 'UTC' AND :end AT TIME ZONE 'UTC'")
-List<Task> findTasksEndingInNext30Minutes(@Param("start") String start, @Param("end") String end);
+           "CONCAT(t.dueDate, 'T', t.dueTime) BETWEEN :start AND :end")
+    List<Task> findTasksEndingInNext30Minutes(@Param("start") String start, @Param("end") String end);
 
 }
