@@ -62,10 +62,20 @@ public class TokenController {
 
 
 
-    @DeleteMapping(path = {"/{tokenId}"})
-    public void deleteTask(@PathVariable("tokenId") Long tokenId) {
-        System.out.println("Delete called!");
-        tokenService.deleteToken(tokenId);
+    @DeleteMapping
+    public void deleteTask(@RequestBody String token) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode = objectMapper.readTree(token);
+            String tok = jsonNode.get("token").asText();
+
+            tokenService.deleteToken(tok);   
+
+            System.out.println("Delete called!");
+
+        } catch (Exception e) {
+        }
+        
     }
     
 }

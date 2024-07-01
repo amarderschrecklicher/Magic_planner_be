@@ -41,8 +41,8 @@ public class TokenService {
         return savedToken;
     }
 
-    public void deleteToken(Long id) {
-        tokenRepository.deleteById(id);
+    public void deleteToken(String token) {
+        tokenRepository.deleteByToken(token);
     }
     
     public Token UpdateToken(Long id, String newToken){

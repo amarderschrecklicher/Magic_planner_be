@@ -18,7 +18,8 @@ public class Token {
             generator = "token_sequence_new"
     )
     private Long id;
-    private String Token;
+    private String token;
+
     @ManyToOne(optional = true)
     @JoinColumn(name = "childId") // Specify the name of the foreign key column
     private Child child;
@@ -26,7 +27,7 @@ public class Token {
     
     public Token(){};
     public Token(String token,Long accountId, String modelId) {
-        this.Token = token;
+        this.token = token;
         if(accountId!=null){
         this.child = new Child();
         this.child.setId(accountId);
@@ -43,11 +44,11 @@ public class Token {
     }
 
     public String getToken() {
-        return Token;
+        return token;
     }
 
     public void setToken(String token) {
-        this.Token = token;
+        this.token = token;
     }
 
     public Child getChild() {
@@ -70,7 +71,7 @@ public class Token {
     public String toString() {
         return "Account{" +
                 "id=" + id +
-                ", Token='" + Token + '\'' +
+                ", Token='" + token + '\'' +
                 ", ModelId=" + ModelId + '\'' +
                 '}';
     }
