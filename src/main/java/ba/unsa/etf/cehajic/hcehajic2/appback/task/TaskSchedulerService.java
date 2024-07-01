@@ -28,19 +28,19 @@ public class TaskSchedulerService {
     private TokenService tokenService;
 
     public void checkTasksEndingSoon() {
-    // Get the current time in Oregon (US West) and convert to ZonedDateTime
-    LocalDateTime now = LocalDateTime.now();
-    ZonedDateTime oregonNow = now.atZone(ZoneId.of("America/Los_Angeles"));
-
-    // Convert Oregon time to Sarajevo time
-    ZonedDateTime sarajevoA = oregonNow.plusMinutes(29).plusSeconds(30).withZoneSameInstant(ZoneId.of("Europe/Sarajevo"));
-    ZonedDateTime sarajevoB = oregonNow.plusMinutes(30).plusSeconds(30).withZoneSameInstant(ZoneId.of("Europe/Sarajevo"));
-
-    // Format ZonedDateTime to ISO string
-    String A = sarajevoA.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-    System.out.println(A);
-    String B = sarajevoB.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
- 
+        LocalDateTime now = LocalDateTime.now();
+        ZonedDateTime oregonNow = now.atZone(ZoneId.of("America/Los_Angeles"));
+        
+        // Convert Oregon time to Sarajevo time
+        ZonedDateTime sarajevoA = oregonNow.withZoneSameInstant(ZoneId.of("Europe/Sarajevo")).plusMinutes(29).plusSeconds(30);
+        ZonedDateTime sarajevoB = oregonNow.withZoneSameInstant(ZoneId.of("Europe/Sarajevo")).plusMinutes(30).plusSeconds(30);
+        
+        // Format ZonedDateTime to ISO string for verification
+        String A = sarajevoA.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        String B = sarajevoB.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        
+        // Print the converted times for verification
+        System.out.println("Time A in Sarajevo: " + A); 
     
         // Call the repository method with the formatted time strings
         List<Task> tasksEndingSoon = taskRepository.findTasksEndingInNext30Minutes(A, B);
