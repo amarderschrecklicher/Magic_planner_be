@@ -28,14 +28,18 @@ public class TaskSchedulerService {
     private TokenService tokenService;
 
     public void checkTasksEndingSoon() {
-        // Convert local times to OffsetDateTime in UTC
-        OffsetDateTime a = LocalDateTime.now().plusMinutes(29).plusSeconds(30).atOffset(ZoneOffset.UTC);
-        OffsetDateTime b = LocalDateTime.now().plusMinutes(30).plusSeconds(30).atOffset(ZoneOffset.UTC);
-       
-    
-        // Format OffsetDateTime to ISO string
-        String A = a.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME); System.out.println(A);
-        String B = b.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+     // Get the current local time and convert to ZonedDateTime in the system's default time zone
+     LocalDateTime now = LocalDateTime.now();
+     ZonedDateTime localNow = now.atZone(ZoneId.systemDefault());
+ 
+     // Convert local time to UTC
+     ZonedDateTime utcA = localNow.plusMinutes(29).plusSeconds(30).withZoneSameInstant(ZoneId.of("UTC"));
+     ZonedDateTime utcB = localNow.plusMinutes(30).plusSeconds(30).withZoneSameInstant(ZoneId.of("UTC"));
+ 
+     // Format ZonedDateTime to ISO string
+     String A = utcA.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);System.out.println(A);
+     String B = utcB.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+ 
     
         // Call the repository method with the formatted time strings
         List<Task> tasksEndingSoon = taskRepository.findTasksEndingInNext30Minutes(A, B);
