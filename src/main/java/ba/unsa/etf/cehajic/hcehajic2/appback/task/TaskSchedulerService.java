@@ -48,12 +48,12 @@ public class TaskSchedulerService {
     
         // Iterate over the tasks and send notifications
         for (Task task : tasksEndingSoon) {
-            List<Token> pushTokens = tokenService.GetTokensForAccount(task.getChild().getId());
-            System.out.println(pushTokens);
+    //        List<Token> pushTokens = tokenService.GetTokensForAccount(task.getChild().getId());
+    //        System.out.println(pushTokens);
             // Send push notification to each token
-            for (Token pushToken : pushTokens) {
-                notificationService.sendMobileNotification(pushToken, task, "Još 30min");
-            }
+    //        for (Token pushToken : pushTokens) {
+                notificationService.sendMobileNotification(task.getChild().getEmail(), task, "Još 30min");
+    //        }
         }
     }
 }
