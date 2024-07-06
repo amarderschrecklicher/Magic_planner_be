@@ -57,10 +57,12 @@ class TaskController {
 
         Task newTask = taskService.AddNewTask(task);
 
-        List<Token> pushTokens = tokenService.GetTokensForAccount(task.getChild().getId());
+        List<String> pushTokens = notificationService.getTokens(task.getChild().getEmail());
+
+        System.out.println(pushTokens);
 
         // Send push notification to each token
-        for (Token pushToken : pushTokens) {
+        for (String pushToken : pushTokens) {
             notificationService.sendMobileNotification(pushToken,newTask,"Imaš novi task!");
         }
 
