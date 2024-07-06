@@ -15,7 +15,7 @@ import ba.unsa.etf.cehajic.hcehajic2.appback.token.Token;
 
 @Service
 public class TaskNotificationService {
-/* 
+ 
     public void sendMobileNotification(Token pushToken,Task task,String title) {
         try {
                 HttpHeaders headers = new HttpHeaders();
@@ -44,37 +44,5 @@ public class TaskNotificationService {
             }
         
     }
-    */
-    public void sendMobileNotification(String subId,Task task,String title) {
-        try {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-
-        // Create the request body
-        String body = String.format(
-            "{\"subID\": \"%s\", \"appId\": 22259, \"appToken\": \"xldIGxZI7b0qgDgbFDRgUP\", \"title\": \"%s\", \"message\": \"%s\"}",
-            subId, title, task.getTaskName()
-        );
-
-        // Create the HttpEntity
-        HttpEntity<String> entity = new HttpEntity<>(body, headers);
-
-        // Define the API URL
-        String apiUrl = "https://app.nativenotify.com/api/indie/notification";
-        RestTemplate restTemplate = new RestTemplate();
-        // Send the request
-        ResponseEntity<String> response = restTemplate.exchange(apiUrl, HttpMethod.POST, entity, String.class);
-
-        if (response.getStatusCode() == HttpStatus.OK) {
-            System.out.println("Push notification sent successfully to token.");
-        } else {
-            System.out.println("Failed to send push notification to token. Response code: " + response.getStatusCode());
-        }
-    } 
     
-    catch ( Exception e) {
-        System.out.println(e);
-    }
-    }
 }

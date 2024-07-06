@@ -55,16 +55,14 @@ class TaskController {
         Child child = childService.GetChildById(task.getChild().getId());
         task.setChild(child);
 
-      //  System.out.println(task.getDueDateTime());
-
         Task newTask = taskService.AddNewTask(task);
 
-      //  List<Token> pushTokens = tokenService.GetTokensForAccount(task.getChild().getId());
+        List<Token> pushTokens = tokenService.GetTokensForAccount(task.getChild().getId());
 
         // Send push notification to each token
-    //    for (Token pushToken : pushTokens) {
-            notificationService.sendMobileNotification(child.getEmail(),newTask,"Imaš novi task!");
-    //    }
+        for (Token pushToken : pushTokens) {
+            notificationService.sendMobileNotification(pushToken,newTask,"Imaš novi task!");
+        }
 
         return ResponseEntity.ok().body(newTask);
     }
