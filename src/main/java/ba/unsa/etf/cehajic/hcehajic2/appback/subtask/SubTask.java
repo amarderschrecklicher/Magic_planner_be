@@ -1,6 +1,13 @@
 package ba.unsa.etf.cehajic.hcehajic2.appback.subtask;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 import ba.unsa.etf.cehajic.hcehajic2.appback.task.Task;
 
@@ -21,6 +28,8 @@ public class SubTask {
     private Long id;
     private String description;
     private Boolean done;
+    private Boolean needPhoto;
+
     @ManyToOne
     @JoinColumn(name = "taskId") // Specify the name of the foreign key column
     private Task task;
@@ -69,12 +78,21 @@ public class SubTask {
         this.done = done;
     }
 
+    public Boolean getNeedPhoto() {
+        return needPhoto;
+    }
+
+    public void setPhotoNeed(Boolean needPhoto) {
+        this.needPhoto = needPhoto;
+    }
+
     @Override
     public String toString() {
         return "SubTask{" +
                 "id=" + id +
                 ", description='" + description + '\'' +
                 ", done=" + done +
+                ", needPhoto=" + needPhoto +
                 '}';
     }
 }
