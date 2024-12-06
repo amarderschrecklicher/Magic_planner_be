@@ -1,5 +1,6 @@
 package ba.unsa.etf.cehajic.hcehajic2.appback.subtask;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,7 +28,8 @@ public class SubTask {
     )
     private Long id;
     private String description;
-    private Boolean done;
+    @Column(nullable = true)
+    private Boolean done = null;
     private Boolean needPhoto;
 
     @ManyToOne
