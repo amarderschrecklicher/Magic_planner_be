@@ -1,14 +1,22 @@
 package ba.unsa.etf.cehajic.hcehajic2.appback.task;
 
-import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import ba.unsa.etf.cehajic.hcehajic2.appback.child.Child;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
 @Table
@@ -39,8 +47,12 @@ public class Task {
 
     private boolean priority;
     private boolean done;
-    private String difficulty;
+    @Column(nullable = false)
+    private boolean notiSent = false;
+   // private String difficulty;
 
+   @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+   private LocalDateTime taskSent;
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime taskStart;
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
@@ -52,7 +64,7 @@ public class Task {
     }
 
 
-    public Task(String taskName, String description, LocalDate dateOfCreation, String dueTime, Child child, boolean priority, boolean done, String difficulty, LocalDateTime start, LocalDateTime end) {
+    public Task(String taskName, String description, LocalDate dateOfCreation, String dueTime, Child child, boolean priority, boolean done,boolean notiSent, String difficulty,LocalDateTime taskSent, LocalDateTime start, LocalDateTime end) {
         this.taskName = taskName;
         this.description = description;
         this.dueDate = dateOfCreation;
@@ -60,13 +72,15 @@ public class Task {
         this.child = child;
         this.priority = priority;
         this.done = done;
-        this.difficulty = difficulty;
+        this.notiSent = notiSent;
+        //this.difficulty = difficulty;
+        this.taskSent = taskSent;
         this.taskStart = start;
         this.taskEnd = end;
     }
 
 
-    public Task(String taskName, String description, LocalDate dateOfCreation, String dueTime, Long accountId, boolean priority, boolean done,String difficulty) {
+    public Task(String taskName, String description, LocalDate dateOfCreation, String dueTime, Long accountId, boolean priority, boolean done,boolean notiSent,String difficulty) {
         this.taskName = taskName;
         this.description = description;
         this.dueDate = dateOfCreation;
@@ -75,7 +89,9 @@ public class Task {
         this.child.setId(accountId);
         this.priority = priority;
         this.done = done;
-        this.difficulty = difficulty;
+        this.notiSent = notiSent;
+        //this.difficulty = difficulty;
+        this.taskSent = null;
         this.taskStart = null;
         this.taskEnd = null;
     }
@@ -144,12 +160,28 @@ public class Task {
         this.done = done;
     }
 
-    public String getDifficulty() {
+    public boolean isNotiSent() {
+        return notiSent;
+    }
+
+    public void setNotiSent(boolean notiSent) {
+        this.notiSent = notiSent;
+    }
+
+  /*  public String getDifficulty() {
         return difficulty;
     }
 
     public void setDifficulty(String difficulty) {
         this.difficulty = difficulty;
+    }
+*/ 
+
+    public void setSent(LocalDateTime sent){
+        this.taskSent = sent;
+    }
+    public LocalDateTime getSent(){
+        return taskSent;
     }
 
     public void setStart(LocalDateTime start){
@@ -158,6 +190,7 @@ public class Task {
     public LocalDateTime getStart(){
         return taskStart;
     }
+
     public void setEnd(LocalDateTime end){
         this.taskEnd = end;
     }
@@ -176,7 +209,7 @@ public class Task {
                 ", child=" + (child != null ? child.getId() : null) +
                 ", priority=" + priority +
                 ", done=" + done +
-                ", difficulty='" + difficulty + '\'' +
+                ", difficulty='" + "difficulty" + '\'' +
                 ", start=" + taskStart +
                 ", end=" + taskEnd +
                 '}';

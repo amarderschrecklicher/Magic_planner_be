@@ -1,17 +1,18 @@
 package ba.unsa.etf.cehajic.hcehajic2.appback.task;
 
-import ba.unsa.etf.cehajic.hcehajic2.appback.subtask.SubTask;
-import ba.unsa.etf.cehajic.hcehajic2.appback.subtask.SubTaskRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import ba.unsa.etf.cehajic.hcehajic2.appback.subtask.SubTask;
+import ba.unsa.etf.cehajic.hcehajic2.appback.subtask.SubTaskRepository;
 
 @Service
 @Transactional
@@ -59,6 +60,7 @@ public class TaskService {
     }
 
     public Task AddNewTask(Task task) {
+        task.setSent(LocalDateTime.now());
         taskRepository.save(task);
         return task;
     }
@@ -90,6 +92,13 @@ public class TaskService {
         Task task = taskRepository.getById(id);
         task.setDone(true);
         task.setEnd(ZonedDateTime.now(ZoneId.of("Europe/Sarajevo")).toLocalDateTime());
+        taskRepository.save(task);
+        return task;
+    }
+
+    public Task NotificationSent(Long id) {
+        Task task = taskRepository.getById(id);
+        task.setNotiSent(true);
         taskRepository.save(task);
         return task;
     }
