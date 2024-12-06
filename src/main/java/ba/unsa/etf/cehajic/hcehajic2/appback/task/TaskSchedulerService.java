@@ -23,7 +23,7 @@ public class TaskSchedulerService {
     public void checkTasksEndingSoon() {
 
         // Call the repository method with the formatted time strings
-        List<Task> tasksEndingSoon = taskRepository.findTasksWithHalfTimeLeft();
+        /*List<Task> tasksEndingSoon = taskRepository.findTasksWithHalfTimeLeft();
         System.out.println(tasksEndingSoon);
     
         // Iterate over the tasks and send notifications
@@ -34,7 +34,7 @@ public class TaskSchedulerService {
             for (String pushToken : pushTokens) {
                 notificationService.sendMobileNotification(pushToken, task, "Uskoro završava!");
             }
-        }
+        }*/
     }
 }
 

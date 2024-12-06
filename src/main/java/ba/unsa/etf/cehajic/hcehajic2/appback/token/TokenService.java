@@ -1,5 +1,6 @@
 package ba.unsa.etf.cehajic.hcehajic2.appback.token;
 
+import ba.unsa.etf.cehajic.hcehajic2.appback.child.Child;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,12 +26,26 @@ public class TokenService {
         return tokenRepository.findAll();
     }
 
-    public List<Token> GetTokensForAccount(Long id) {
+    /*public List<Token> GetTokensForAccount(Long id) {
         List<Token> tokens = GetAllTokens();
         List<Token> matching = new ArrayList<>();
         for (int i = 0; i < tokens.size(); i++)
             if (tokens.get(i).getChild().getId() == id)
                 matching.add(tokens.get(i));
+
+        return matching;
+    }*/
+
+    public List<Token> GetTokensForAccount(Long id) {
+        List<Token> tokens = GetAllTokens();
+        List<Token> matching = new ArrayList<>();
+
+        for (Token token : tokens) {
+            Child child = token.getChild();
+            if (child != null && child.getId() == id) {
+                matching.add(token);
+            }
+        }
 
         return matching;
     }

@@ -39,7 +39,6 @@ public class Task {
 
     private boolean priority;
     private boolean done;
-    private String difficulty;
 
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime taskStart;
@@ -60,7 +59,6 @@ public class Task {
         this.child = child;
         this.priority = priority;
         this.done = done;
-        this.difficulty = difficulty;
         this.taskStart = start;
         this.taskEnd = end;
     }
@@ -75,7 +73,6 @@ public class Task {
         this.child.setId(accountId);
         this.priority = priority;
         this.done = done;
-        this.difficulty = difficulty;
         this.taskStart = null;
         this.taskEnd = null;
     }
@@ -144,14 +141,6 @@ public class Task {
         this.done = done;
     }
 
-    public String getDifficulty() {
-        return difficulty;
-    }
-
-    public void setDifficulty(String difficulty) {
-        this.difficulty = difficulty;
-    }
-
     public void setStart(LocalDateTime start){
         this.taskStart = start;
     }
@@ -176,7 +165,6 @@ public class Task {
                 ", child=" + (child != null ? child.getId() : null) +
                 ", priority=" + priority +
                 ", done=" + done +
-                ", difficulty='" + difficulty + '\'' +
                 ", start=" + taskStart +
                 ", end=" + taskEnd +
                 '}';
