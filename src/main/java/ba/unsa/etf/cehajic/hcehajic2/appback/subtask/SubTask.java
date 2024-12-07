@@ -29,7 +29,7 @@ public class SubTask {
     private Long id;
     private String description;
     @Column(nullable = true)
-    private Boolean done = null;
+    private Boolean done = false;
     private Boolean needPhoto;
 
     @ManyToOne
