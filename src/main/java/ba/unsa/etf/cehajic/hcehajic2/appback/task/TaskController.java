@@ -10,6 +10,9 @@ import ba.unsa.etf.cehajic.hcehajic2.appback.token.Token;
 import ba.unsa.etf.cehajic.hcehajic2.appback.token.TokenService;
 
 import java.util.List;
+import java.util.Map;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping("/api/v1/task")
@@ -84,5 +87,22 @@ class TaskController {
     public void deleteTask(@PathVariable("taskId") Long taskId) {
         System.out.println("Delete called!");
         taskService.deleteTask(taskId);
+    }
+
+    @GetMapping(path = "/deadline-stats/{childId}")
+    public ResponseEntity<List<Long>> getDeadlineStats(@PathVariable Long childId) {
+        List<Long> stats = taskService.calculateTasksInAndOutOfDeadline(childId);
+        return ResponseEntity.ok(stats);
+    }
+
+    @GetMapping(path = "/tasks-over-time/{childId}")
+    public ResponseEntity<Map<LocalDate, Long>> getTasksOverTime(@PathVariable Long childId) {
+        Map<LocalDate, Long> stats = taskService.calculateCompletedTasksOverTime(childId);
+        return ResponseEntity.ok(stats);
+    }
+
+    @GetMapping("/task-summary/{childId}")
+    public ResponseEntity<List<Map<String, Object>>> getTaskSummary(@PathVariable Long childId) {
+        return ResponseEntity.ok(taskService.getTaskSummary(childId));
     }
 }

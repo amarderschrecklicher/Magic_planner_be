@@ -12,6 +12,7 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
 
     @Query(value = "SELECT * FROM Task t WHERE CURRENT_TIMESTAMP BETWEEN t.task_sent + INTERVAL '1 second' * (EXTRACT(EPOCH FROM (CAST(CONCAT(t.due_date, ' ', t.due_time) AS timestamp) - t.task_sent)) / 2) AND CAST(CONCAT(t.due_date, ' ', t.due_time) AS timestamp) AND t.noti_sent = FALSE;", nativeQuery=true)
     List<Task> findTasksWithHalfTimeLeft();
-    
 
+    @Query("SELECT t FROM Task t WHERE t.child.id = ?1 AND t.done = true")
+    List<Task> findCompletedTasksByChildId(Long childId);
 }
