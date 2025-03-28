@@ -1,11 +1,8 @@
 package ba.unsa.etf.cehajic.hcehajic2.appback.task;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.time.*;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -102,4 +99,69 @@ public class TaskService {
         taskRepository.save(task);
         return task;
     }
+
+    public List<Long> calculateTasksInAndOutOfDeadline(Long childId) {
+        List<Task> completedTasks = taskRepository.findCompletedTasksByChildId(childId);
+
+        long tasksInDeadline = completedTasks.stream()
+                .filter(task -> task.getEnd() != null && task.getDueDate() != null &&
+                        !task.getEnd().toLocalDate().isAfter(task.getDueDate()))
+                .count();
+
+        long tasksOutOfDeadline = completedTasks.size() - tasksInDeadline;
+
+        return List.of(tasksInDeadline, tasksOutOfDeadline);
+    }
+
+    public Map<LocalDate, Long> calculateCompletedTasksOverTime(Long childId) {
+        List<Task> completedTasks = taskRepository.findCompletedTasksByChildId(childId);
+
+        LocalDate today = LocalDate.now();
+        Month currentMonth = today.getMonth();
+
+        return completedTasks.stream()
+                .filter(task -> task.getEnd() != null && task.getEnd().getMonth() == currentMonth)
+                .collect(Collectors.groupingBy(
+                        task -> task.getEnd().toLocalDate(),
+                        Collectors.counting()
+                ));
+    }
+
+    public List<Map<String, Object>> getTaskSummary(Long childId) {
+        List<Task> tasks = taskRepository.findByChildId(childId);
+
+        Map<String, List<Task>> tasksGroupedByName = tasks.stream()
+                .collect(Collectors.groupingBy(Task::getTaskName));
+
+        List<Map<String, Object>> result = new ArrayList<>();
+
+        for (String taskName : tasksGroupedByName.keySet()) {
+            List<Task> group = tasksGroupedByName.get(taskName);
+
+            Map<String, Object> entry = new HashMap<>();
+            entry.put("taskName", taskName);
+
+            List<Map<String, Object>> taskDetails = new ArrayList<>();
+
+            for (Task task : group) {
+                if (task.getStart() != null && task.getEnd() != null) {
+                    Map<String, Object> taskInfo = new HashMap<>();
+                    taskInfo.put("date", task.getEnd().toLocalDate());
+                    taskInfo.put("executionTime", calculateExecutionTime(task));
+                    taskDetails.add(taskInfo);
+                }
+            }
+
+            entry.put("taskDetails", taskDetails);
+
+            result.add(entry);
+        }
+
+        return result;
+    }
+
+    private long calculateExecutionTime(Task task) {
+        return Duration.between(task.getStart(), task.getEnd()).getSeconds();
+    }
+
 }
