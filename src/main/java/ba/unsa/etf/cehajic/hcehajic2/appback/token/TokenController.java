@@ -59,6 +59,12 @@ public class TokenController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
+    // refresh route will be added later
+    @PostMapping(path = "/jwt/refresh")
+    public ResponseEntity<String> refreshToken(@RequestBody String oldToken) {
+        return ResponseEntity.ok("Soon");
+    }
+
 
 
 

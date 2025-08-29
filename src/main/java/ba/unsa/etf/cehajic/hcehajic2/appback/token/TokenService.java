@@ -14,8 +14,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ba.unsa.etf.cehajic.hcehajic2.appback.manager.Manager;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
+
+import static ch.qos.logback.classic.spi.ThrowableProxyVO.build;
 
 @Service
 @Transactional
@@ -85,21 +88,28 @@ public class TokenService {
         List<String> roles = isManager ? List.of("MANAGER") : List.of("WORKER");
         var now = Instant.now();
 
-        var claims = new JWTClaimsSet.Builder()
-                .subject(String.valueOf(id))   // -> authentication.getName()
+
+        JWTClaimsSet.Builder builder = new JWTClaimsSet.Builder()
+                .subject(String.valueOf(id))     // used as authentication.name
                 .issueTime(Date.from(now))
                 .claim("email", email)
                 .claim("name",  name)
-                .claim("roles", roles)                // ["USER"], ["ADMIN","USER"]
+                .claim("roles", roles);
+
+        // Managers expire in 30 minutes; Workers have no exp claim (no time limit)
+        if (isManager) {
+            builder.expirationTime(Date.from(now.plus(Duration.ofMinutes(30))));
+        }
+
+        JWTClaimsSet claims = builder.build();
+
+        JWSHeader header = new JWSHeader.Builder(JWSAlgorithm.HS256)
+                .type(JOSEObjectType.JWT)
                 .build();
 
-        var header = new JWSHeader.Builder(JWSAlgorithm.HS256)
-                .type(JOSEObjectType.JWT).build();
+        SignedJWT jwt = new SignedJWT(header, claims);
 
-        var jwt = new SignedJWT(header, claims);
-
-        // ako je base64 secret:
-        byte[] keyBytes = Base64.getDecoder().decode(secret);
+        byte[] keyBytes = Base64.getDecoder().decode(secret); // decode base64 secret
         jwt.sign(new MACSigner(keyBytes));
 
         return jwt.serialize();
