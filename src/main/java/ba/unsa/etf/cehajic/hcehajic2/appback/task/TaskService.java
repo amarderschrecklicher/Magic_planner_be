@@ -57,7 +57,7 @@ public class TaskService {
     }
 
     public Task AddNewTask(Task task) {
-        task.setSent(LocalDateTime.now());
+        task.setTaskSent(LocalDateTime.now());
         taskRepository.save(task);
         return task;
     }
@@ -80,7 +80,7 @@ public class TaskService {
 
     public Task StartTask(Long id){
         Task task = taskRepository.getById(id);
-        task.setStart(ZonedDateTime.now(ZoneId.of("Europe/Sarajevo")).toLocalDateTime());
+        task.setTaskStart(ZonedDateTime.now(ZoneId.of("Europe/Sarajevo")).toLocalDateTime());
         taskRepository.save(task);
         return task;
     }
@@ -88,7 +88,7 @@ public class TaskService {
     public Task FinishTask(Long id) {
         Task task = taskRepository.getById(id);
         task.setDone(true);
-        task.setEnd(ZonedDateTime.now(ZoneId.of("Europe/Sarajevo")).toLocalDateTime());
+        task.setTaskEnd(ZonedDateTime.now(ZoneId.of("Europe/Sarajevo")).toLocalDateTime());
         taskRepository.save(task);
         return task;
     }
@@ -104,8 +104,8 @@ public class TaskService {
         List<Task> completedTasks = taskRepository.findCompletedTasksByChildId(childId);
 
         long tasksInDeadline = completedTasks.stream()
-                .filter(task -> task.getEnd() != null && task.getDueDate() != null &&
-                        !task.getEnd().toLocalDate().isAfter(task.getDueDate()))
+                .filter(task -> task.getTaskEnd() != null && task.getDueDate() != null &&
+                        !task.getTaskEnd().toLocalDate().isAfter(task.getDueDate()))
                 .count();
 
         long tasksOutOfDeadline = completedTasks.size() - tasksInDeadline;
@@ -120,9 +120,9 @@ public class TaskService {
         Month currentMonth = today.getMonth();
 
         return completedTasks.stream()
-                .filter(task -> task.getEnd() != null && task.getEnd().getMonth() == currentMonth)
+                .filter(task -> task.getTaskEnd() != null && task.getTaskEnd().getMonth() == currentMonth)
                 .collect(Collectors.groupingBy(
-                        task -> task.getEnd().toLocalDate(),
+                        task -> task.getTaskEnd().toLocalDate(),
                         Collectors.counting()
                 ));
     }
@@ -144,9 +144,9 @@ public class TaskService {
             List<Map<String, Object>> taskDetails = new ArrayList<>();
 
             for (Task task : group) {
-                if (task.getStart() != null && task.getEnd() != null) {
+                if (task.getTaskStart() != null && task.getTaskEnd() != null) {
                     Map<String, Object> taskInfo = new HashMap<>();
-                    taskInfo.put("date", task.getEnd().toLocalDate());
+                    taskInfo.put("date", task.getTaskEnd().toLocalDate());
                     taskInfo.put("executionTime", calculateExecutionTime(task));
                     taskDetails.add(taskInfo);
                 }
@@ -161,7 +161,7 @@ public class TaskService {
     }
 
     private long calculateExecutionTime(Task task) {
-        return Duration.between(task.getStart(), task.getEnd()).getSeconds();
+        return Duration.between(task.getTaskStart(), task.getTaskEnd()).getSeconds();
     }
 
 }

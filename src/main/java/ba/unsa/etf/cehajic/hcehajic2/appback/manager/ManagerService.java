@@ -28,7 +28,7 @@ public class ManagerService {
         return accountRepository.getById(id);
     }
 
-    public Manager GetAccountByCredentials(String accName, String pass) {
+    public ManagerRequestDTO GetAccountByCredentials(String accName, String pass) {
         List<Manager> possible = GetAllAccounts();
         Manager obj = null;
         for (Manager acc : possible) {
@@ -42,33 +42,18 @@ public class ManagerService {
         if (obj == null) {
             System.out.println("User doesn't exist!");
         }
-        return obj;
+        return ManagerMapper.toRequestDto(obj);
     }
 
-    public Manager AddNewAccount(Manager account) {
-        accountRepository.save(account);
-        return account;
-    }
-
-    public  Manager CreateNewAccount(String name, String surname, String password, LocalDate dateOfBirth) {
-        Manager account = new Manager(name, surname, password, dateOfBirth);
-        Manager savedAcc = accountRepository.save(account);
-        return savedAcc;
-    }
-
-    public  Manager CreateNewAccount(String name, String surname, String email,String password, LocalDate dateOfBirth) {
-        Manager account = new Manager(name, surname, email, password, dateOfBirth);
-        Manager savedAcc = accountRepository.save(account);
-        return savedAcc;
-    }
-
-    public  Manager CreateNewAccount(String name, String surname, String email, Boolean kidMale, String password, LocalDate dateOfBirth) {
+    public  ManagerRequestDTO CreateNewAccount(String name, String surname, String email, Boolean kidMale, String password, LocalDate dateOfBirth) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String hashedPassword = passwordEncoder.encode(password);
         Manager account = new Manager(name, surname, email,  hashedPassword, dateOfBirth, kidMale);
-        Manager savedAcc = accountRepository.save(account);
-        return savedAcc;
+        account.setUsername(account.getUsername());
+        accountRepository.save(account);
+        return ManagerMapper.toRequestDto(account);
     }
+
 
     public Manager UpdatePassword(Long id, String password) {
         Manager existingAcc = accountRepository.getById(id);

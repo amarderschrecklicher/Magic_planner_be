@@ -1,20 +1,29 @@
 package ba.unsa.etf.cehajic.hcehajic2.appback.token;
 
+import com.nimbusds.jose.JOSEException;
+import com.nimbusds.jose.JOSEObjectType;
+import com.nimbusds.jose.JWSAlgorithm;
+import com.nimbusds.jose.JWSHeader;
+import com.nimbusds.jose.crypto.MACSigner;
+import com.nimbusds.jwt.JWTClaimsSet;
+import com.nimbusds.jwt.SignedJWT;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ba.unsa.etf.cehajic.hcehajic2.appback.manager.Manager;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.time.Instant;
+import java.util.*;
 
 @Service
 @Transactional
 public class TokenService {
 
-     private final TokenRepository tokenRepository;
+    private final TokenRepository tokenRepository;
+    @Value("${app.jwt.secret}")   // base64 string iz application.properties
+    private String secret;
 
     @Autowired
     public TokenService(TokenRepository tokenRepository) {
@@ -71,5 +80,28 @@ public class TokenService {
         return matching.getToken();
     }
 
+    public String generateJWTToken(Long id, String email, String name, boolean isManager) throws JOSEException {
 
+        List<String> roles = isManager ? List.of("MANAGER") : List.of("WORKER");
+        var now = Instant.now();
+
+        var claims = new JWTClaimsSet.Builder()
+                .subject(String.valueOf(id))   // -> authentication.getName()
+                .issueTime(Date.from(now))
+                .claim("email", email)
+                .claim("name",  name)
+                .claim("roles", roles)                // ["USER"], ["ADMIN","USER"]
+                .build();
+
+        var header = new JWSHeader.Builder(JWSAlgorithm.HS256)
+                .type(JOSEObjectType.JWT).build();
+
+        var jwt = new SignedJWT(header, claims);
+
+        // ako je base64 secret:
+        byte[] keyBytes = Base64.getDecoder().decode(secret);
+        jwt.sign(new MACSigner(keyBytes));
+
+        return jwt.serialize();
+    }
 }

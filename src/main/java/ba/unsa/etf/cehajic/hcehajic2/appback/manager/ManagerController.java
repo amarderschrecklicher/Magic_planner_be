@@ -8,9 +8,11 @@ import ba.unsa.etf.cehajic.hcehajic2.appback.child.ChildService;
 import ba.unsa.etf.cehajic.hcehajic2.appback.token.TokenService;
 import ba.unsa.etf.cehajic.hcehajic2.appback.usersettings.UserSettingsService;
 
+import com.nimbusds.jose.JOSEException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,6 +27,9 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/v1/manager")
 @CrossOrigin
 class ManagerController {
+
+    public record LoginRequest(String username, String password) {}
+    public record LoginResponse(String token) {}
 
     private final ManagerService accountService;
     private final ChildService childService;
@@ -43,6 +48,7 @@ class ManagerController {
     }
 
     @GetMapping(path = "/children/{id}")
+    @PreAuthorize("hasRole('MANAGER') and #id== T(java.lang.Long).parseLong(authentication.name)")
     public List<Child> getAllChildren(@PathVariable("id") Long id) {
         return childService.GetAllChildren().stream()
         .filter(child -> {
@@ -53,7 +59,7 @@ class ManagerController {
     }
 
     @GetMapping(path = "/{username}/{pass}")
-    public Manager getAccountByCredentials(@PathVariable("username") String accName,
+    public ManagerRequestDTO getAccountByCredentials(@PathVariable("username") String accName,
                                            @PathVariable("pass") String pass) {
         return accountService.GetAccountByCredentials(accName, pass);
     }
@@ -71,8 +77,8 @@ class ManagerController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
             .body("Email already exists");
         }
-        
-        Manager newAccount = accountService.CreateNewAccount(
+
+        ManagerRequestDTO newAccount = accountService.CreateNewAccount(
                 requestDTO.getName(),
                 requestDTO.getSurname(),
                 requestDTO.getEmail(),
@@ -98,14 +104,16 @@ class ManagerController {
         return ResponseEntity.ok().body(newAccount);
     }
 
-    
+
     @PostMapping(path = "/login")
-    public ResponseEntity<?> login(@RequestBody Map<String, String> loginRequest) {
+    public ResponseEntity<?> login(@RequestBody Map<String, String> loginRequest) throws JOSEException {
         String username = loginRequest.get("username");
         String password = loginRequest.get("password");
 
-        Manager manager = accountService.GetAccountByCredentials(username, password);
+        ManagerRequestDTO manager = accountService.GetAccountByCredentials(username, password);
         if (manager != null) {
+            String jwtToken = tokenService.generateJWTToken(manager.getId(),manager.getEmail(),manager.getName(),true);
+            manager.setJwtToken(jwtToken);
             return ResponseEntity.ok(manager);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
