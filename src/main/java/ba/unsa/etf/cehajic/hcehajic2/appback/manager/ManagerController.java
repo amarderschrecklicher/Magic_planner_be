@@ -72,7 +72,7 @@ class ManagerController {
     @PostMapping(path = "/create")
     public ResponseEntity<?> addNewAccount(@RequestBody ManagerRequestDTO requestDTO) {
         System.out.println("Creating new User!");
-
+        System.out.println(requestDTO.getPassword());
         if (accountService.existsByEmail(requestDTO.getEmail())) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
             .body("Email already exists");
@@ -112,13 +112,14 @@ class ManagerController {
 
         ManagerRequestDTO manager = accountService.GetAccountByCredentials(username, password);
         if (manager != null) {
-            String jwtToken = tokenService.generateJWTToken(manager.getId(),manager.getEmail(),manager.getName(),true);
+            String jwtToken = tokenService.generateJWTToken(manager.getId(),manager.getEmail(),"no");
             manager.setJwtToken(jwtToken);
             return ResponseEntity.ok(manager);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
         }
     }
+
 
     @PutMapping(path = "/pass/{id}")
     public ResponseEntity<Manager> updatePassword(@PathVariable("id") Long id, @RequestBody String passwordJson) {

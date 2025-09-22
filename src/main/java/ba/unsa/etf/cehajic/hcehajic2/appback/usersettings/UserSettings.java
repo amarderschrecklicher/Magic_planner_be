@@ -51,10 +51,10 @@ public class UserSettings {
         this.colorForFont = colorForFont;
         this.colorForBackground = colorForBackground;
         this.colorForProgress = colorForProgress;
-        this.phoneLoginString = accountId + generateRandomString(5) + accountId;
+        this.phoneLoginString = generateRandomString(accountId,5);
     }
 
-    public static String generateRandomString(int length) {
+    public static String generateRandomString(Long accountId,int length) {
         String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         Random random = new Random();
         StringBuilder sb = new StringBuilder();
@@ -65,6 +65,6 @@ public class UserSettings {
             sb.append(randomChar);
         }
 
-        return sb.toString();
+        return accountId + sb.toString() + accountId;
     }
 }

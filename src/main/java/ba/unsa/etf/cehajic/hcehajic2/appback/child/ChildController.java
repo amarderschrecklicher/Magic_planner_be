@@ -79,7 +79,7 @@ class ChildController {
        try {
 
         FirebaseAuth.getInstance().createUser(request);
-        settingsService.CreateUserSettingsDefault(newAccount.getId());
+        settingsService.CreateUserSettingsDefault(newAccount);
 
     } catch (FirebaseAuthException e) {
         e.printStackTrace();

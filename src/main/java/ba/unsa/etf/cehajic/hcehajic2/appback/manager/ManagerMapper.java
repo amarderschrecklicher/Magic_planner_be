@@ -16,6 +16,7 @@ public final class ManagerMapper {
         m.setKidMale(Boolean.TRUE.equals(dto.getKidMale()));
         m.setDateOfBirth(dto.getDateOfBirth());
          m.setUsername(trim(dto.getUsername()));
+         m.setPassword(trim(dto.getPassword()));
         return m;
     }
 
@@ -30,6 +31,7 @@ public final class ManagerMapper {
         dto.setId(Objects.requireNonNull(m.getId()));
         dto.setKidMale(m.getKidMale());
         dto.setDateOfBirth(m.getDateOfBirth());
+        dto.setPassword(m.getPassword());
         return dto;
     }
 

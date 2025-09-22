@@ -37,12 +37,6 @@ public class UserSettingsController {
         return ResponseEntity.ok().body(newUserSettings);
     }
 
-    @PostMapping(path="/default/{id}")
-    public ResponseEntity<UserSettings> CreateUserSettings(@PathVariable("id") Long id) {
-        UserSettings newUserSettings = userSettingsService.CreateUserSettingsDefault(id);
-        return ResponseEntity.ok().body(newUserSettings);
-    }
-
     @PutMapping("/{id}")
     public ResponseEntity<UserSettings> updateUserSettings(@PathVariable Long id, @RequestBody String settingsJson) {
         try {

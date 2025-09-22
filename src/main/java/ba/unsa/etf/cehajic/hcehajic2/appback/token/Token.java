@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.Instant;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -34,6 +36,7 @@ public class Token {
     private Child child;
 
     private String ModelId;
+
 
     public Token(String token,Long accountId, String modelId) {
         this.token = token;

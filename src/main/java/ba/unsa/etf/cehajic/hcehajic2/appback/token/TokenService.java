@@ -1,5 +1,7 @@
 package ba.unsa.etf.cehajic.hcehajic2.appback.token;
 
+import ba.unsa.etf.cehajic.hcehajic2.appback.child.Child;
+import ba.unsa.etf.cehajic.hcehajic2.appback.usersettings.UserSettingsService;
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.JOSEObjectType;
 import com.nimbusds.jose.JWSAlgorithm;
@@ -12,39 +14,43 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ba.unsa.etf.cehajic.hcehajic2.appback.manager.Manager;
-
 import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
-
-import static ch.qos.logback.classic.spi.ThrowableProxyVO.build;
 
 @Service
 @Transactional
 public class TokenService {
 
     private final TokenRepository tokenRepository;
+    private final UserSettingsService userSettingsService;
+
     @Value("${app.jwt.secret}")   // base64 string iz application.properties
     private String secret;
 
+
+    private byte[] keyBytes() {
+        return Base64.getDecoder().decode(secret);
+    }
+
+    private JWSHeader header() {
+        return new JWSHeader.Builder(JWSAlgorithm.HS256)
+                .type(JOSEObjectType.JWT)
+                .build();
+    }
+
     @Autowired
-    public TokenService(TokenRepository tokenRepository) {
+    public TokenService(TokenRepository tokenRepository, UserSettingsService userSettingsService) {
         this.tokenRepository = tokenRepository;
+        this.userSettingsService = userSettingsService;
     }
 
     public List<Token> GetAllTokens() {
         return tokenRepository.findAll();
     }
 
-    public List<Token> GetTokensForAccount(Long id) {
-        List<Token> tokens = GetAllTokens();
-        List<Token> matching = new ArrayList<>();
-        for (int i = 0; i < tokens.size(); i++)
-            if (tokens.get(i).getChild().getId() == id)
-                matching.add(tokens.get(i));
-
-        return matching;
+    public Optional<List<Token>> GetTokensForAccount(Long id) {
+        return tokenRepository.findAllByChildId(id);
     }
 
     public Token AddNewToken(String token, Long accountId, String modelId) {
@@ -57,35 +63,27 @@ public class TokenService {
         tokenRepository.deleteByToken(token);
     }
     
-    public Token UpdateToken(Long id, String newToken){
+    public void updateNotificationToken(Long id, String newToken, String modelId) {
 
         Optional<Token> existingToken = tokenRepository.findByChildId(id);
         Token token = existingToken.orElse(null);
-        if (token == null) return null;
-        token.setToken(newToken);
-        tokenRepository.save(token);
 
-        return token;
-    }
-
-    public String getManagerToken(Manager manager) {
-        List<Token> tokens = GetAllTokens();
-        Token matching = new Token("", null,manager.getId().toString());
-        for (int i = 0; i < tokens.size();){
-            if (tokens.get(i).getChild().getManager().getId() == manager.getId())
-                matching.setToken(tokens.get(i).getToken());
-                break;
+        if (token == null) {
+            token = new Token();
+            Child child = new Child();
+            child.setId(id);
+            token.setChild(child);
         }
+        else if (!token.getToken().equals(newToken)) {return;}
 
-        if(matching.getToken()=="")
-            return "no";   
-
-        return matching.getToken();
+        token.setToken(newToken);
+        token.setModelId(modelId);
+        tokenRepository.save(token);
     }
 
-    public String generateJWTToken(Long id, String email, String name, boolean isManager) throws JOSEException {
+    public String generateJWTToken(Long id, String email, String phoneLoginString) throws JOSEException {
 
-        List<String> roles = isManager ? List.of("MANAGER") : List.of("WORKER");
+        List<String> roles = phoneLoginString.equals("no") ? List.of("MANAGER") : List.of("WORKER");
         var now = Instant.now();
 
 
@@ -93,25 +91,23 @@ public class TokenService {
                 .subject(String.valueOf(id))     // used as authentication.name
                 .issueTime(Date.from(now))
                 .claim("email", email)
-                .claim("name",  name)
                 .claim("roles", roles);
 
         // Managers expire in 30 minutes; Workers have no exp claim (no time limit)
-        if (isManager) {
+        if (phoneLoginString.equals("no")) {
             builder.expirationTime(Date.from(now.plus(Duration.ofMinutes(30))));
+        }else {
+            builder.expirationTime(Date.from(now.plus(Duration.ofDays(1))));
+            builder.claim("phoneLoginString",  userSettingsService.updatePhoneLoginString(phoneLoginString));
         }
 
-        JWTClaimsSet claims = builder.build();
-
-        JWSHeader header = new JWSHeader.Builder(JWSAlgorithm.HS256)
-                .type(JOSEObjectType.JWT)
-                .build();
-
-        SignedJWT jwt = new SignedJWT(header, claims);
-
-        byte[] keyBytes = Base64.getDecoder().decode(secret); // decode base64 secret
-        jwt.sign(new MACSigner(keyBytes));
+        SignedJWT jwt = new SignedJWT(header(), builder.build());
+        jwt.sign(new MACSigner(keyBytes()));
 
         return jwt.serialize();
     }
+
+
+
+
 }

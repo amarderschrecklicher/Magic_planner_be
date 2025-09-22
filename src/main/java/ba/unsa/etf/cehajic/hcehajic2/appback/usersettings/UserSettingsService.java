@@ -1,10 +1,16 @@
 package ba.unsa.etf.cehajic.hcehajic2.appback.usersettings;
 
+import ba.unsa.etf.cehajic.hcehajic2.appback.child.Child;
+import ba.unsa.etf.cehajic.hcehajic2.appback.child.ChildMapper;
+import ba.unsa.etf.cehajic.hcehajic2.appback.child.ChildRequestDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
+
+import static ba.unsa.etf.cehajic.hcehajic2.appback.usersettings.UserSettings.generateRandomString;
 
 @Service
 @Transactional
@@ -16,8 +22,8 @@ public class UserSettingsService {
         this.userSettingsRepository = userSettingsRepository;
     }
 
-    public UserSettings CreateUserSettingsDefault(Long id) {
-        UserSettings userSettings = new UserSettings(id,
+    public UserSettings CreateUserSettingsDefault(Child child) {
+        UserSettings userSettings = new UserSettings(child.getId(),
                 "Palatino Linotype",
                 22,
                 "#FF6347",
@@ -26,6 +32,7 @@ public class UserSettingsService {
                 "#141414",
                 "#F5FFFA",
                 "#00b200");
+        userSettings.setChild(child);
         this.userSettingsRepository.save(userSettings);
         return userSettings;
     }
@@ -63,5 +70,22 @@ public class UserSettingsService {
 
     public void UpdateAccountId(Long aid, Long sid) {
         userSettingsRepository.getById(sid).getChild().setId(sid);
+    }
+
+    public ChildRequestDTO getChildByPhoneLoginString(String phoneLoginString) {
+
+        Optional<UserSettings> userSettings = userSettingsRepository.findByPhoneLoginString(phoneLoginString.trim());
+
+        return ChildMapper.toDto(userSettings.get().getChild());
+    }
+
+    public String updatePhoneLoginString(String phoneLoginString){
+        Optional<UserSettings> userSettings = userSettingsRepository.findByPhoneLoginString(phoneLoginString.trim());
+        Long accountId = userSettings.get().getChild().getId();
+
+        userSettings.get().setPhoneLoginString(generateRandomString(accountId ,5));
+
+        return userSettingsRepository.save(userSettings.get()).getPhoneLoginString();
+
     }
 }

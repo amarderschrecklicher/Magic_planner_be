@@ -1,5 +1,6 @@
 package ba.unsa.etf.cehajic.hcehajic2.appback.token;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,4 +14,7 @@ public interface TokenRepository extends JpaRepository<Token, Long>{
     
     @Transactional
     void deleteByToken(String token);
+
+    Optional<List<Token>> findAllByChildId(Long childId);
+
 }

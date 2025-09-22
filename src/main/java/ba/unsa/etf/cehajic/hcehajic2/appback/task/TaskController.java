@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/task")
@@ -60,14 +61,12 @@ class TaskController {
 
         Task newTask = taskService.AddNewTask(task);
 
-        List<String> pushTokens = notificationService.getTokens(task.getChild().getEmail());
+        Optional<List<Token>> pushTokens = tokenService.GetTokensForAccount(task.getChild().getId());
 
         System.out.println(pushTokens);
 
         // Send push notification to each token
-        for (String pushToken : pushTokens) {
-            notificationService.sendMobileNotification(pushToken,newTask,"Imaš novi task!");
-        }
+        pushTokens.ifPresent(tokens -> notificationService.sendAllMobileNotifications(tokens, newTask, "Imaš novi task!"));
 
         return ResponseEntity.ok().body(newTask);
     }

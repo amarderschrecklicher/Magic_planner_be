@@ -1,7 +1,17 @@
 package ba.unsa.etf.cehajic.hcehajic2.appback.token;
 
-import java.util.List;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.*;
 
+import ba.unsa.etf.cehajic.hcehajic2.appback.child.ChildRequestDTO;
+import ba.unsa.etf.cehajic.hcehajic2.appback.usersettings.UserSettingsRepository;
+import ba.unsa.etf.cehajic.hcehajic2.appback.usersettings.UserSettingsService;
+import com.nimbusds.jose.JOSEException;
+import com.nimbusds.jose.crypto.MACVerifier;
+import com.nimbusds.jwt.JWTClaimsSet;
+import com.nimbusds.jwt.SignedJWT;
+import okhttp3.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,10 +27,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class TokenController {
 
      private final TokenService tokenService;
+     private final UserSettingsService userSettingsService;
 
     @Autowired
-    public TokenController(TokenService tokenService) {
+    public TokenController(TokenService tokenService, UserSettingsService userSettingsService) {
         this.tokenService = tokenService;
+        this.userSettingsService = userSettingsService;
     }
 
     @GetMapping
@@ -30,13 +42,15 @@ public class TokenController {
 
     @GetMapping(path = "/{id}")
     public List<Token> getTokensForAccount(@PathVariable("id") Long id) {
-        return tokenService.GetTokensForAccount(id);
+        Optional<List<Token>> tokens = tokenService.GetTokensForAccount(id);
+
+        return tokens.orElse(null);
     }
 
     @PostMapping(path = "/create")
     public ResponseEntity<Token> CreateNewToken(@RequestBody TokenRequestDTO requestDTO) {
                 Token newToken = tokenService.AddNewToken(
-                requestDTO.getToken(),
+                requestDTO.getNotificationToken(),
                 requestDTO.getAccountId(),
                 requestDTO.getModelId()
         );
@@ -44,32 +58,28 @@ public class TokenController {
         return ResponseEntity.ok().body(newToken);
     }
 
-    @PutMapping(path = "/update/{id}")
-    public ResponseEntity<Token> updateToken(@PathVariable("id") Long id, @RequestBody String newToken) {
+
+    @PostMapping("/mobile")
+    public ResponseEntity<?> mobileTokens(@RequestBody TokenRequestDTO requestDTO) throws JOSEException {
         try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode jsonNode = objectMapper.readTree(newToken);
-            String tok = jsonNode.get("token").asText();
-            
-            Token updatedToken = tokenService.UpdateToken(id, tok);
+            System.out.println(requestDTO);
+            ChildRequestDTO child = userSettingsService.getChildByPhoneLoginString(requestDTO.getPhoneLoginString());
 
-            return ResponseEntity.ok(updatedToken);
+            String access = tokenService.generateJWTToken(child.getId(), child.getEmail(), requestDTO.getPhoneLoginString());
+            child.setJwtToken(access);
 
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            tokenService.updateNotificationToken(child.getId(), requestDTO.getNotificationToken(),requestDTO.getModelId());
+
+            return ResponseEntity.ok(child);
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Woker not found");
         }
-    }
-    // refresh route will be added later
-    @PostMapping(path = "/jwt/refresh")
-    public ResponseEntity<String> refreshToken(@RequestBody String oldToken) {
-        return ResponseEntity.ok("Soon");
-    }
 
-
+    }
 
 
     @DeleteMapping
-    public void deleteTask(@RequestBody String token) {
+    public void deleteToken(@RequestBody String token) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode jsonNode = objectMapper.readTree(token);

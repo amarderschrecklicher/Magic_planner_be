@@ -35,12 +35,12 @@ public class SecurityConfigJwt {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/v1/manager/login", "/api/v1/manager/create").permitAll()
-                        .requestMatchers("/api/v1/manager/**").hasRole("MANAGER")
-                        .requestMatchers("/api/v1/child/**").hasAnyRole("WORKER","MANAGER")
-                        .requestMatchers("api/v1/task/**").hasAnyRole("WORKER","MANAGER")
-                        .requestMatchers("/api/v1/account/**").hasAnyRole("WORKER","MANAGER")
-                        .requestMatchers("/api/v1/token/**").hasAnyRole("WORKER","MANAGER")
+                        .requestMatchers("/api/v1/manager/login", "/api/v1/manager/create", "/api/v1/token/mobile").permitAll()
+                        .requestMatchers("/api/v1/manager/**").hasAnyRole("MANAGER")
+                        .requestMatchers("/api/v1/child/**").hasAnyRole("MANAGER","WORKER")
+                        .requestMatchers("api/v1/task/**").hasAnyRole("MANAGER","WORKER")
+                        .requestMatchers("/api/v1/account/**").hasAnyRole("MANAGER","WORKER")
+                        .requestMatchers("/api/v1/token/**").hasAnyRole("MANAGER","WORKER")
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt

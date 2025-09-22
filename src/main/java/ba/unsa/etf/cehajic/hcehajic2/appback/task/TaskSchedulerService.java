@@ -1,7 +1,10 @@
 package ba.unsa.etf.cehajic.hcehajic2.appback.task;
 
 import java.util.List;
+import java.util.Optional;
 
+import ba.unsa.etf.cehajic.hcehajic2.appback.token.Token;
+import ba.unsa.etf.cehajic.hcehajic2.appback.token.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +20,8 @@ public class TaskSchedulerService {
 
     @Autowired
     private TaskService taskService;
+    @Autowired
+    private TokenService tokenService;
 
     public void checkTasksEndingSoon() {
 
@@ -26,34 +31,12 @@ public class TaskSchedulerService {
     
         // Iterate over the tasks and send notifications
         for (Task task : tasksEndingSoon) {
-            List<String> pushTokens = notificationService.getTokens(task.getChild().getEmail());
-/* 
-            DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-            LocalDateTime sentTime = task.getSent();
-            LocalDateTime dueTime = LocalDateTime.of(sentTime.toLocalDate(), LocalDateTime.parse(task.getDueTime(), timeFormatter).toLocalTime());
-            Duration duration = Duration.between(sentTime, dueTime);
-            long timeLeft = duration.getSeconds() / 2;
-            String message = "Ostalo je još ";
+            Optional<List<Token>> pushTokens = tokenService.GetTokensForAccount(task.getChild().getId());
 
-            if (dueTime.isAfter(sentTime)) {
-                long totalMinutes = duration.toMinutes();
-                long hours = totalMinutes / 60;
-                long minutes = totalMinutes % 60;
-                
-                if (hours > 0) {
-                    message += (hours + "H i ");
-                } 
-                message += (minutes+"min");
-            }
-*/            
             System.out.println(pushTokens);
 
+            pushTokens.ifPresent(tokens -> notificationService.sendAllMobileNotifications(tokens, task, "Uskoro ističe vrijeme!"));
 
-            // Send push notification to each token
-            for (String pushToken : pushTokens) {
-                //notificationService.sendMobileNotification(pushToken, task, message);
-                notificationService.sendMobileNotification(pushToken, task, "Uskoro ističe vrijeme!");
-            }
             
             taskService.NotificationSent(task.getId());
             
