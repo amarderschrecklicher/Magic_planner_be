@@ -1,5 +1,6 @@
 package ba.unsa.etf.cehajic.hcehajic2.appback.task;
 
+import java.time.*;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,24 +24,37 @@ public class TaskSchedulerService {
     @Autowired
     private TokenService tokenService;
 
-    public void checkTasksEndingSoon() {
+    public void taskEndingSoon(Task taskEndingSoon) {
 
-        // Call the repository method with the formatted time strings
-        List<Task> tasksEndingSoon = taskRepository.findTasksWithHalfTimeLeft();
-        System.out.println(tasksEndingSoon);
-    
-        // Iterate over the tasks and send notifications
-        for (Task task : tasksEndingSoon) {
-            Optional<List<Token>> pushTokens = tokenService.GetTokensForAccount(task.getChild().getId());
+        System.out.println(taskEndingSoon);
 
-            System.out.println(pushTokens);
+        Optional<List<Token>> pushTokens = tokenService.GetTokensForAccount(taskEndingSoon.getChild().getId());
 
-            pushTokens.ifPresent(tokens -> notificationService.sendAllMobileNotifications(tokens, task, "Uskoro ističe vrijeme!"));
+        System.out.println(pushTokens);
 
+        pushTokens.ifPresent(tokens -> notificationService.sendAllMobileNotifications(tokens, taskEndingSoon, "Uskoro ističe vrijeme!"));
             
-            taskService.NotificationSent(task.getId());
+        taskService.NotificationSent(taskEndingSoon.getId());
             
+    }
+
+
+    public Instant calculateNotificationTime(Task taskEndingSoon) {
+        // Pretpostavljam da je dueDate = "2025-09-22", dueTime = "14:30"
+        LocalDate dueDate = taskEndingSoon.getDueDate();
+        LocalTime dueTime = LocalTime.parse(taskEndingSoon.getDueTime());
+        LocalDateTime dueDateTime = LocalDateTime.of(dueDate, dueTime);
+
+        LocalDateTime now = LocalDateTime.now();
+
+        // Ako je dueTime barem 2h ispred trenutnog vremena
+        if (Duration.between(now, dueDateTime).toHours() >= 2) {
+            return dueDateTime.minusMinutes(30).atZone(ZoneId.systemDefault()).toInstant();
+
+        } else {
+            return null;
         }
+
     }
 }
 

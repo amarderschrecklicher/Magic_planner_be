@@ -9,6 +9,7 @@ import ba.unsa.etf.cehajic.hcehajic2.appback.child.ChildService;
 import ba.unsa.etf.cehajic.hcehajic2.appback.token.Token;
 import ba.unsa.etf.cehajic.hcehajic2.appback.token.TokenService;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.time.LocalDate;
@@ -24,13 +25,15 @@ class TaskController {
     private final TokenService tokenService;
     private final ChildService childService;
     private final TaskNotificationService notificationService;
+    private final TaskSchedulerService taskSchedulerService;
 
     @Autowired
-    public TaskController(TaskService taskService, TokenService tokenService,ChildService childService, TaskNotificationService notificationService) {
+    TaskController(TaskService taskService, TokenService tokenService, ChildService childService, TaskNotificationService notificationService, TaskSchedulerService taskSchedulerService) {
         this.taskService = taskService;
         this.tokenService = tokenService;
         this.childService = childService;
         this.notificationService = notificationService;
+        this.taskSchedulerService = taskSchedulerService;
     }
 
     @GetMapping
@@ -67,6 +70,15 @@ class TaskController {
 
         // Send push notification to each token
         pushTokens.ifPresent(tokens -> notificationService.sendAllMobileNotifications(tokens, newTask, "Imaš novi task!"));
+
+        Instant timeOfNotification = taskSchedulerService.calculateNotificationTime(newTask);
+
+        if (timeOfNotification != null) {
+            notificationService.scheduleNotification(
+                    () -> taskSchedulerService.taskEndingSoon(newTask),
+                    timeOfNotification
+            );
+        }
 
         return ResponseEntity.ok().body(newTask);
     }

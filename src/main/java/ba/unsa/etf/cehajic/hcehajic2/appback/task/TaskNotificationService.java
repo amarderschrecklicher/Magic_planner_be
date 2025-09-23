@@ -1,14 +1,17 @@
 package ba.unsa.etf.cehajic.hcehajic2.appback.task;
 
+import java.time.Instant;
 import java.util.*;
 
 import ba.unsa.etf.cehajic.hcehajic2.appback.token.Token;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.TaskScheduler;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.json.JSONArray;
@@ -16,6 +19,13 @@ import org.json.JSONObject;
 
 @Service
 public class TaskNotificationService {
+
+    @Autowired
+    private TaskScheduler taskScheduler;
+
+    public void scheduleNotification(Runnable task, Instant when) {
+        taskScheduler.schedule(task,when);
+    }
  
     public void sendAllMobileNotifications(List<Token> pushTokens,Task task,String title) {
         try {
