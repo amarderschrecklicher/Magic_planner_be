@@ -14,8 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import org.json.JSONArray;
-import org.json.JSONObject;
+
 
 @Service
 public class TaskNotificationService {
@@ -23,8 +22,12 @@ public class TaskNotificationService {
     @Autowired
     private TaskScheduler taskScheduler;
 
+    public void TaskNotificationService(TaskScheduler taskScheduler) {
+        this.taskScheduler = taskScheduler;
+    }
+
     public void scheduleNotification(Runnable task, Instant when) {
-        taskScheduler.schedule(task,when);
+        taskScheduler.schedule(task, when);
     }
  
     public void sendAllMobileNotifications(List<Token> pushTokens,Task task,String title) {

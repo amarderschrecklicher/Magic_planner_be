@@ -14,9 +14,6 @@ import org.springframework.stereotype.Service;
 public class TaskSchedulerService {
 
     @Autowired
-    private TaskRepository taskRepository;
-
-    @Autowired
     private TaskNotificationService notificationService;
 
     @Autowired
