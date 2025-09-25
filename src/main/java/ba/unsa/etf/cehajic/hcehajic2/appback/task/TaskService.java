@@ -28,10 +28,13 @@ public class TaskService {
         return taskRepository.findAll();
     }
 
-    public List<Task> GetTasksForAccount(Long id) {
-
-        return taskRepository.findByChildId(id);
+    public List<TaskRequestDTO> GetTasksForAccount(Long id) {
+        return taskRepository.findByChildId(id)
+                .stream()
+                .map(TaskMapper::toDTO)
+                .toList();
     }
+
     public Task getTaskById(Long id) {
         return taskRepository.findById(id).orElse(null);
     }

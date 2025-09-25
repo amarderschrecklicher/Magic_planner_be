@@ -42,7 +42,7 @@ class TaskController {
     }
 
     @GetMapping(path = "/{id}")
-    public List<Task> getTasksForAccount(@PathVariable("id") Long id) {
+    public List<TaskRequestDTO> getTasksForAccount(@PathVariable("id") Long id) {
         return taskService.GetTasksForAccount(id);
     }
 

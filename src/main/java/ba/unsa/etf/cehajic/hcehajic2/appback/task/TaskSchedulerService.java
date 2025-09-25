@@ -45,12 +45,12 @@ public class TaskSchedulerService {
         LocalDateTime now = LocalDateTime.now();
 
         // Ako je dueTime barem 2h ispred trenutnog vremena
-        if (Duration.between(now, dueDateTime).toHours() >= 2) {
+        //if (Duration.between(now, dueDateTime).toHours() >= 2) {
             return dueDateTime.minusMinutes(30).atZone(ZoneId.systemDefault()).toInstant();
 
-        } else {
-            return null;
-        }
+        //} else {
+        //    return null;
+        //}
 
     }
 }
