@@ -1,5 +1,6 @@
 package ba.unsa.etf.cehajic.hcehajic2.appback.task;
 
+import ba.unsa.etf.cehajic.hcehajic2.appback.constants.NotificationMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -69,7 +70,7 @@ class TaskController {
         System.out.println(pushTokens);
 
         // Send push notification to each token
-        pushTokens.ifPresent(tokens -> notificationService.sendAllMobileNotifications(tokens, newTask, "Imaš novi task!"));
+        pushTokens.ifPresent(tokens -> notificationService.sendAllMobileNotifications(tokens, newTask, NotificationMessage.NEW_TASK));
 
         Instant when = taskSchedulerService.calculateNotificationTime(newTask);
 

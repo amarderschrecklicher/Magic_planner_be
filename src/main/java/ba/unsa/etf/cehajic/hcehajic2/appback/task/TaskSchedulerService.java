@@ -9,6 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ScheduledFuture;
 
+import ba.unsa.etf.cehajic.hcehajic2.appback.constants.NotificationMessage;
 import ba.unsa.etf.cehajic.hcehajic2.appback.token.Token;
 import ba.unsa.etf.cehajic.hcehajic2.appback.token.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class TaskSchedulerService {
 
-    private TaskNotificationService notificationService;
+    private final TaskNotificationService notificationService;
     private final TaskScheduler taskScheduler;
     private final TaskService taskService;
     private final TokenService tokenService;
@@ -62,7 +63,7 @@ public class TaskSchedulerService {
 
         System.out.println(pushTokens);
 
-        pushTokens.ifPresent(tokens -> notificationService.sendAllMobileNotifications(tokens, taskEndingSoon, "Uskoro ističe vrijeme!"));
+        pushTokens.ifPresent(tokens -> notificationService.sendAllMobileNotifications(tokens, taskEndingSoon, NotificationMessage.ENDING_TASK));
 
         taskService.NotificationSent(taskEndingSoon.getId());
 

@@ -3,6 +3,7 @@ package ba.unsa.etf.cehajic.hcehajic2.appback.subtask;
 import java.util.List;
 import java.util.Optional;
 
+import ba.unsa.etf.cehajic.hcehajic2.appback.constants.NotificationMessage;
 import ba.unsa.etf.cehajic.hcehajic2.appback.task.TaskNotificationService;
 import ba.unsa.etf.cehajic.hcehajic2.appback.token.Token;
 import ba.unsa.etf.cehajic.hcehajic2.appback.token.TokenService;
@@ -71,9 +72,9 @@ class SubTaskController {
 
         String message;
         if (Boolean.TRUE.equals(subTask.getDone())) {
-            message = "Subtask je završen ✅";
+            message = NotificationMessage.SUBTASK_DONE;
         } else {
-            message = "Subtask je označen kao nezavršen ❌";
+            message = NotificationMessage.SUBTASK_NOT_DONE;
         }
 
         Optional<List<Token>> pushTokens = tokenService.GetTokensForAccount(task.getChild().getId());

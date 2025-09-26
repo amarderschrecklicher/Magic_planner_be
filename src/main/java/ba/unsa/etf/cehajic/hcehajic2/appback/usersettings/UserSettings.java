@@ -1,5 +1,6 @@
 package ba.unsa.etf.cehajic.hcehajic2.appback.usersettings;
 import ba.unsa.etf.cehajic.hcehajic2.appback.child.Child;
+import ba.unsa.etf.cehajic.hcehajic2.appback.constants.PhoneLoginString;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -55,7 +56,7 @@ public class UserSettings {
     }
 
     public static String generateRandomString(Long accountId,int length) {
-        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        String characters = PhoneLoginString.PHONE_LOGIN_STRING_CHARACTERS;
         Random random = new Random();
         StringBuilder sb = new StringBuilder();
 

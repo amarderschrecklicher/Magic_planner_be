@@ -79,17 +79,14 @@ public class TokenController {
 
 
     @DeleteMapping
-    public void deleteToken(@RequestBody String token) {
+    public ResponseEntity<?> deleteToken(@RequestBody TokenRequestDTO token) {
         try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode jsonNode = objectMapper.readTree(token);
-            String tok = jsonNode.get("token").asText();
+            tokenService.deleteToken(token.getNotificationToken());
 
-            tokenService.deleteToken(tok);   
-
-            System.out.println("Delete called!");
+            return ResponseEntity.ok("Delete successful!");
 
         } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Token not found");
         }
         
     }
