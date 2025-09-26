@@ -63,7 +63,7 @@ public class TaskSchedulerService {
 
         System.out.println(pushTokens);
 
-        pushTokens.ifPresent(tokens -> notificationService.sendAllMobileNotifications(tokens, taskEndingSoon, NotificationMessage.ENDING_TASK));
+        pushTokens.ifPresent(tokens -> notificationService.sendAllMobileNotifications(tokens, TaskMapper.toDTO(taskEndingSoon), NotificationMessage.ENDING_TASK));
 
         taskService.NotificationSent(taskEndingSoon.getId());
 

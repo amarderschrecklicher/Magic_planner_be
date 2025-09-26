@@ -19,7 +19,7 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class TaskNotificationService {
 
-    public void sendAllMobileNotifications(List<Token> pushTokens,Task task,String title) {
+    public void sendAllMobileNotifications(List<Token> pushTokens,TaskRequestDTO task,String title) {
         try {
                 HttpHeaders headers = new HttpHeaders();
                 headers.setContentType(MediaType.APPLICATION_JSON);

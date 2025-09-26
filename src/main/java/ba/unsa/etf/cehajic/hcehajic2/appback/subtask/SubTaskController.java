@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import ba.unsa.etf.cehajic.hcehajic2.appback.constants.NotificationMessage;
-import ba.unsa.etf.cehajic.hcehajic2.appback.task.TaskNotificationService;
+import ba.unsa.etf.cehajic.hcehajic2.appback.task.*;
 import ba.unsa.etf.cehajic.hcehajic2.appback.token.Token;
 import ba.unsa.etf.cehajic.hcehajic2.appback.token.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +18,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import ba.unsa.etf.cehajic.hcehajic2.appback.task.Task;
-import ba.unsa.etf.cehajic.hcehajic2.appback.task.TaskService;
 
 @RestController
 @RequestMapping("/api/v1/task/sub")
@@ -77,9 +74,12 @@ class SubTaskController {
             message = NotificationMessage.SUBTASK_NOT_DONE;
         }
 
+        TaskRequestDTO subtask = TaskMapper.toDTO(task);
+        subtask.setTaskName(subTask.getDescription());
+
         Optional<List<Token>> pushTokens = tokenService.GetTokensForAccount(task.getChild().getId());
         pushTokens.ifPresent(tokens ->
-                taskNotificationService.sendAllMobileNotifications(tokens, task, message)
+                taskNotificationService.sendAllMobileNotifications(tokens, subtask, message)
         );
         }
     }

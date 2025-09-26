@@ -70,7 +70,7 @@ class TaskController {
         System.out.println(pushTokens);
 
         // Send push notification to each token
-        pushTokens.ifPresent(tokens -> notificationService.sendAllMobileNotifications(tokens, newTask, NotificationMessage.NEW_TASK));
+        pushTokens.ifPresent(tokens -> notificationService.sendAllMobileNotifications(tokens, TaskMapper.toDTO(newTask), NotificationMessage.NEW_TASK));
 
         Instant when = taskSchedulerService.calculateNotificationTime(newTask);
 
