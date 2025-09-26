@@ -1,25 +1,58 @@
 package ba.unsa.etf.cehajic.hcehajic2.appback.task;
 
 import java.time.*;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ScheduledFuture;
 
 import ba.unsa.etf.cehajic.hcehajic2.appback.token.Token;
 import ba.unsa.etf.cehajic.hcehajic2.appback.token.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.TaskScheduler;
 import org.springframework.stereotype.Service;
 
 
 @Service
 public class TaskSchedulerService {
 
-    @Autowired
     private TaskNotificationService notificationService;
+    private final TaskScheduler taskScheduler;
+    private final TaskService taskService;
+    private final TokenService tokenService;
 
-    @Autowired
-    private TaskService taskService;
-    @Autowired
-    private TokenService tokenService;
+    private final Map<Long, List<ScheduledFuture<?>>> registry = new ConcurrentHashMap<>();
+
+    public TaskSchedulerService(TaskScheduler taskScheduler,
+                                TaskNotificationService notificationService,
+                                TaskService taskService,
+                                TokenService tokenService) {
+        this.taskScheduler = taskScheduler;
+        this.notificationService = notificationService;
+        this.taskService = taskService;
+        this.tokenService = tokenService;
+    }
+
+    public void scheduleTaskNotification(Long taskId,Instant when, Runnable job) {
+
+        Runnable wrapped = () -> {
+            try{
+                job.run();
+            } finally {
+                List<ScheduledFuture<?>> list = registry.get(taskId);
+                if (list != null) {
+                    list.removeIf(f -> f.isDone() || f.isCancelled());
+                }
+            }
+        };
+       ScheduledFuture<?> future = taskScheduler.schedule(wrapped, when);
+       registry.computeIfAbsent(taskId, k -> new CopyOnWriteArrayList<>()).add(future);
+    }
+
+
 
     public void taskEndingSoon(Task taskEndingSoon) {
 
@@ -30,9 +63,19 @@ public class TaskSchedulerService {
         System.out.println(pushTokens);
 
         pushTokens.ifPresent(tokens -> notificationService.sendAllMobileNotifications(tokens, taskEndingSoon, "Uskoro ističe vrijeme!"));
-            
+
         taskService.NotificationSent(taskEndingSoon.getId());
-            
+
+    }
+
+
+
+    public void cancelTaskNotifications(Long taskId) {
+        List<ScheduledFuture<?>> futures = registry.remove(taskId);
+        if (futures == null) return;
+        for (ScheduledFuture<?> f : futures) {
+            f.cancel(false); // don't interrupt if already running
+        }
     }
 
 

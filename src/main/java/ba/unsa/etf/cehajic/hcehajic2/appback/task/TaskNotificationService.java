@@ -19,17 +19,6 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class TaskNotificationService {
 
-    @Autowired
-    private TaskScheduler taskScheduler;
-
-    public void TaskNotificationService(TaskScheduler taskScheduler) {
-        this.taskScheduler = taskScheduler;
-    }
-
-    public void scheduleNotification(Runnable task, Instant when) {
-        taskScheduler.schedule(task, when);
-    }
- 
     public void sendAllMobileNotifications(List<Token> pushTokens,Task task,String title) {
         try {
                 HttpHeaders headers = new HttpHeaders();

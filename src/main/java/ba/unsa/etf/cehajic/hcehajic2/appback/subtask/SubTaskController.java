@@ -1,7 +1,11 @@
 package ba.unsa.etf.cehajic.hcehajic2.appback.subtask;
 
 import java.util.List;
+import java.util.Optional;
 
+import ba.unsa.etf.cehajic.hcehajic2.appback.task.TaskNotificationService;
+import ba.unsa.etf.cehajic.hcehajic2.appback.token.Token;
+import ba.unsa.etf.cehajic.hcehajic2.appback.token.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -24,11 +28,15 @@ class SubTaskController {
 
     private final SubTaskService subTaskService;
     private final TaskService taskService;
+    private final TaskNotificationService taskNotificationService;
+    private final TokenService tokenService;
 
     @Autowired
-    public SubTaskController(SubTaskService subTaskService, TaskService taskService) {
+    SubTaskController(SubTaskService subTaskService, TaskService taskService, TaskNotificationService taskNotificationService, TokenService tokenService) {
         this.subTaskService = subTaskService;
         this.taskService = taskService;
+        this.taskNotificationService = taskNotificationService;
+        this.tokenService = tokenService;
     }
 
     @GetMapping
@@ -57,6 +65,22 @@ class SubTaskController {
     public void finishSubTask(@PathVariable Long id,@RequestBody SubTask subTask) {   
 
         subTaskService.FinishSubTask(id, subTask.getDone());
+        Task task = taskService.getTaskById(subTask.getTask().getId());
+
+        if (task != null) {
+
+        String message;
+        if (Boolean.TRUE.equals(subTask.getDone())) {
+            message = "Subtask je završen ✅";
+        } else {
+            message = "Subtask je označen kao nezavršen ❌";
+        }
+
+        Optional<List<Token>> pushTokens = tokenService.GetTokensForAccount(task.getChild().getId());
+        pushTokens.ifPresent(tokens ->
+                taskNotificationService.sendAllMobileNotifications(tokens, task, message)
+        );
+        }
     }
 
     @DeleteMapping(path={"/{subId}"})

@@ -71,12 +71,13 @@ class TaskController {
         // Send push notification to each token
         pushTokens.ifPresent(tokens -> notificationService.sendAllMobileNotifications(tokens, newTask, "Imaš novi task!"));
 
-        Instant timeOfNotification = taskSchedulerService.calculateNotificationTime(newTask);
+        Instant when = taskSchedulerService.calculateNotificationTime(newTask);
 
-        if (timeOfNotification != null) {
-            notificationService.scheduleNotification(
-                    () -> taskSchedulerService.taskEndingSoon(newTask),
-                    timeOfNotification
+        if (when != null) {
+            taskSchedulerService.scheduleTaskNotification(
+                    newTask.getId(),
+                    when,
+                    () -> taskSchedulerService.taskEndingSoon(newTask)
             );
         }
 
@@ -97,6 +98,7 @@ class TaskController {
     @DeleteMapping(path = {"/{taskId}"})
     public void deleteTask(@PathVariable("taskId") Long taskId) {
         System.out.println("Delete called!");
+        taskSchedulerService.cancelTaskNotifications(taskId);
         taskService.deleteTask(taskId);
     }
 

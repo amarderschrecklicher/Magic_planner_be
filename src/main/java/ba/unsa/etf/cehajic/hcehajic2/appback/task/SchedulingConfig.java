@@ -1,5 +1,4 @@
-// src/main/java/.../config/SchedulingConfig.java
-package ba.unsa.etf.cehajic.hcehajic2.appback.config;
+package ba.unsa.etf.cehajic.hcehajic2.appback.task;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
