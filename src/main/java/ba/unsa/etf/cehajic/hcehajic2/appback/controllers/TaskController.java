@@ -7,6 +7,7 @@ import ba.unsa.etf.cehajic.hcehajic2.appback.models.Task;
 import ba.unsa.etf.cehajic.hcehajic2.appback.services.TaskNotificationService;
 import ba.unsa.etf.cehajic.hcehajic2.appback.services.TaskSchedulerService;
 import ba.unsa.etf.cehajic.hcehajic2.appback.services.TaskService;
+import org.aspectj.apache.bcel.generic.Instruction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -123,5 +124,18 @@ class TaskController {
     @GetMapping("/task-summary/{childId}")
     public ResponseEntity<List<Map<String, Object>>> getTaskSummary(@PathVariable Long childId) {
         return ResponseEntity.ok(taskService.getTaskSummary(childId));
+    }
+
+    @PostMapping("/instruction")
+    public void addInstruction(@RequestBody TaskRequestDTO instruction) {
+
+        Optional<List<Token>> pushTokens = tokenService.GetTokensForAccount(instruction.getChildId());
+        pushTokens.ifPresent(tokens -> notificationService.sendAllMobileNotifications(tokens,instruction,"Dodana je nova instrukcija!"));
+    }
+
+    @PostMapping("/newmessage")
+    public void addNewMessage(@RequestBody TaskRequestDTO newMessage) {
+        Optional<List<Token>> pushTokens = tokenService.GetTokensForAccount(newMessage.getChildId());
+        pushTokens.ifPresent(tokens -> notificationService.sendAllMobileNotifications(tokens,newMessage,"Imaš novu poruku!"));
     }
 }

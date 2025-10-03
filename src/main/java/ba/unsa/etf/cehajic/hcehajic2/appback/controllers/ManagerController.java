@@ -96,8 +96,8 @@ class ManagerController {
         .setEmailVerified(true);     
 
         try {
-            FirebaseAuth.getInstance().createUser(request);
 
+            FirebaseAuth.getInstance().createUser(request);
 
         } catch (FirebaseAuthException e) {
             e.printStackTrace();
