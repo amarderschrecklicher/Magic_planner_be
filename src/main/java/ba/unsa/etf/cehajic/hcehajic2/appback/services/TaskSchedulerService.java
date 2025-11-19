@@ -81,20 +81,22 @@ public class TaskSchedulerService {
 
     public Instant calculateNotificationTime(Task taskEndingSoon) {
         // Pretpostavljam da je dueDate = "2025-09-22", dueTime = "14:30"
+        LocalDateTime startDateTime = taskEndingSoon.getTaskStart();
+
+
         LocalDate dueDate = taskEndingSoon.getDueDate();
         LocalTime dueTime = LocalTime.parse(taskEndingSoon.getDueTime());
         LocalDateTime dueDateTime = LocalDateTime.of(dueDate, dueTime);
 
-        LocalDateTime now = LocalDateTime.now();
+        long totalMinutes = Duration.between(startDateTime, dueDateTime).toMinutes();
 
-        // Ako je dueTime barem 2h ispred trenutnog vremena
-        //if (Duration.between(now, dueDateTime).toHours() >= 2) {
-            return dueDateTime.minusMinutes(30).atZone(ZoneId.of("Europe/Sarajevo")).toInstant();
+        long fivePercent = Math.round(totalMinutes * 0.05);
 
-        //} else {
-        //    return null;
-        //}
+        LocalDateTime notificationDateTime = dueDateTime.minusMinutes(fivePercent);
 
+        return notificationDateTime
+                .atZone(ZoneId.of("Europe/Sarajevo"))
+                .toInstant();
     }
 }
 

@@ -97,6 +97,7 @@ class ManagerController {
 
         try {
 
+
             FirebaseAuth.getInstance().createUser(request);
 
         } catch (FirebaseAuthException e) {
@@ -138,6 +139,8 @@ class ManagerController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
+
+    /*
     @DeleteMapping
     public ResponseEntity<String> deleteAllAccounts() {
         try {
@@ -148,6 +151,7 @@ class ManagerController {
              .body("An error occurred while deleting all accounts.");
         }
     }
+    */
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteManagerById(@PathVariable Long id) {
