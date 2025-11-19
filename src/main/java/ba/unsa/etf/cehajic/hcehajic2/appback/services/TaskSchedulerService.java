@@ -90,7 +90,7 @@ public class TaskSchedulerService {
 
         long totalMinutes = Duration.between(startDateTime, dueDateTime).toMinutes();
 
-        long fivePercent = Math.round(totalMinutes * 0.05);
+        long fivePercent = Math.round(totalMinutes * 0.15);
 
         LocalDateTime notificationDateTime = dueDateTime.minusMinutes(fivePercent);
 
