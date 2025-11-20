@@ -36,32 +36,14 @@ public class ChildService {
         return accountRepository.getById(id);
     }
 
-    public Child GetAccountByCredentials(String accName) {
-        List<Child> possible = GetAllChildren();
-        Child obj = null;
-        for (Child acc : possible) {
-            if (
-             (acc.getUsername().equals(accName)
-                || acc.getEmail().equals(accName))) {
-                obj = acc;
-                break;
-            }
-        }
-        if (obj == null) System.out.println("User doesn't exist!");
-        return obj;
-    }
-
-    public Child AddNewAccount(Child account) {
-        accountRepository.save(account);
-        return account;
-    }
 
     public  Child CreateNewAccount(String name, String surname,Boolean male, LocalDate dateOfBirth, String qualities, String preferences, String special, Long managerId,String email,String password) {
+
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String hashedPassword = passwordEncoder.encode(password);
         Child account = new Child(name,surname,dateOfBirth,male,qualities,preferences,special,managerId,email,hashedPassword);
-        Child savedAcc = accountRepository.save(account);
-        return savedAcc;
+        return accountRepository.save(account);
+
     }
 
     public Child updateEmployee(Long id, Child updatedUserData) {
@@ -97,61 +79,29 @@ public class ChildService {
         accountRepository.save(existingChild);
         return existingChild;
     }
+
+
     public Child UpdateUser(Long id, String name,String surname,String email,String password,Manager manager) {
         Child existingAcc = accountRepository.getById(id);
-        if (existingAcc == null) return null;
         
         if(name!=null)
-        existingAcc.setName(name);
+            existingAcc.setName(name);
         if(surname!=null)
-        existingAcc.setSurname(surname);
+            existingAcc.setSurname(surname);
         if(email!=null)
-        existingAcc.setEmail(email);
+            existingAcc.setEmail(email);
         if(password!=null){
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String hashedPassword = passwordEncoder.encode(password);
         existingAcc.setPassword(hashedPassword);
         }
         if(manager!=null)
-        existingAcc.setManager(manager);
+            existingAcc.setManager(manager);
 
         accountRepository.save(existingAcc);
         return existingAcc;
     }
 
-    public Child UpdateSurname(Long id, String surname) {
-        Child existingAcc = accountRepository.getById(id);
-        if (existingAcc == null) return null;
-        existingAcc.setSurname(surname);
-        accountRepository.save(existingAcc);
-        return existingAcc;
-    }
-
-    public Child UpdateEmail(Long id, String email) {
-        Child existingAcc = accountRepository.getById(id);
-        if (existingAcc == null) return null;
-        existingAcc.setEmail(email);
-        accountRepository.save(existingAcc);
-        return existingAcc;
-    }
-
-
-    public void deleteAllAccounts() {
-        accountRepository.deleteAll();
-    }
-
-    public Child updatePassword(Long id, String password) {
-        Child existingAcc = accountRepository.getById(id);
-        if (existingAcc == null) {
-            return null;
-        }
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String hashedPassword = passwordEncoder.encode(password);
-        existingAcc.setPassword(hashedPassword);
-        accountRepository.save(existingAcc);
-        
-        return existingAcc;
-    }
 
     public void deleteEmployee(Long id) {
         deleteUserSettingsByChildId(id);

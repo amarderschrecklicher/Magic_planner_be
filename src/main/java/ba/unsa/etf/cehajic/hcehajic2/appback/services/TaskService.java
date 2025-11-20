@@ -44,23 +44,24 @@ public class TaskService {
     }
 
     public List<Task> GetDoneTasksForAccount(Long id) {
-        List<Task> tasks = GetAllTasks();
-        List<Task> matching = new ArrayList<>();
-        for (Task task : tasks)
-            if (Objects.equals(task.getChild().getId(), id) && task.isDone())
-                matching.add(task);
-
-        return matching;
+        return GetAllTasks().stream()
+                .filter(task -> Objects.equals(task.getChild().getId(), id) && task.isDone())
+                .sorted((a, b) -> {
+                    if (a.getTaskEnd() == null && b.getTaskEnd() == null) return 0;
+                    if (a.getTaskEnd() == null) return 1;
+                    if (b.getTaskEnd() == null) return -1;
+                    return b.getTaskEnd().compareTo(a.getTaskEnd());
+                })
+                .collect(Collectors.toList());
     }
 
     public List<Task> GetUndoneTasksForAccount(Long id) {
-        List<Task> tasks = GetAllTasks();
-        List<Task> matching = new ArrayList<>();
-        for (Task task : tasks)
-            if (Objects.equals(task.getChild().getId(), id) && !task.isDone())
-                matching.add(task);
-
-        return matching;
+        return GetAllTasks().stream()
+                .filter(task -> Objects.equals(task.getChild().getId(), id) && Objects.equals(task.getDueDate(), LocalDate.now()) && !task.isDone() )
+                .sorted((a, b) -> {
+                    return a.getTaskSent().compareTo(b.getTaskSent());
+                })
+                .collect(Collectors.toList());
     }
 
     public Task AddNewTask(Task task) {

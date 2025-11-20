@@ -48,11 +48,13 @@ class SubTaskController {
         return subTaskService.GetAllSubTasks();
     }
 
+    // koristi se
     @GetMapping(path="/{id}")
     public List<SubTask> getSubsForTask(@PathVariable("id") Long id) {
         return subTaskService.GetSubsForTask(id);
     }
 
+    // koristi se web
     @PostMapping
     public ResponseEntity<SubTask> addNewSubTask(@RequestBody SubTask subTask) {
         Task task = taskService.getTaskById(subTask.getTask().getId());
@@ -65,6 +67,7 @@ class SubTaskController {
     }
 
 
+    // koristi se
     @PutMapping(path = "/done/{id}")
     public void finishSubTask(@PathVariable Long id,@RequestBody SubTask subTask) {   
 
@@ -90,6 +93,7 @@ class SubTaskController {
         }
     }
 
+    // koristi se web
     @DeleteMapping(path={"/{subId}"})
     public void deleteTask(@PathVariable("subId") Long subId) {
         System.out.println("Delete called!");

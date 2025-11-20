@@ -30,9 +30,6 @@ import java.util.stream.Collectors;
 @CrossOrigin
 class ManagerController {
 
-    public record LoginRequest(String username, String password) {}
-    public record LoginResponse(String token) {}
-
     private final ManagerService accountService;
     private final ChildService childService;
     private final TokenService tokenService;
@@ -49,6 +46,8 @@ class ManagerController {
         return accountService.GetAllAccounts();
     }
 
+
+    // koristi se web
     @GetMapping(path = "/children/{id}")
     @PreAuthorize("hasRole('MANAGER') and #id== T(java.lang.Long).parseLong(authentication.name)")
     public List<Child> getAllChildren(@PathVariable("id") Long id) {
@@ -60,21 +59,25 @@ class ManagerController {
         .collect(Collectors.toList());
     }
 
+
     @GetMapping(path = "/{username}/{pass}")
     public ManagerRequestDTO getAccountByCredentials(@PathVariable("username") String accName,
                                                      @PathVariable("pass") String pass) {
         return accountService.GetAccountByCredentials(accName, pass);
     }
 
+    // koristi se
     @GetMapping(path = "/{id}")
     public Manager getManagerById(@PathVariable("id") Long id) {
         return accountService.getManagerById(id);
     }
 
+    // koristi se web
     @PostMapping(path = "/create")
     public ResponseEntity<?> addNewAccount(@RequestBody ManagerRequestDTO requestDTO) {
         System.out.println("Creating new User!");
         System.out.println(requestDTO.getPassword());
+
         if (accountService.existsByEmail(requestDTO.getEmail())) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
             .body("Email already exists");
@@ -97,7 +100,6 @@ class ManagerController {
 
         try {
 
-
             FirebaseAuth.getInstance().createUser(request);
 
         } catch (FirebaseAuthException e) {
@@ -107,7 +109,7 @@ class ManagerController {
         return ResponseEntity.ok().body(newAccount);
     }
 
-
+    // koristi se web
     @PostMapping(path = "/login")
     public ResponseEntity<?> login(@RequestBody Map<String, String> loginRequest) throws JOSEException {
         String username = loginRequest.get("username");
@@ -123,7 +125,7 @@ class ManagerController {
         }
     }
 
-
+    // koristi se web
     @PutMapping(path = "/pass/{id}")
     public ResponseEntity<Manager> updatePassword(@PathVariable("id") Long id, @RequestBody String passwordJson) {
         try {
@@ -159,6 +161,7 @@ class ManagerController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    // koristi se web
     @PutMapping(path = "/{id}")
     public ResponseEntity<Manager> updateUser(@PathVariable("id") Long id, @RequestBody Manager updatedUserData) {
         try {

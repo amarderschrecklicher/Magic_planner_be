@@ -42,12 +42,13 @@ class ChildController {
         return accountService.GetAllChildren();
     }
 
+    // koristi se
     @GetMapping(path = "/{id}")
     public Child getAccountById(@PathVariable("id") Long id) {
-        Child c = accountService.GetChildById(id);
-        return c;
+        return  accountService.GetChildById(id);
     }
 
+    // koristi se web
     @PostMapping(path = "/create")
     public ResponseEntity<?> addNewChild(@RequestBody ChildRequestDTO requestDTO) {
         System.out.println("Creating new User!");
@@ -70,8 +71,7 @@ class ChildController {
                 requestDTO.getPassword()
         );
 
-        Manager m = managerService.getManagerById(requestDTO.getManagerId());
-        newAccount.setManager(m);
+        newAccount.setManager(managerService.getManagerById(requestDTO.getManagerId()));
 
         CreateRequest request = new CreateRequest()
                .setEmail(newAccount.getEmail())
@@ -90,6 +90,8 @@ class ChildController {
         
         return ResponseEntity.ok().body(newAccount);
     }
+
+    // koristi se web
     @PutMapping(path = "/update/{id}")
     public ResponseEntity<Child> updateUser(@PathVariable("id") Long id, @RequestBody Child updatedUserData) {
         try {
@@ -104,6 +106,7 @@ class ChildController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
 
     @PutMapping(path = "/update/manager/{id}")
     public ResponseEntity<Child> updateUser(@PathVariable("id") Long id, @RequestBody String updatedUserData) {
@@ -126,6 +129,7 @@ class ChildController {
         }
     }
 
+    /*
     @DeleteMapping
     public ResponseEntity<String> deleteAllAccounts() {
         try {
@@ -136,7 +140,9 @@ class ChildController {
              .body("An error occurred while deleting all accounts.");
         }
     }
+    */
 
+    // koristi se web
     @DeleteMapping(path = {"/{childId}"})
     public void deleteEmployee(@PathVariable("childId") Long childId) {
         System.out.println("Delete called!");

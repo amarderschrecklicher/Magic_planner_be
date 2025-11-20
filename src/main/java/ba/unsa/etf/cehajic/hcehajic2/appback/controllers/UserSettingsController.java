@@ -25,20 +25,24 @@ public class UserSettingsController {
     @GetMapping
     public List<UserSettings> GetAllSettings() { return userSettingsService.GetAllUserSettings(); }
 
+    // koristi se
     @GetMapping(path="/{id}")
     public UserSettings GetUserSettings(@PathVariable("id") Long id) { return userSettingsService.GetUserSettingsForAccount(id); }
 
+    // koristi se
     @GetMapping(path="mobile/{id}")
     public String GetPhoneCode(@PathVariable Long id) {
         return userSettingsService.GetPhoneCode(id);
     }
 
+    // koristi se
     @PostMapping
     public ResponseEntity<UserSettings> CreateUserSettings(@RequestBody UserSettings userSettings) {
         UserSettings newUserSettings = userSettingsService.CreateUserSettings(userSettings);
         return ResponseEntity.ok().body(newUserSettings);
     }
 
+    // koristi se web
     @PutMapping("/{id}")
     public ResponseEntity<UserSettings> updateUserSettings(@PathVariable Long id, @RequestBody String settingsJson) {
         try {

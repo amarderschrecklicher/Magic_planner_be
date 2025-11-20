@@ -53,16 +53,19 @@ class TaskController {
         return taskService.GetTasksForAccount(id);
     }
 
+    // koristi se
     @GetMapping(path = "/undone/{id}")
     public List<Task> getUndoneTasksForAccount(@PathVariable("id") Long id) {
         return taskService.GetUndoneTasksForAccount(id);
     }
 
+    // koristi se
     @GetMapping(path = "/alldone/{id}")
     public List<Task> getDoneTasksForAccount(@PathVariable("id") Long id) {
         return taskService.GetDoneTasksForAccount(id);
     }
 
+    // koristi se web
     @PostMapping
     public ResponseEntity<Task> addNewTask(@RequestBody Task task) {
 
@@ -92,16 +95,19 @@ class TaskController {
     }
 
 
+    // koristi se
     @PutMapping(path = "/start/{id}")
     public void startTask(@PathVariable Long id) {
         taskService.StartTask(id);
     }
 
+    // koristi se
     @PutMapping(path = "/done/{id}")
     public void finishTask(@PathVariable Long id) {
         taskService.FinishTask(id);
     }
 
+    // koristi se
     @DeleteMapping(path = {"/{taskId}"})
     public void deleteTask(@PathVariable("taskId") Long taskId) {
         System.out.println("Delete called!");
@@ -109,23 +115,27 @@ class TaskController {
         taskService.deleteTask(taskId);
     }
 
+    // koristi se web
     @GetMapping(path = "/deadline-stats/{childId}")
     public ResponseEntity<List<Long>> getDeadlineStats(@PathVariable Long childId) {
         List<Long> stats = taskService.calculateTasksInAndOutOfDeadline(childId);
         return ResponseEntity.ok(stats);
     }
 
+    // koristi se web
     @GetMapping(path = "/tasks-over-time/{childId}")
     public ResponseEntity<Map<LocalDate, Long>> getTasksOverTime(@PathVariable Long childId) {
         Map<LocalDate, Long> stats = taskService.calculateCompletedTasksOverTime(childId);
         return ResponseEntity.ok(stats);
     }
 
+    // koristi se web
     @GetMapping("/task-summary/{childId}")
     public ResponseEntity<List<Map<String, Object>>> getTaskSummary(@PathVariable Long childId) {
         return ResponseEntity.ok(taskService.getTaskSummary(childId));
     }
 
+    // koristi se
     @PostMapping("/instruction")
     public void addInstruction(@RequestBody TaskRequestDTO instruction) {
 
@@ -133,6 +143,7 @@ class TaskController {
         pushTokens.ifPresent(tokens -> notificationService.sendAllMobileNotifications(tokens,instruction,"Dodana je nova instrukcija!"));
     }
 
+    // koristi se
     @PostMapping("/newmessage")
     public void addNewMessage(@RequestBody TaskRequestDTO newMessage) {
         Optional<List<Token>> pushTokens = tokenService.GetTokensForAccount(newMessage.getChildId());

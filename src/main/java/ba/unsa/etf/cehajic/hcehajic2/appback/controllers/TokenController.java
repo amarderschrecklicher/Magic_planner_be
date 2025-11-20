@@ -33,13 +33,8 @@ public class TokenController {
         return tokenService.GetAllTokens();
     }
 
-    @GetMapping(path = "/{id}")
-    public List<Token> getTokensForAccount(@PathVariable("id") Long id) {
-        Optional<List<Token>> tokens = tokenService.GetTokensForAccount(id);
 
-        return tokens.orElse(null);
-    }
-
+    // koristi se
     @PostMapping(path = "/create")
     public ResponseEntity<Token> CreateNewToken(@RequestBody TokenRequestDTO requestDTO) {
                 Token newToken = tokenService.AddNewToken(
@@ -52,6 +47,7 @@ public class TokenController {
     }
 
 
+    // koristi se
     @PostMapping("/mobile")
     public ResponseEntity<?> mobileTokens(@RequestBody TokenRequestDTO requestDTO) throws JOSEException {
         try {
@@ -70,7 +66,7 @@ public class TokenController {
 
     }
 
-
+    // koristi se
     @DeleteMapping
     public ResponseEntity<?> deleteToken(@RequestBody TokenRequestDTO token) {
         try {
