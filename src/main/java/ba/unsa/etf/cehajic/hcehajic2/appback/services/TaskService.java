@@ -45,13 +45,14 @@ public class TaskService {
 
     public List<Task> GetDoneTasksForAccount(Long id) {
         return GetAllTasks().stream()
-                .filter(task -> Objects.equals(task.getChild().getId(), id) && task.isDone())
-                .sorted((a, b) -> {
-                    if (a.getTaskEnd() == null && b.getTaskEnd() == null) return 0;
-                    if (a.getTaskEnd() == null) return 1;
-                    if (b.getTaskEnd() == null) return -1;
-                    return b.getTaskEnd().compareTo(a.getTaskEnd());
-                })
+                .filter(task ->
+                        Objects.equals(task.getChild().getId(), id)
+                                && task.isDone()
+                )
+                .sorted(Comparator.comparing(Task::getTaskEnd,
+                        Comparator.nullsLast(Comparator.reverseOrder())
+                ))
+                .limit(20)
                 .collect(Collectors.toList());
     }
 
@@ -61,6 +62,7 @@ public class TaskService {
                 .sorted(Comparator.comparing(Task::getTaskSent))
                 .collect(Collectors.toList());
     }
+
 
     public Task AddNewTask(Task task) {
         task.setTaskSent(LocalDateTime.now());
