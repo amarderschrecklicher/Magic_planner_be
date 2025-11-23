@@ -58,9 +58,7 @@ public class TaskService {
     public List<Task> GetUndoneTasksForAccount(Long id) {
         return GetAllTasks().stream()
                 .filter(task -> Objects.equals(task.getChild().getId(), id) && Objects.equals(task.getDueDate(), LocalDate.now()) && !task.isDone() )
-                .sorted((a, b) -> {
-                    return a.getTaskSent().compareTo(b.getTaskSent());
-                })
+                .sorted(Comparator.comparing(Task::getTaskSent))
                 .collect(Collectors.toList());
     }
 

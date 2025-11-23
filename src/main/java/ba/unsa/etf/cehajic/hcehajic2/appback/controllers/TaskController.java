@@ -74,12 +74,13 @@ class TaskController {
 
         Task newTask = taskService.AddNewTask(task);
 
-        Optional<List<Token>> pushTokens = tokenService.GetTokensForAccount(task.getChild().getId());
+        if(taskService.GetUndoneTasksForAccount(child.getId()).size() == 1) {
 
-        System.out.println(pushTokens);
+            Optional<List<Token>> pushTokens = tokenService.GetTokensForAccount(task.getChild().getId());
 
-        // Send push notification to each token
-        pushTokens.ifPresent(tokens -> notificationService.sendAllMobileNotifications(tokens, TaskMapper.toDTO(newTask), NotificationMessage.NEW_TASK));
+            // Send push notification to each token
+            pushTokens.ifPresent(tokens -> notificationService.sendAllMobileNotifications(tokens, TaskMapper.toDTO(newTask), NotificationMessage.NEW_TASK));
+        }
 
         Instant when = taskSchedulerService.calculateNotificationTime(newTask);
 
@@ -90,6 +91,7 @@ class TaskController {
                     () -> taskSchedulerService.taskEndingSoon(newTask)
             );
         }
+
 
         return ResponseEntity.ok().body(newTask);
     }
@@ -105,6 +107,7 @@ class TaskController {
     @PutMapping(path = "/done/{id}")
     public void finishTask(@PathVariable Long id) {
         taskService.FinishTask(id);
+        taskSchedulerService.cancelTaskNotifications(id);
     }
 
     // koristi se
