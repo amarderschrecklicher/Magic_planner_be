@@ -77,8 +77,7 @@ public class TaskSchedulerService {
 
     public Instant calculateNotificationTime(Task taskEndingSoon) {
         // Pretpostavljam da je dueDate = "2025-09-22", dueTime = "14:30"
-        LocalDateTime startDateTime = LocalDateTime.now();
-
+        LocalDateTime startDateTime = LocalDateTime.now().atZone(ZoneId.of("Europe/Sarajevo")).toLocalDateTime();
 
         LocalDate dueDate = taskEndingSoon.getDueDate();
         LocalTime dueTime = LocalTime.parse(taskEndingSoon.getDueTime());
